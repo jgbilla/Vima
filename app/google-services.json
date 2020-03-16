@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "99315912467",
+    "firebase_url": "https://vima-ba2c9.firebaseio.com",
+    "project_id": "vima-ba2c9",
+    "storage_bucket": "vima-ba2c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99315912467:android:79f76983dca512e5ebd4e6",
+        "android_client_info": {
+          "package_name": "com.eduvision.version2.vima"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99315912467-ghfb7m0ovptlmboefun6jnn6m9voc2ha.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eduvision.version2.vima",
+            "certificate_hash": "dbee09c15372568eea333436d67ec9424087f0fc"
+          }
+        },
+        {
+          "client_id": "99315912467-mc8511tbvbp7dp7nd7g7fi40219ojq3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk-yCVM5wnWg7Uw0i8bis_y0d7lGiILYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99315912467-mc8511tbvbp7dp7nd7g7fi40219ojq3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

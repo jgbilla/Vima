@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Vima</string>
+    <string name="facebook_app_id">805741783170191</string>
+    <string name="fb_login_protocol_scheme">fb805741783170191</string>
 </resources>
