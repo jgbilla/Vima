@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Faites vos emplettes!"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="15dp"
+        android:textSize="35sp"
+        android:id="@+id/linear"
+        android:layout_gravity="center"
+        android:textColor="#000000"/>
+    <TextView
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:text="Choisir des fruits"
+        android:textSize="20sp"
+        android:id="@+id/textFruits"
+        android:layout_gravity="center"
+        android:textColor="#f00000"
+        android:layout_margin="15dp"
+        android:background="@drawable/border"/>
+    <TextView
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:text="Choisir des legumes"
+        android:textSize="20sp"
+        android:id="@+id/textLegumes"
+        android:layout_gravity="center"
+        android:textColor="#f00000"
+        android:layout_margin="15dp"
+        android:background="@drawable/border"/>
+    <TextView
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:text="Choisir des assaisonnements"
+        android:textSize="20sp"
+        android:id="@+id/textAssaisonnements"
+        android:layout_gravity="center"
+        android:textColor="#f00000"
+        android:layout_margin="15dp"
+        android:background="@drawable/border"/>
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Voir total"
+        android:layout_marginTop="15dp"
+        android:id="@+id/total"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/text"
+        android:layout_gravity="center"
+        android:textColor="#f00000"/>
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Suivant"
+        android:layout_marginTop="10dp"
+        android:id="@+id/next"
+        android:layout_gravity="right"/>
+</LinearLayout>

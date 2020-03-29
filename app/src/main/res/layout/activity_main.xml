@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:text="Try sign_in"
         android:id="@+id/try_sign_in"
-        ></Button>
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

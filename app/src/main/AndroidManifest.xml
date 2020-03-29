@@ -16,11 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login_activity" />
-        <activity android:name=".MainActivity">
-
+        <activity
+            android:name=".login_activity" />
+        <activity
+            android:name=".MainActivity">
         </activity>
-
+        <activity android:name=".SourceActivity"/>
+        <activity android:name=".ListActivity"/>
+        <activity android:name=".Verify"/>
+        <activity android:name=".OrangeMoney"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
