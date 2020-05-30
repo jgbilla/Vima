@@ -9,22 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splashscreen">
+        <activity android:name=".MainPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".login_activity" />
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".Splashscreen">
+
         </activity>
-        <activity android:name=".SourceActivity"/>
-        <activity android:name=".ListActivity"/>
-        <activity android:name=".Verify"/>
-        <activity android:name=".OrangeMoney"/>
+        <activity android:name=".login_activity" />
+        <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".SourceActivity" />
+        <activity android:name=".ListActivity" />
+        <activity android:name=".Verify" />
+        <activity android:name=".OrangeMoney" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -44,8 +46,6 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-
-
         </activity>
     </application>
 
