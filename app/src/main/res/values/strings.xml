@@ -9,4 +9,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="top_name">V I M A</string>
+    <string name="imageview_description">This imageview should show the pp of the user, it shows a basic pp if not available</string>
+    <string name="search_string">Rechercher…</string>
+    <string name="search_icon_description">This image shows a search icon</string>
 </resources>
