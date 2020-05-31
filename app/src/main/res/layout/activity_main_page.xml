@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/activity_box"
-    android:background="#CAC9C8"
+    android:background="#EFEEEE"
     tools:context=".MainPage">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -14,11 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navigation_menu"
-        app:itemIconTint="#7C7C7C"
-        app:itemBackground="@color/White"
-        app:itemTextColor="@color/White"
+        app:labelVisibilityMode="unlabeled"
         android:layout_alignParentBottom="true"
-
         />
 
 </RelativeLayout>
