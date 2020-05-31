@@ -8,78 +8,7 @@
     tools:context=".SeConnecter"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="30dp"
-        android:layout_weight="1">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:backgroundTint="#FFFFFF"
-            android:drawableTint="#FFFFFF"
-            android:hint="Email"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="textEmailAddress">
-
-        </EditText>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:backgroundTint="#FFFFFF"
-            android:drawableTint="#FFFFFF"
-            android:hint="Numero de Telephone"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="phone">
-
-        </EditText>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:backgroundTint="#FFFFFF"
-            android:drawableTint="#FFFFFF"
-            android:hint="Mot de passe"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="numberPassword">
-
-        </EditText>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="#FF0000"
-            android:text="Se connecter"
-            android:layout_marginBottom="10dp">
-
-
-        </Button>
-
-    </RelativeLayout>
 </LinearLayout>
 
 

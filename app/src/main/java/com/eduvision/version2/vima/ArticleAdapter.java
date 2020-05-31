@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +22,9 @@ import com.google.firebase.storage.StorageReference;
 /*
 I used this class as a BaseAdapter for the "recent" Activity
  */
+
+
+
 public class ArticleAdapter extends BaseAdapter {
     /*
     Global variables:
@@ -41,6 +48,7 @@ public class ArticleAdapter extends BaseAdapter {
     }
 
     @Override
+
     public Object getItem(int position) {
         return null;
     }
@@ -108,14 +116,14 @@ public class ArticleAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.model, null);
         }
 
-        myFireBaseStorage = new FirebaseStorage();
+        myFireBaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = myFireBaseStorage.getReferenceFromUrl(photoA);
         final TextView name = convertView.findViewById(R.id.name);
         final ImageView photo = convertView.findViewById(R.id.photo);
         final TextView price = convertView.findViewById(R.id.price);
         final TextView type = convertView.findViewById(R.id.type);
 
-        GlideApp.with(this)
+        Glide.with(mContext)
                 .load(storageReference)
                 .into(photo);
 
