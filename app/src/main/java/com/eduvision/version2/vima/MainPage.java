@@ -35,16 +35,16 @@ public class MainPage extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.home:
-                                replaceFragment(Home.newInstance("",""));
+                                replaceFragment(new Home());
                                 return true;
                             case R.id.menu:
-                                replaceFragment(Menu.newInstance("",""));
+                                replaceFragment(new Menu());
                                 return true;
                             case R.id.favorite:
-                                replaceFragment(Favorite.newInstance("",""));
+                                replaceFragment(new Favorite());
                                 return true;
                             case R.id.bag:
-                                replaceFragment(Bag.newInstance("",""));
+                                replaceFragment(new Bag());
                                 return true;
                         }
 
