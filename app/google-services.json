@@ -1,21 +1,58 @@
 {
   "project_info": {
-    "project_number": "99315912467",
-    "firebase_url": "https://vima-ba2c9.firebaseio.com",
-    "project_id": "vima-ba2c9",
-    "storage_bucket": "vima-ba2c9.appspot.com"
+    "project_number": "702651356438",
+    "firebase_url": "https://delivery-1b761.firebaseio.com",
+    "project_id": "delivery-1b761",
+    "storage_bucket": "delivery-1b761.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:99315912467:android:79f76983dca512e5ebd4e6",
+        "mobilesdk_app_id": "1:702651356438:android:71f3ef84181944233b2c37",
+        "android_client_info": {
+          "package_name": "com.eduvision.version2.corona"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702651356438-701u8jka3gtvs8qruo4ga184128q6k85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eduvision.version2.corona",
+            "certificate_hash": "dbee09c15372568eea333436d67ec9424087f0fc"
+          }
+        },
+        {
+          "client_id": "702651356438-m4akfe7v3dq133t9nb7if82mbl99ohs2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4WCLxHW0h14yWJ96QmXn4h3OEZnQ-fbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702651356438-qj62tm6n3ee3j33dd3k54rc42b0ngk3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702651356438:android:bcaa75699b4f780c3b2c37",
         "android_client_info": {
           "package_name": "com.eduvision.version2.vima"
         }
       },
       "oauth_client": [
         {
-          "client_id": "99315912467-ghfb7m0ovptlmboefun6jnn6m9voc2ha.apps.googleusercontent.com",
+          "client_id": "702651356438-j6j96jifmt4emkgboq2mqrgrscbhqvih.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.eduvision.version2.vima",
@@ -23,20 +60,20 @@
           }
         },
         {
-          "client_id": "99315912467-mc8511tbvbp7dp7nd7g7fi40219ojq3h.apps.googleusercontent.com",
+          "client_id": "702651356438-m4akfe7v3dq133t9nb7if82mbl99ohs2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAk-yCVM5wnWg7Uw0i8bis_y0d7lGiILYY"
+          "current_key": "AIzaSyC4WCLxHW0h14yWJ96QmXn4h3OEZnQ-fbA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "99315912467-mc8511tbvbp7dp7nd7g7fi40219ojq3h.apps.googleusercontent.com",
+              "client_id": "702651356438-qj62tm6n3ee3j33dd3k54rc42b0ngk3o.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
