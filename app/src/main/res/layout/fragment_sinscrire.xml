@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_up"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SeConnecter"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Sinscrire">
 
+    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
         android:layout_marginTop="30dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <EditText
+            android:id="@+id/sinscrire_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -24,14 +25,13 @@
             android:backgroundTint="#FFFFFF"
             android:drawableTint="#FFFFFF"
             android:hint="Email"
+            android:inputType="textEmailAddress"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="textEmailAddress">
-
-        </EditText>
+            android:textCursorDrawable="@null"></EditText>
 
         <EditText
+            android:id="@+id/sinscrire_telephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -39,14 +39,15 @@
             android:backgroundTint="#FFFFFF"
             android:drawableTint="#FFFFFF"
             android:hint="Numero de Telephone"
+            android:inputType="phone"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="phone">
+            android:textCursorDrawable="@null">
 
         </EditText>
 
         <EditText
+            android:id="@+id/sinscrire_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -56,10 +57,41 @@
             android:hint="Mot de passe"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null"
-            android:inputType="numberPassword">
+            android:textCursorDrawable="@null">
 
         </EditText>
+
+       <RadioGroup
+           android:id="@+id/radio_gender"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="30dp"
+           android:layout_marginTop="20dp"
+           android:layout_marginRight="30dp"
+           android:orientation="horizontal"
+           >
+
+           <RadioButton
+               android:id="@+id/radio_male"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:outlineSpotShadowColor="#FFFFFF"
+               android:text="Homme"
+               android:textColor="#FFFFFF">
+
+           </RadioButton>
+
+           <RadioButton
+               android:id="@+id/radio_female"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:outlineSpotShadowColor="#FFFFFF"
+               android:text="Femme"
+               android:textColor="#FFFFFF">
+
+           </RadioButton>
+       </RadioGroup>
+
 
     </LinearLayout>
 
@@ -69,17 +101,18 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/sinscrire_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
             android:background="#FF0000"
-            android:text="Se connecter"
-            android:layout_marginBottom="10dp">
+            android:text="S'inscrire">
 
 
         </Button>
 
     </RelativeLayout>
+
+
 </LinearLayout>
-
-
