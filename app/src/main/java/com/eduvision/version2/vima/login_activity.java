@@ -2,6 +2,10 @@ package com.eduvision.version2.vima;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +13,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -27,12 +33,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import org.w3c.dom.Text;
 
 public class login_activity extends AppCompatActivity {
 
@@ -45,9 +54,16 @@ public class login_activity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Context context = this;
+    View fragment;
+    private TabAdapter adapter;
 
     CallbackManager mCallbackManager;
 
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+  FrameLayout frameLayout;
+    FragmentManager fm;
 
 
     @Override
@@ -55,8 +71,21 @@ public class login_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
 
-        signup = findViewById(R.id.google_sign_in);
-        mAuth = FirebaseAuth.getInstance();
+        viewPager = findViewById(R.id.sign_up_view_pager);
+        tabLayout = findViewById(R.id.tabLayout);
+        adapter = new TabAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Sinscrire(), "S'inscrire");
+        adapter.addFragment(new SeConnecter(), "Se connecter");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+
+
+        /*
+
+        //   signup = findViewById(R.id.google_sign_in);
+       mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -208,6 +237,7 @@ public class login_activity extends AppCompatActivity {
         editor.apply();
     }
 
+*/
+    }
 
 }
-
