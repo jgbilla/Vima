@@ -13,4 +13,5 @@
     <string name="imageview_description">This imageview should show the pp of the user, it shows a basic pp if not available</string>
     <string name="search_string">Rechercher…</string>
     <string name="search_icon_description">This image shows a search icon</string>
+    <string name="ajouter_au_panier">AJOUTER AU PANIER</string>
 </resources>

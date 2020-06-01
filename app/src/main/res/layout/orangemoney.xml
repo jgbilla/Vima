@@ -1,77 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top"
-        android:orientation="vertical">
+        android:layout_height="40dp"
+        android:padding="5dp">
 
-        <RelativeLayout
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/top_name"
+            android:textSize="26sp" />
 
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:text="@string/top_name"
-                android:layout_width="wrap_content"
-                android:textSize="26sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:contentDescription="@string/imageview_description"
+            android:src="@drawable/profile" />
 
-            <ImageView
-                android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/pp"
-                android:contentDescription="@string/imageview_description"
-                android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border_search">
 
-        <RelativeLayout
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_search"
-            android:layout_marginRight="20dp">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_string"
+            android:inputType="text" />
 
-            <EditText
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search_string"
-                android:background="@android:color/transparent"
-                android:id="@+id/search"
-                android:layout_marginRight="30dp"
-                android:layout_alignParentStart="true"
-                android:inputType="text"
-                android:layout_marginEnd="30dp"
-                android:autofillHints="@string/search_string" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/search_icon_description"
+            android:src="@drawable/search_icon" />
 
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/search_icon"
-                android:layout_margin="10dp"
-                android:layout_alignParentEnd="true"
-                android:contentDescription="@string/search_icon_description" />
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="spacingWidthUniform"
+        android:verticalSpacing="24dp" />
 
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:columnWidth="150dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="24dp"
-            android:horizontalSpacing="10dp"
-            android:stretchMode="spacingWidthUniform" />
-
-    </LinearLayout>
+</LinearLayout>
