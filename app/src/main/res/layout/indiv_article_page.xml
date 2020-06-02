@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:ignore="ExtraText">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +34,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/darker_gray" />
+                    android:background="#A9A9A9" />
 
                 <Spinner
                     android:id="@+id/sex_spinner"
@@ -156,7 +154,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background=""
                     android:orientation="horizontal">
 
                     <TextView
@@ -168,7 +165,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background=""
                     android:orientation="horizontal">
 
                     <ImageView

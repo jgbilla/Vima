@@ -28,7 +28,7 @@
             android:inputType="textEmailAddress"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null"></EditText>
+            android:textCursorDrawable="@null" />
 
         <EditText
             android:id="@+id/sinscrire_telephone"
@@ -42,7 +42,8 @@
             android:inputType="phone"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null">
+            android:textCursorDrawable="@null"
+            tools:targetApi="lollipop">
 
         </EditText>
 
