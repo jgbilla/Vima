@@ -1,16 +1,16 @@
 package com.eduvision.version2.vima;
 
-public class Shop {
+public class IndividualArticleConstructor {
     String description, location, picture_logo, picture_featuring;
 
-    public Shop(String mdescription, String mlocation, String mpicture_logo, String mpicture_featuring) {
+    public IndividualArticleConstructor(String mdescription, String mlocation, String mpicture_logo, String mpicture_featuring) {
         this.description = mdescription;
         this.location = mlocation;
         this.picture_logo = mpicture_logo;
         this.picture_featuring = mpicture_featuring;
     }
 
-    public Shop() {//Default empty constructor
+    public IndividualArticleConstructor() {//Default empty constructor
     }
 
     public String getDescription() {

@@ -20,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 public class articlePage extends AppCompatActivity {
 
     Article info;
-    Shop shop;
+    IndividualArticleConstructor individualArticleConstructor;
     private long article_id;
     Context mContext;
     FirebaseStorage myFireBaseStorage = FirebaseStorage.getInstance();
@@ -60,7 +60,7 @@ public class articlePage extends AppCompatActivity {
                 mDatabase.child("Shops").child(info.getShop()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        shop = dataSnapshot.getValue(Shop.class);
+                        individualArticleConstructor = dataSnapshot.getValue(IndividualArticleConstructor.class);
                     }
 
                     @Override
@@ -78,8 +78,8 @@ public class articlePage extends AppCompatActivity {
         title.setText(info.getName());
         description.setText(info.getDescription());
         shop_name.setText(info.getShop());
-        shop_description.setText(shop.getDescription());
-        shop_location.setText(shop.getLocation());
+        shop_description.setText(individualArticleConstructor.getDescription());
+        shop_location.setText(individualArticleConstructor.getLocation());
 
         //Setting the ImageResource of ImageViews from Firebase data
         Glide.with(mContext)
@@ -98,7 +98,7 @@ public class articlePage extends AppCompatActivity {
                 .load(info.getSmall_pic4())
                 .into(sm_pic4);
         Glide.with(mContext)
-                .load(shop.getPicture_logo())
+                .load(individualArticleConstructor.getPicture_logo())
                 .into(shop_pic);
 
         setContentView(R.layout.indiv_article_page);
