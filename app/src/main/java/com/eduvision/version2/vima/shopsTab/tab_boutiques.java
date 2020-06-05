@@ -1,21 +1,26 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.shopsTab;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 
+import com.eduvision.version2.vima.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Menu#newInstance} factory method to
+ * Use the {@link tab_boutiques#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Menu extends Fragment {
+public class tab_boutiques extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -25,11 +30,7 @@ public class Menu extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ImageButton categorie_enfant;
-    private ImageButton categorie_homme;
-    private ImageButton categorie_femme;
-
-    public Menu() {
+    public tab_boutiques() {
         // Required empty public constructor
     }
 
@@ -39,11 +40,11 @@ public class Menu extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Menu.
+     * @return A new instance of fragment tab_boutiques.
      */
     // TODO: Rename and change types and number of parameters
-    public static Menu newInstance(String param1, String param2) {
-        Menu fragment = new Menu();
+    public static tab_boutiques newInstance(String param1, String param2) {
+        tab_boutiques fragment = new tab_boutiques();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,32 +65,25 @@ public class Menu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        return inflater.inflate(R.layout.fragment_tab_boutiques, container, false);
+    }
 
-        categorie_enfant = rootView.findViewById(R.id.categorie_enfant);
-        categorie_femme = rootView.findViewById(R.id.categorie_femme);
-        categorie_homme = rootView.findViewById(R.id.categorie_homme);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        categorie_enfant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
-        categorie_femme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
-        categorie_homme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
+        RecyclerView recyclerView = getView().findViewById(R.id.list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(new Adapter(shops, getContext()));
 
-        return rootView;
+
+
 
     }
-}
+
+    private ShopConstructor[] shops = {
+            new ShopConstructor("Celio", R.drawable.categorie_enfant,"Ouaga2000"),
+            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000")
+
+    };
+    }

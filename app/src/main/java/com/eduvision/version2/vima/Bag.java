@@ -3,10 +3,16 @@ package com.eduvision.version2.vima;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.eduvision.version2.vima.shopsTab.tab_boutiques;
+import com.eduvision.version2.vima.shopsTab.tab_populaires;
+import com.eduvision.version2.vima.shopsTab.tab_recents;
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -15,6 +21,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Bag extends Fragment {
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    TabAdapter adapter;
+    int position;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,4 +72,43 @@ public class Bag extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bag, container, false);
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewPager = getView().findViewById(R.id.bag_view_pager);
+        tabLayout = getView().findViewById(R.id.bag_tabLayout);
+        adapter = new TabAdapter(getFragmentManager());
+        adapter.addFragment(new tab_boutiques(), "Boutiques");
+        adapter.addFragment(new tab_recents(), "Recents");
+        adapter.addFragment(new tab_populaires(), "Populaires");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                }
+
+                //do stuff her
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                position = 3;
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                position = 0;
+
+            }
+        });
+
+    }
 }
+
