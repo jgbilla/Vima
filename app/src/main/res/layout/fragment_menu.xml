@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/categorie_femme"
+        android:src="@drawable/categorie_femme"
+        android:background="@color/White"
+        android:scaleType = "centerCrop"
+        android:layout_width="206dp"
+        android:layout_height="452dp" />
+
+    <ImageButton
+        android:id="@+id/categorie_homme"
+        android:src="@drawable/categorie_homme"
+        android:background="@color/White"
+        android:scaleType = "centerCrop"
+        android:layout_width="209dp"
+        android:layout_height="452dp"
+        android:layout_alignParentRight="true" />
+
+    <ImageButton
+        android:id="@+id/categorie_enfant"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/categorie_enfant"
+        android:background="@color/White"/>
+
+</RelativeLayout>

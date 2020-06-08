@@ -47,7 +47,7 @@
             app:tabIndicatorColor="#FFFFFF"
             app:tabSelectedTextColor="#FFFFFF"
             app:tabIndicatorHeight="4dp"
-            app:tabBackground="@color/loginBarColor"
+            app:tabBackground="@color/Black"
             app:tabMode="fixed">
         </com.google.android.material.tabs.TabLayout>
         </androidx.viewpager.widget.ViewPager>
