@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".Bag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:text="@string/top_name"
+            android:layout_width="wrap_content"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/bag"
+            android:contentDescription="@string/imageview_description"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_search"
+        android:layout_marginRight="20dp">
+
+        <EditText
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_string"
+            android:background="@android:color/transparent"
+            android:id="@+id/search"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentStart="true"
+            android:inputType="text"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="@string/search_string"
+            android:elevation="6dp"/>
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/search_icon"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/search_icon_description" />
+
+    </RelativeLayout>
+
+    <com.eduvision.version2.vima.NonSwipeableViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/bag_view_pager"
+        android:layout_marginTop="30dp">
 
-</FrameLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/bag_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@android:dimen/notification_large_icon_height"
+            app:tabGravity="fill"
+            app:tabTextColor="@color/Grey"
+            app:tabTextAppearance="@style/MyCustomTabText"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabSelectedTextColor="@color/Black"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable">
+        </com.google.android.material.tabs.TabLayout>
+    </com.eduvision.version2.vima.NonSwipeableViewPager>
+
+
+</LinearLayout>
