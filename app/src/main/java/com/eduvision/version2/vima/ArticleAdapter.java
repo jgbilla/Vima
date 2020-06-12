@@ -1,19 +1,17 @@
 package com.eduvision.version2.vima;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,32 +20,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+import java.util.ArrayList;
 /*
 I used this class as a BaseAdapter for the "recent" Activity
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
-    /*
-    Global variables:
-    lastId: id of the most recent article given by orangmoney activity
-    nameA, priceA and typeA: the title, price and short description of the displayed article
-     */
- int lastId;
-    String nameA, priceA, typeA, photoA;
-    Context mContext;
+    String nameA, priceA, typeA, photoA, shopA;
+    Context mContext; boolean isLiked = false;
     private DatabaseReference mDatabase;
-    StorageReference storageReference;
     private FirebaseStorage myFireBaseStorage;
 
-
-
-    public ArticleAdapter(Context context, int id) {
+    public ArticleAdapter(Context context) {
         this.mContext = context;
-        this.lastId = id;
     }
 
     @Override
@@ -63,115 +49,81 @@ public class ArticleAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return lastId - position ;
+        return 0;
     }
-
 
     //******************************************************************************************************************
     //Creating the View that will be passed on
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
+        ArrayList<ArrayList<String>> myList;
+        myList = OrangeMoney.getMyList();
+        final ArrayList<String> temp = myList.get(position);
+        nameA = temp.get(1);
+        priceA = temp.get(2);
+        photoA = temp.get(3);
+        shopA = temp.get(4);
+        myFireBaseStorage = FirebaseStorage.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.model, null);
         }
-
-        myFireBaseStorage = FirebaseStorage.getInstance();
-
-        readData(new FirebaseCallback() {
-            @Override
-            public void onCallback(String photoUrl) {
-                storageReference = myFireBaseStorage.getReferenceFromUrl(photoUrl);
-            }
-        });
-
-
-
-
-        final TextView name = convertView.findViewById(R.id.name);
+        final ImageButton like_button = convertView.findViewById(R.id.like_button);
+        final TextView name = convertView.findViewById(R.id.nameA);
         final ImageView photo = convertView.findViewById(R.id.photo);
         final TextView price = convertView.findViewById(R.id.price);
-        final TextView type = convertView.findViewById(R.id.type);
+        final TextView shop = convertView.findViewById(R.id.shop);
 
+        StorageReference storageReference = myFireBaseStorage.getReferenceFromUrl(photoA);
         Glide.with(mContext)
                 .load(storageReference)
                 .into(photo);
         name.setText(nameA);
         price.setText(priceA);
-        type.setText(typeA);
+        shop.setText(shopA);
+
+        //Handling the like option
+        like_button.setImageResource(R.drawable.likeA);
+
+        like_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLiked = !isLiked;
+                if(isLiked == true){
+                    final int[] counter = new int[1];
+                    like_button.setImageResource(R.drawable.likeB);
+                    mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String id = temp.get(5);
+                            counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
+                            mDatabase.child("articles").child("info").child("likes").setValue(counter[0]++);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
+                else{
+                    like_button.setImageResource(R.drawable.likeA);
+                    final int[] counter = new int[1];
+                    mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String id = temp.get(5);
+                            counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
+                            mDatabase.child("articles").child("info").child("likes").setValue(counter[0]--);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
+            }
+        });
 
         return convertView;
-
-
     }
-
-    private void readData(final FirebaseCallback firebaseCallback){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        sharedPreferences =getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        lastId = sharedPreferences.getInt("lastId", 2);
-
-
-        //Get the article name
-        mDatabase.child("Articles").child(Integer.toString(lastId)).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nameA = String.valueOf(dataSnapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-        //Get the article price
-        mDatabase.child("Articles").child(Long.toString(lastId)).child("price").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                priceA = String.valueOf(dataSnapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-        //Get the article type
-        mDatabase.child("Articles").child(Integer.toString(lastId)).child("price").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                typeA = String.valueOf(dataSnapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        //Get the article photo location
-        mDatabase.child("Articles").child(Integer.toString(lastId)).child("photo").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                photoA = String.valueOf(dataSnapshot.getValue());
-                firebaseCallback.onCallback(photoA);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-
-    }
-
-    private interface FirebaseCallback {
-
-        void onCallback(String photoUrl);
-
-    }
-
 }

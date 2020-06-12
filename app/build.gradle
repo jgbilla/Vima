@@ -12,6 +12,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        packagingOptions {
+            exclude 'META-INF/*.kotlin_module'
+        }
+
     }
     buildTypes {
         release {
@@ -55,7 +59,9 @@ dependencies {
 
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
 
-
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common:2.2.0"
+    implementation 'com.algolia:instantsearch-android:2.4.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
