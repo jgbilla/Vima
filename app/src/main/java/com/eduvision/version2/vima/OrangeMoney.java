@@ -21,18 +21,14 @@ public class OrangeMoney extends AppCompatActivity {
     int lastId;
     private boolean transfer = false;
     private DatabaseReference mDatabase;
+    GridView articlegv;
     public static ArrayList<ArrayList<String>> myList;
 
     public static ArrayList<ArrayList<String>> getMyList() {
         return myList;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        myList = new ArrayList<>(0);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        super.onCreate(savedInstanceState);
-        final GridView articlegv = findViewById(R.id.gridview);
+    private void getItems(){
         mDatabase.child("Articles").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,16 +62,32 @@ public class OrangeMoney extends AppCompatActivity {
                     info.add(Integer.toString(lastId-i));
                     myList.add(info);
                 }
-                articlegv.setAdapter(new ArticleAdapter(OrangeMoney.this));
                 transfer = true;
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        block();
+    }
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        myList = new ArrayList<>(0);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.orangemoney);
+        articlegv = findViewById(R.id.gridview);
+        getItems();
+        while(!transfer){
+            try {
+                //Just waiting that the loading of the getItems function is done
+                wait(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        articlegv.setAdapter(new ArticleAdapter(OrangeMoney.this));
         articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 /*Get to specific chosen Article page,It is not complete yet tho*/
@@ -84,15 +96,5 @@ public class OrangeMoney extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
-    }
-    private void block(){
-        while (!transfer) {
-            try {
-                wait(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        setContentView(R.layout.orangemoney);
     }
 }

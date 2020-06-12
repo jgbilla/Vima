@@ -1,9 +1,10 @@
 package com.eduvision.version2.vima;
 
 public class IndividualArticleConstructor {
-    String description, location, picture_logo, picture_featuring;
+    String name, description, location, picture_logo, picture_featuring;
 
-    public IndividualArticleConstructor(String mdescription, String mlocation, String mpicture_logo, String mpicture_featuring) {
+    public IndividualArticleConstructor(String mName, String mdescription, String mlocation, String mpicture_logo, String mpicture_featuring) {
+        this.name = mName;
         this.description = mdescription;
         this.location = mlocation;
         this.picture_logo = mpicture_logo;
@@ -23,6 +24,14 @@ public class IndividualArticleConstructor {
 
     public String getLocation() {
         return location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setLocation(String location) {

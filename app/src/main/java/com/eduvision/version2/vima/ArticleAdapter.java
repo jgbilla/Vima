@@ -26,7 +26,7 @@ I used this class as a BaseAdapter for the "recent" Activity
  */
 
 public class ArticleAdapter extends BaseAdapter {
-
+    ArrayList<ArrayList<String>> myList = OrangeMoney.getMyList();
     String nameA, priceA, typeA, photoA, shopA;
     Context mContext; boolean isLiked = false;
     private DatabaseReference mDatabase;
@@ -49,15 +49,15 @@ public class ArticleAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        final ArrayList<String> temp = myList.get(position);
+        return Integer.parseInt(temp.get(5));
     }
 
     //******************************************************************************************************************
     //Creating the View that will be passed on
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ArrayList<ArrayList<String>> myList;
-        myList = OrangeMoney.getMyList();
+
         final ArrayList<String> temp = myList.get(position);
         nameA = temp.get(1);
         priceA = temp.get(2);
@@ -91,7 +91,7 @@ public class ArticleAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 isLiked = !isLiked;
-                if(isLiked == true){
+                if(isLiked){
                     final int[] counter = new int[1];
                     like_button.setImageResource(R.drawable.likeB);
                     mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {

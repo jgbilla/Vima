@@ -19,7 +19,10 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class articlePage extends AppCompatActivity {
 
-    Article info;
+    Article_info info;
+    Article_description bDescription;
+    Article_pictures bPictures;
+
     IndividualArticleConstructor individualArticleConstructor;
     private long article_id;
     Context mContext;
@@ -32,6 +35,7 @@ public class articlePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.indiv_article_page);
         Bundle i = getIntent().getExtras();
         if(i!=null) {
             article_id = i.getLong("id");
@@ -47,8 +51,6 @@ public class articlePage extends AppCompatActivity {
         big_pic = findViewById(R.id.big_picture);
         sm_pic1 = findViewById(R.id.smaller_images1);
         sm_pic2 = findViewById(R.id.smaller_images2);
-        sm_pic3 = findViewById(R.id.smaller_images3);
-        sm_pic4 = findViewById(R.id.smaller_images4);
         shop_pic = findViewById(R.id.shop_picture);
         spin1 = findViewById(R.id.color_spinner);
         spin2 = findViewById(R.id.sex_spinner);
@@ -56,17 +58,49 @@ public class articlePage extends AppCompatActivity {
         mDatabase.child("Articles").child(Long.toString(article_id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                info = dataSnapshot.getValue(Article.class);
-                mDatabase.child("Shops").child(info.getShop()).addListenerForSingleValueEvent(new ValueEventListener() {
+                info = dataSnapshot.child("infos").child("name").getValue(Article_info.class);
+                bDescription = dataSnapshot.child("infos").child("name").getValue(Article_description.class);
+                bPictures = dataSnapshot.child("infos").child("name").getValue(Article_pictures.class);
+
+                mDatabase.child("Shops").child(Integer.toString(info.getSeller_id())).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         individualArticleConstructor = dataSnapshot.getValue(IndividualArticleConstructor.class);
+                        //I am adding all of this inside of the onDataChange because of the asynchronous loading
+                        shop_name.setText(individualArticleConstructor.getName());
+                        shop_description.setText(individualArticleConstructor.getDescription());
+                        shop_location.setText(individualArticleConstructor.getLocation());
+                        Glide.with(mContext)
+                                .load(individualArticleConstructor.getPicture_logo())
+                                .into(shop_pic);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
+
+                //I am adding all of this inside of the onDataChange function because of the asynchronous loading
+                price.setText(info.getPrice());
+                title.setText(info.getName());
+                description.setText(bDescription.getDescription());
+
+                //Setting the ImageResource of ImageViews from Firebase data
+                Glide.with(mContext)
+                        .load(bPictures.getPhoto())
+                        .into(big_pic);
+                Glide.with(mContext)
+                        .load(bPictures.getSmall_pic1())
+                        .into(sm_pic1);
+                Glide.with(mContext)
+                        .load(bPictures.getSmall_pic2())
+                        .into(sm_pic2);
+                Glide.with(mContext)
+                        .load(bPictures.getSmall_pic3())
+                        .into(sm_pic3);
+                Glide.with(mContext)
+                        .load(bPictures.getSmall_pic4())
+                        .into(sm_pic4);
             }
 
             @Override
@@ -74,34 +108,6 @@ public class articlePage extends AppCompatActivity {
             }
         });
 
-        price.setText(info.getPrice());
-        title.setText(info.getName());
-        description.setText(info.getDescription());
-        shop_name.setText(info.getShop());
-        shop_description.setText(individualArticleConstructor.getDescription());
-        shop_location.setText(individualArticleConstructor.getLocation());
-
-        //Setting the ImageResource of ImageViews from Firebase data
-        Glide.with(mContext)
-                .load(info.getPhoto())
-                .into(big_pic);
-        Glide.with(mContext)
-                .load(info.getSmall_pic1())
-                .into(sm_pic1);
-        Glide.with(mContext)
-                .load(info.getSmall_pic2())
-                .into(sm_pic2);
-        Glide.with(mContext)
-                .load(info.getSmall_pic3())
-                .into(sm_pic3);
-        Glide.with(mContext)
-                .load(info.getSmall_pic4())
-                .into(sm_pic4);
-        Glide.with(mContext)
-                .load(individualArticleConstructor.getPicture_logo())
-                .into(shop_pic);
-
-        setContentView(R.layout.indiv_article_page);
 
     }
 }
