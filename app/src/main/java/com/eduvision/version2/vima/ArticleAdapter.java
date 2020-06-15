@@ -1,6 +1,7 @@
 package com.eduvision.version2.vima;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class ArticleAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        //Getting the info for current article
         final individual_info_class temp = article_list.get(position);
         nameA = temp.getName();
         priceA = temp.getPrice();
@@ -72,7 +74,11 @@ public class ArticleAdapter extends BaseAdapter {
         if (convertView == null) {
             final LayoutInflater layoutInflater= LayoutInflater.from(mContext);
             switch(index){
-                //You can add more cases for this index to suit your interests
+                /*This index will decide whether we are in the Recent or Popular cases
+                You can add more cases for this index to suit your interests ;)
+                Anyways the layout should contain:
+                A like button and TextViews for the name, photo, price and shop
+                You will provide suitable infos as an ArrayList<individual_info_class> in the constructor*/
                 case 1:
                     convertView = layoutInflater.inflate(R.layout.model, null);
                 case 2:
@@ -95,42 +101,36 @@ public class ArticleAdapter extends BaseAdapter {
 
         //Handling the like option
         //Well, we set an image if the like button is pushed and another one otherwise
+        //TODO: Add a node in Article where we can find the users who liked and check whether it was already liked or no
         like_button.setImageResource(R.drawable.likeA);
 
+        //mediaPlayer is used to create a ding sound when like button is pressed
+        MediaPlayer mediaPlayer= MediaPlayer.create(like_button.getContext(),R.raw.ding_sound);
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isLiked = !isLiked;
-                if(isLiked){
-                    final int[] counter = new int[1];
-                    like_button.setImageResource(R.drawable.likeB);
-                    mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String id = Integer.toString(temp.getRank());
-                            counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
+                mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        isLiked = !isLiked;
+                        final int[] counter = new int[1];
+                        String id = Integer.toString(temp.getRank());
+                        counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
+                        if(isLiked){
+                            like_button.setImageResource(R.drawable.likeB);
+                            mediaPlayer.start();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]++);
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                }
-                else{
-                    like_button.setImageResource(R.drawable.likeA);
-                    final int[] counter = new int[1];
-                    mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String id = Integer.toString(temp.getRank());
-                            counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
+                        else{
+                            like_button.setImageResource(R.drawable.likeA);
+                            mediaPlayer.start();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]--);
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
             }
         });
 
