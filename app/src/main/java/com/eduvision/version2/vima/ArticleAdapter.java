@@ -26,6 +26,7 @@ I used this class as a BaseAdapter for both the Recent and the Popular Activitie
  */
 
 public class ArticleAdapter extends BaseAdapter {
+    protected int index;
     ArrayList<individual_info_class> myList = Recents.getMyList();
     String nameA, priceA, typeA, photoA, shopA;
     Context mContext; boolean isLiked = false;
@@ -33,8 +34,9 @@ public class ArticleAdapter extends BaseAdapter {
     protected ArrayList<individual_info_class> article_list;
     private FirebaseStorage myFireBaseStorage;
 
-    public ArticleAdapter(Context context, ArrayList<individual_info_class> theList) {
+    public ArticleAdapter(Context context, ArrayList<individual_info_class> theList, int index) {
         this.mContext = context;
+        this.index = index;
         this.article_list = theList;
     }
 
@@ -68,8 +70,14 @@ public class ArticleAdapter extends BaseAdapter {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.model, null);
+            final LayoutInflater layoutInflater= LayoutInflater.from(mContext);
+            switch(index){
+                //You can add more cases for this index to suit your interests
+                case 1:
+                    convertView = layoutInflater.inflate(R.layout.model, null);
+                case 2:
+                    convertView = layoutInflater.inflate(R.layout.model2, null);
+            }
         }
         final ImageButton like_button = convertView.findViewById(R.id.like_button);
         final TextView name = convertView.findViewById(R.id.nameA);

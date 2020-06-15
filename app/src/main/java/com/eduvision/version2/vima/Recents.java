@@ -111,7 +111,7 @@ public class Recents extends Fragment {
                 e.printStackTrace();
             }
         }
-        articlegv.setAdapter(new ArticleAdapter(getActivity(), myList));
+        articlegv.setAdapter(new ArticleAdapter(getActivity(), myList, 1));
         articlegv.setOnItemClickListener((parent, v, position, id) -> {
             /*Get to specific chosen Article page,It is not complete yet tho*/
             Intent myIntent = new Intent(getActivity(), articlePage.class);

@@ -37,13 +37,14 @@ public class Popular extends Fragment {
         GridView articlegv = view.findViewById(R.id.gridview_popular);
         Recents.getItems(100);
         ArrayList<individual_info_class> pop_list = Recents.getMyList();
+
         //We are ranking the articles by order of popularity
         pop_list.sort(Comparator.comparingInt(individual_info_class::getPopularity_index).reversed());
 
-        articlegv.setAdapter(new ArticleAdapter(getActivity(), pop_list));
+        articlegv.setAdapter(new ArticleAdapter(getActivity(), pop_list, 2));
         articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                /*Get to specific chosen Article page,It is not complete yet tho*/
+                /*Get to chosen Article page*/
                 Intent myIntent = new Intent(getActivity(), articlePage.class);
                 myIntent.putExtra("id", (Parcelable) pop_list.get(position));
                 startActivity(myIntent);
