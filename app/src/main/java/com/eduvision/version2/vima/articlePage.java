@@ -37,11 +37,11 @@ public class articlePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.indiv_article_page);
         Bundle i = getIntent().getExtras();
-        if(i!=null) {
-            article_id = i.getLong("id");
-        }
+        individual_info_class article = (individual_info_class) i.getParcelable("id");
+        article_id = article.getRank();
 
-        // Refer to indiv_article_page.xml to see what those are all about
+
+        // Refer to individual_article_page.xml to see what those are all about
         price = findViewById(R.id.article_price);
         title = findViewById(R.id.article_title);
         description = findViewById(R.id.article_description);

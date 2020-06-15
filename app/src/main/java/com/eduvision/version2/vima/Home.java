@@ -1,15 +1,18 @@
 package com.eduvision.version2.vima;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -64,21 +67,59 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        super.onCreate(savedInstanceState);
+        ViewPager vpPager = view.findViewById(R.id.my_pager);
+        MyPagerAdapter adapterViewPager = new MyPagerAdapter(((FragmentActivity) view.getContext()).getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+        TabLayout tabLayout = view.findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(vpPager);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
 
-        try_orange = getView().findViewById(R.id.try_orange);
-        try_orange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), OrangeMoney.class);
-                startActivity(i);
+    public static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 3;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            switch (position){
+                case 0:
+                    return "Récents";
+                case 1:
+                    return "Populaire";
+                case 2:
+                    return "Boutiques";
+                default:
+                    return null;
             }
-        });
+        }
 
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return Recents.newInstance(0, "Page # 1");
+                case 1:
+                    return Popular.newInstance(1, "Page # 2");
+                case 2:
+                    return Recents.newInstance(2, "Page # 3");
+                default:
+                    return null;
+            }
+        }
     }
 }

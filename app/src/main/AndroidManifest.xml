@@ -33,8 +33,6 @@
         <activity
             android:name=".MainActivity">
         </activity>
-        <activity android:name=".OrangeMoney"
-            tools:ignore="MissingClass" />
 
         <activity
             android:name=".articlePage">

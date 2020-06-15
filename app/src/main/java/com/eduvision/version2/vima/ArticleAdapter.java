@@ -22,18 +22,20 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 /*
-I used this class as a BaseAdapter for the "recent" Activity
+I used this class as a BaseAdapter for both the Recent and the Popular Activities
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    ArrayList<ArrayList<String>> myList = OrangeMoney.getMyList();
+    ArrayList<individual_info_class> myList = Recents.getMyList();
     String nameA, priceA, typeA, photoA, shopA;
     Context mContext; boolean isLiked = false;
     private DatabaseReference mDatabase;
+    protected ArrayList<individual_info_class> article_list;
     private FirebaseStorage myFireBaseStorage;
 
-    public ArticleAdapter(Context context) {
+    public ArticleAdapter(Context context, ArrayList<individual_info_class> theList) {
         this.mContext = context;
+        this.article_list = theList;
     }
 
     @Override
@@ -42,15 +44,14 @@ public class ArticleAdapter extends BaseAdapter {
     }
 
     @Override
-
     public Object getItem(int position) {
         return null;
     }
 
     @Override
     public long getItemId(int position) {
-        final ArrayList<String> temp = myList.get(position);
-        return Integer.parseInt(temp.get(5));
+        final individual_info_class temp = myList.get(position);
+        return temp.getRank();
     }
 
     //******************************************************************************************************************
@@ -58,11 +59,11 @@ public class ArticleAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final ArrayList<String> temp = myList.get(position);
-        nameA = temp.get(1);
-        priceA = temp.get(2);
-        photoA = temp.get(3);
-        shopA = temp.get(4);
+        final individual_info_class temp = article_list.get(position);
+        nameA = temp.getName();
+        priceA = temp.getPrice();
+        photoA = temp.getP_photo();
+        shopA = temp.getShop_name();
         myFireBaseStorage = FirebaseStorage.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -85,6 +86,7 @@ public class ArticleAdapter extends BaseAdapter {
         shop.setText(shopA);
 
         //Handling the like option
+        //Well, we set an image if the like button is pushed and another one otherwise
         like_button.setImageResource(R.drawable.likeA);
 
         like_button.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,7 @@ public class ArticleAdapter extends BaseAdapter {
                     mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String id = temp.get(5);
+                            String id = Integer.toString(temp.getRank());
                             counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]++);
                         }
@@ -112,7 +114,7 @@ public class ArticleAdapter extends BaseAdapter {
                     mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String id = temp.get(5);
+                            String id = Integer.toString(temp.getRank());
                             counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]--);
                         }
