@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/label"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/borderfile"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:gravity = "center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="Nom:"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/editName"
+                android:layout_marginLeft="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:hint="Taper votre nom"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/name"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="25dp"
+            android:layout_height="wrap_content"
+            android:gravity = "center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="Email:"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/editMail"
+                android:layout_marginLeft="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:hint="Taper votre nouveau Email"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/mail"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="25dp"
+            android:layout_height="wrap_content"
+            android:gravity = "center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:text="Numero de Telephone"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/editNumber"
+                android:layout_marginLeft="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:hint="Taper votre nouveau numero"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/number"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <Button
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_save"
+        android:text="Enregistrer les changements"/>
+
+</LinearLayout>

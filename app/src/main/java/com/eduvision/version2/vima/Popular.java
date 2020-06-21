@@ -18,7 +18,6 @@ import java.util.Comparator;
 
 public class Popular extends Fragment {
     public static Popular newInstance(int page, String title) {
-        //
         Popular populars = new Popular();
         Bundle args = new Bundle();
         args.putInt("someInt", page);

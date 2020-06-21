@@ -63,13 +63,7 @@ public class ArticleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         //Getting the info for current article
-        final individual_info_class temp = article_list.get(position);
-        nameA = temp.getName();
-        priceA = temp.getPrice();
-        photoA = temp.getP_photo();
-        shopA = temp.getShop_name();
-        myFireBaseStorage = FirebaseStorage.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        individual_info_class temp = new individual_info_class();
 
         if (convertView == null) {
             final LayoutInflater layoutInflater= LayoutInflater.from(mContext);
@@ -81,10 +75,22 @@ public class ArticleAdapter extends BaseAdapter {
                 You will provide suitable infos as an ArrayList<individual_info_class> in the constructor*/
                 case 1:
                     convertView = layoutInflater.inflate(R.layout.model, null);
+                    temp = article_list.get(position);
                 case 2:
                     convertView = layoutInflater.inflate(R.layout.model2, null);
+                    temp = article_list.get(position);
+                default:
+                    convertView = null;
             }
         }
+        priceA = temp.getPrice();
+        photoA = temp.getP_photo();
+        shopA = temp.getShop_name();
+        nameA = temp.getName();
+        myFireBaseStorage = FirebaseStorage.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        assert convertView != null;
         final ImageButton like_button = convertView.findViewById(R.id.like_button);
         final TextView name = convertView.findViewById(R.id.nameA);
         final ImageView photo = convertView.findViewById(R.id.photo);
@@ -106,6 +112,7 @@ public class ArticleAdapter extends BaseAdapter {
 
         //mediaPlayer is used to create a ding sound when like button is pressed
         MediaPlayer mediaPlayer= MediaPlayer.create(like_button.getContext(),R.raw.ding_sound);
+        individual_info_class finalTemp = temp;
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +121,7 @@ public class ArticleAdapter extends BaseAdapter {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         isLiked = !isLiked;
                         final int[] counter = new int[1];
-                        String id = Integer.toString(temp.getRank());
+                        String id = Integer.toString(finalTemp.getRank());
                         counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
                         if(isLiked){
                             like_button.setImageResource(R.drawable.likeB);
