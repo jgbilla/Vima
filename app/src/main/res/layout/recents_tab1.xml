@@ -53,7 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
-            android:background="#00"
+            android:background="@color/Grey"
             android:hint="@string/search_string"
             android:inputType="text" />
 

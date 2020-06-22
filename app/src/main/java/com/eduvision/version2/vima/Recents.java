@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -103,14 +104,16 @@ public class Recents extends Fragment {
             //Fetch data again only if myList is already empty
             getItems(100);
         }
-        while(!transfer){
-            try {
-                //Just waiting 5 seconds that the loading of the getItems function is done
-                wait(5000);
-            } catch (InterruptedException e) {
+        synchronized (myList) {
+          try {
+              //Just waiting 5 seconds that the loading of the getItems function is done
+              myList.wait(5000);
+              Toast.makeText(getContext(), "Loading", Toast.LENGTH_SHORT).show();
+          } catch (InterruptedException e){
                 e.printStackTrace();
             }
-        }
+            }
+
         articlegv.setAdapter(new ArticleAdapter(getActivity(), myList, 1));
         articlegv.setOnItemClickListener((parent, v, position, id) -> {
             /*Get to specific chosen Article page,It is not complete yet tho*/

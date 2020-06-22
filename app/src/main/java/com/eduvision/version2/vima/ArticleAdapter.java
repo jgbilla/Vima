@@ -34,6 +34,8 @@ public class ArticleAdapter extends BaseAdapter {
     private DatabaseReference mDatabase;
     protected ArrayList<individual_info_class> article_list;
     private FirebaseStorage myFireBaseStorage;
+    MediaPlayer mediaPlayer;
+    individual_info_class finalTemp;
 
     public ArticleAdapter(Context context, ArrayList<individual_info_class> theList, int index) {
         this.mContext = context;
@@ -108,11 +110,11 @@ public class ArticleAdapter extends BaseAdapter {
         //Handling the like option
         //Well, we set an image if the like button is pushed and another one otherwise
         //TODO: Add a node in Article where we can find the users who liked and check whether it was already liked or no
-        like_button.setImageResource(R.drawable.likeA);
+        like_button.setImageResource(R.drawable.like_a);
 
         //mediaPlayer is used to create a ding sound when like button is pressed
-        MediaPlayer mediaPlayer= MediaPlayer.create(like_button.getContext(),R.raw.ding_sound);
-        individual_info_class finalTemp = temp;
+      mediaPlayer = MediaPlayer.create(like_button.getContext(),R.raw.ding_sound);
+       finalTemp = temp;
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,12 +126,12 @@ public class ArticleAdapter extends BaseAdapter {
                         String id = Integer.toString(finalTemp.getRank());
                         counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
                         if(isLiked){
-                            like_button.setImageResource(R.drawable.likeB);
+                            like_button.setImageResource(R.drawable.like_b);
                             mediaPlayer.start();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]++);
                         }
                         else{
-                            like_button.setImageResource(R.drawable.likeA);
+                            like_button.setImageResource(R.drawable.like_a);
                             mediaPlayer.start();
                             mDatabase.child("articles").child("info").child("likes").setValue(counter[0]--);
                         }
