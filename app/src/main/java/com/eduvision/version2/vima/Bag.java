@@ -82,7 +82,7 @@ public class Bag extends Fragment {
         adapter = new TabAdapter(getFragmentManager());
         adapter.addFragment(new tab_boutiques(), "Boutiques");
         adapter.addFragment(new Recents(), "Recents");
-        adapter.addFragment(new tab_populaires(), "Populaires");
+        adapter.addFragment(new Popular(), "Populaires");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
