@@ -92,7 +92,7 @@ public class Bag extends Fragment {
 
                 }
 
-                //do stuff her
+                //do stuff here
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {

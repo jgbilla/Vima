@@ -1,20 +1,14 @@
 package com.eduvision.version2.vima;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.AlarmClock;
-import android.view.MenuItem;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.io.IOException;
 
 public class MainPage extends AppCompatActivity {
 
@@ -35,7 +29,7 @@ public class MainPage extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.home:
-                                replaceFragment(new Home());
+                                replaceFragment(Home.newInstance(2, 0));
                                 return true;
                             case R.id.menu:
                                 replaceFragment(new Menu());

@@ -77,7 +77,7 @@ public class ProfilePage extends AppCompatActivity {
                         .into(photo);
                 for(int i=1; i<=dataSnapshot.child("likedItems").getChildrenCount(); i++){
                     String[] temp = new String[5];
-                    temp[2] = "Ajoute aux Favoris";
+                    temp[2] = "Ajouté aux Favoris";
                     mDatabase.child("Articles");
                     mDatabase.child(Integer.toString(i));
                     mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,7 +119,8 @@ public class ProfilePage extends AppCompatActivity {
                     }
                     myArray.add(temp);
                 }
-                //Sorting the array by ascending order of the millis
+
+                //Sorting the array by ascending order of the millis that is in order of recentness
                 Collections.sort(myArray, new Comparator<String[]>() {
                     public int compare(String[] time, String[] others) {
                         return time[4].compareTo(others[4]);
