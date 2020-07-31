@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,7 +25,7 @@ public class Recents extends Fragment {
     private String title;
     private int page;
     private static boolean transfer = false;
-    private static GridView articlegv;
+    GridView articlegv;
     DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
     public static ArrayList<individual_info_class> myList;
 
@@ -34,7 +35,7 @@ public class Recents extends Fragment {
 
     protected static void getItems(final int n){
         //This static method will fetch data chronologically from Firebase database and update the static ArrayList myList
-        //Remember that we're also using it to fetch the data for the Popular class and tha Acceuil class
+        //Remember that we're also using it to fetch the data for the Popular class
         if(myList!=null){
             //If myList ArrayList is not empty, it will be cleared
             myList.clear();
@@ -74,6 +75,7 @@ public class Recents extends Fragment {
                     infos.setRank(lastId[0] -i);
                     myList.add(infos);
                 }
+                transfer = true;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -94,15 +96,24 @@ public class Recents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.recents_tab1, container, false);
-
+        View view = inflater.inflate(R.layout.recents_tab1, container, false);
         myList = new ArrayList<>(0);
         super.onCreate(savedInstanceState);
         articlegv = view.findViewById(R.id.gridview);
-        if(myList == null || myList.size()<=99){
+        if(myList == null){
             //Fetch data again only if myList is already empty
             getItems(100);
         }
+        synchronized (myList) {
+          try {
+              //Just waiting 5 seconds that the loading of the getItems function is done
+              myList.wait(5000);
+              Toast.makeText(getContext(), "Loading", Toast.LENGTH_SHORT).show();
+          } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            }
+
         articlegv.setAdapter(new ArticleAdapter(getActivity(), myList, 1));
         articlegv.setOnItemClickListener((parent, v, position, id) -> {
             /*Get to specific chosen Article page,It is not complete yet tho*/
@@ -110,6 +121,7 @@ public class Recents extends Fragment {
             myIntent.putExtra("id", (Parcelable) myList.get(position));
             startActivity(myIntent);
         });
+
         return view;
     }
     @Override
