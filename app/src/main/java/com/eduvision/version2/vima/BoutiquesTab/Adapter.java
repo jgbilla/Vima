@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima.shopsTab;
+package com.eduvision.version2.vima.BoutiquesTab;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,12 +8,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.R;
 
-import java.util.ArrayList;
+//An adapter to display the shops correctly
 
 public class Adapter extends  RecyclerView.Adapter<Adapter.HorizontalViewHolder>{
 

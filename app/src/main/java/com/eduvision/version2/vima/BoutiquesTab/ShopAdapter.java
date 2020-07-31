@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima.shopsTab;
+package com.eduvision.version2.vima.BoutiquesTab;
 
 import android.content.Context;
 import android.view.View;

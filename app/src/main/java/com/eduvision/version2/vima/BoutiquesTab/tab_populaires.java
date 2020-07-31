@@ -1,25 +1,21 @@
-package com.eduvision.version2.vima.shopsTab;
+package com.eduvision.version2.vima.BoutiquesTab;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 
 import com.eduvision.version2.vima.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link tab_boutiques#newInstance} factory method to
+ * Use the {@link tab_populaires#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class tab_boutiques extends Fragment {
+public class tab_populaires extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +26,7 @@ public class tab_boutiques extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public tab_boutiques() {
+    public tab_populaires() {
         // Required empty public constructor
     }
 
@@ -40,11 +36,11 @@ public class tab_boutiques extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment tab_boutiques.
+     * @return A new instance of fragment tab_populaires.
      */
     // TODO: Rename and change types and number of parameters
-    public static tab_boutiques newInstance(String param1, String param2) {
-        tab_boutiques fragment = new tab_boutiques();
+    public static tab_populaires newInstance(String param1, String param2) {
+        tab_populaires fragment = new tab_populaires();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,25 +61,6 @@ public class tab_boutiques extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_boutiques, container, false);
+        return inflater.inflate(R.layout.fragment_tab_populaires, container, false);
     }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = getView().findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new Adapter(shops, getContext()));
-
-
-
-
-    }
-
-    private ShopConstructor[] shops = {
-            new ShopConstructor("Celio", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000")
-
-    };
-    }
+}

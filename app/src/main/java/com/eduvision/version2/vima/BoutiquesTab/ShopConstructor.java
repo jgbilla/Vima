@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima.shopsTab;
+package com.eduvision.version2.vima.BoutiquesTab;
 
 public class ShopConstructor {
 
