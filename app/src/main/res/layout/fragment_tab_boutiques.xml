@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="100dp"
-    tools:context=".shopsTab.tab_boutiques">
+    tools:context=".BoutiquesTab.tab_boutiques">
 
     <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/list"

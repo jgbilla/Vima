@@ -1,15 +1,24 @@
 package com.eduvision.version2.vima;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -26,6 +37,9 @@ public class Recents extends Fragment {
     private int page;
     private static boolean transfer = false;
     GridView articlegv;
+    FirebaseDatabase rootref;
+    MaterialSearchView materialSearchView;
+    String[] list;
     DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
     public static ArrayList<individual_info_class> myList;
 
@@ -96,8 +110,10 @@ public class Recents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.recents_tab1, container, false);
-        myList = new ArrayList<>(0);
+
+        /*myList = new ArrayList<>(0);
         super.onCreate(savedInstanceState);
         articlegv = view.findViewById(R.id.gridview);
         if(myList == null){
@@ -116,20 +132,60 @@ public class Recents extends Fragment {
 
         articlegv.setAdapter(new ArticleAdapter(getActivity(), myList, 1));
         articlegv.setOnItemClickListener((parent, v, position, id) -> {
-            /*Get to specific chosen Article page,It is not complete yet tho*/
+            //Get to specific chosen Article page,It is not complete yet tho
             Intent myIntent = new Intent(getActivity(), articlePage.class);
             myIntent.putExtra("id", (Parcelable) myList.get(position));
             startActivity(myIntent);
         });
+*/
 
         return view;
     }
+
+
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rootref = FirebaseDatabase.getInstance();
+
+
+        DatabaseReference articleRef = rootref.getReference("Articles");
+       /* list = new String[]{"Clipcodes", "Android Tutorials", "Youtube Clipcodes Tutorials", "SearchView Clicodes", "Android Clipcodes", "Tutorials Clipcodes"};
+
+       materialSearchView = (MaterialSearchView)getView().findViewById(R.id.mysearch);
+        materialSearchView.clearFocus();
+        materialSearchView.setSuggestions(list);
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Here Create your filtering
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //You can make change realtime if you typing here
+                //See my tutorials for filtering with ListView
+                return false;
+
+
+            }
+
+        });
+        */
+
+
+        //Follow this video for fix and other happend, Comment and Like this video . THANKS
     }
 
-}
+    }
+
+
+
+
+
 class individual_info_class{
     //Custom class used to get the specific info needed for displaying Recents and Popular classes
     private String name, price, p_photo, shop_name;
@@ -189,4 +245,10 @@ class individual_info_class{
     public void setPopularity_index(int popularity_index) {
         this.popularity_index = popularity_index;
     }
+
+
+
+
+
+
 }
