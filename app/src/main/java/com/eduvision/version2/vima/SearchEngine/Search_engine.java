@@ -3,6 +3,7 @@ package com.eduvision.version2.vima.SearchEngine;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class Search_engine extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_engine_layout);
+
     }
 
     public void setAdapter(String searchedString, RecyclerView searchResults, Context context,ArrayList<String> nameList,ArrayList<StorageReference> photoList ) {

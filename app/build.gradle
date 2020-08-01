@@ -91,4 +91,6 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.6'
 
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    implementation 'com.optimus:editTextField:0.2.0'
 }

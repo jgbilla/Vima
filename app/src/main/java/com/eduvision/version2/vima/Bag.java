@@ -11,9 +11,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
@@ -49,7 +51,7 @@ public class Bag extends Fragment {
     EditText searchView;
     RecyclerView searchResults;
     DatabaseReference databaseReference;
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    Button clear;
 
 
 
@@ -139,6 +141,7 @@ public class Bag extends Fragment {
 
         //Setting up the search engine
         searchResults = getView().findViewById(R.id.search_results);
+        clear = getView().findViewById(R.id.clear);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         searchView = getView().findViewById(R.id.search);
 
@@ -155,11 +158,14 @@ public class Bag extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clear.setVisibility(View.INVISIBLE);
             }
             @Override
             public void afterTextChanged(Editable s) {
 
                 if(!s.toString().isEmpty()){
+                    clear.setVisibility(View.VISIBLE);
+
                     //calling the search engine activity and the function that handles the search
                     search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
                 }
@@ -174,7 +180,16 @@ public class Bag extends Fragment {
 
 
         });
+clear.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        searchView.setText("");
     }
+});
+
+    }
+
+
 
 
 
