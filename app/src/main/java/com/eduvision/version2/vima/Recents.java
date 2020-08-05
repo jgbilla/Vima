@@ -1,32 +1,15 @@
 package com.eduvision.version2.vima;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.SearchView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -47,55 +30,7 @@ public class Recents extends Fragment {
         return myList;
     }
 
-    protected static void getItems(final int n){
-        //This static method will fetch data chronologically from Firebase database and update the static ArrayList myList
-        //Remember that we're also using it to fetch the data for the Popular class
-        if(myList!=null){
-            //If myList ArrayList is not empty, it will be cleared
-            myList.clear();
-        }
-        final int[] lastId = new int[1];
-        final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
-         mDatabase.child("Articles").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                lastId[0] = (int) dataSnapshot.getChildrenCount();
-                String name;
-                String price;
-                String photo;
-                final String[] shop = new String[1];
-                int shop_id;
-                for(int i=0; i<(n-1); i++){
-                    final individual_info_class infos = new individual_info_class();
-                    name = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("name").getValue().toString();
-                    infos.setName(name);
-                    price = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("price").getValue().toString();
-                    infos.setPrice(price);
-                    photo = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("pictures").child("p_photo").getValue().toString();
-                    infos.setP_photo(photo);
-                    shop_id = (int) dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("seller_id").getValue();
-                    infos.setSeller_id(shop_id);
-                    final int finalShop_id = shop_id;
-                    mDatabase.child("Shops").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
-                            shop[0] = dataSnapshot2.child(Integer.toString(finalShop_id)).child("infos").child("name").toString();
-                            infos.setShop_name(shop[0]);
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                    infos.setRank(lastId[0] -i);
-                    myList.add(infos);
-                }
-                transfer = true;
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-    }
+
 
     public static Recents newInstance(int page, String title) {
         //Create newInstance: See Home class
@@ -245,10 +180,5 @@ class individual_info_class{
     public void setPopularity_index(int popularity_index) {
         this.popularity_index = popularity_index;
     }
-
-
-
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.eduvision.version2.vima;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,17 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabLayout;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Objects;
 
 
@@ -28,11 +25,13 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class Home extends Fragment {
-    ViewPager viewPager;
-    MyPagerAdapter adapterViewPager;
+    Context mContext;
+
+    //Voir tout textviews
     TextView sRecents, sPop, sShop;
-    View view;
-    ImageView recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
+
+    ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
+    individual_info_class featured_info, f_recent, s_recent, t_recent, f_pop, s_pop, t_pop;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -81,104 +80,87 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Objects.requireNonNull(getArguments()).getInt(ARG_PARAM1) == 1){
-            view = inflater.inflate(R.layout.fragment_home, container, false);
-            viewPager = view.findViewById( R.id.my_pager);
-            viewPager.setCurrentItem(getArguments().getInt(ARG_PARAM2));
-            adapterViewPager = new MyPagerAdapter(((FragmentActivity) view.getContext()).getSupportFragmentManager());
-            viewPager.setAdapter(adapterViewPager);
-            TabLayout tabLayout = view.findViewById(R.id.tab_layout);
-            tabLayout.setupWithViewPager(viewPager);
-        }
-        else{
-            //TODO: Improve acceuil_layout
-            view = inflater.inflate(R.layout.acceuil_layout, container,false);
-            recents1 = view.findViewById(R.id.first_recent_image);
-            recents2 = view.findViewById(R.id.second_recent_image);
-            recents3 = view.findViewById(R.id.third_recent_image);
-            pop1 = view.findViewById(R.id.first_popular_image);
-            pop2 = view.findViewById(R.id.second_popular_image);
-            pop3 = view.findViewById(R.id.third_popular_image);
-            shop1 = view.findViewById(R.id.first_shop_image);
-            shop2 = view.findViewById(R.id.second_shop_image);
-            shop3 = view.findViewById(R.id.third_shop_image);
+        return inflater.inflate(R.layout.fragment_home, container, false);
+}
 
-            sRecents = view.findViewById(R.id.see_recents);
-            sPop = view.findViewById(R.id.see_popular);
-            sShop = view.findViewById(R.id.see_shops);
-
-            Recents.getItems(100);
-            ArrayList<individual_info_class> pop_list = Recents.getMyList();
-            //Take the info you need for the recents images
-            pop_list.sort(Comparator.comparingInt(individual_info_class::getPopularity_index).reversed());
-            //Now take the info you need for the popular images
-            individual_info_class first = new individual_info_class();
-
-            sRecents.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Home.newInstance(1, 0);
-                }
-            });
-            sPop.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Home.newInstance(1, 1);
-                }
-            });
-            sShop.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Home.newInstance(1, 2);
-                }
-            });
-        }
-        return view;
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
+        featured = Objects.requireNonNull(getView()).findViewById(R.id.featured);
+        recents1 = getView().findViewById(R.id.first_recent_image);
+        recents2 = getView().findViewById(R.id.second_recent_image);
+        recents3 = getView().findViewById(R.id.third_recent_image);
+        pop1 = getView().findViewById(R.id.first_popular_image);
+        pop2 = getView().findViewById(R.id.second_popular_image);
+        pop3 = getView().findViewById(R.id.third_popular_image);
+        shop1 = getView().findViewById(R.id.first_shop_image);
+        shop2 = getView().findViewById(R.id.second_shop_image);
+        shop3 = getView().findViewById(R.id.third_shop_image);
 
-    //********************************************************************************************************************************************
-    public static class MyPagerAdapter extends FragmentStatePagerAdapter {
-        private static int NUM_ITEMS = 3;
-        public MyPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
+        sRecents = getView().findViewById(R.id.see_recents);
+        sPop = getView().findViewById(R.id.see_popular);
+        sShop = getView().findViewById(R.id.see_shops);
 
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
+        ArrayList<individual_info_class> articles = new ArrayList<>(4);
+        ArrayList<individual_info_class> pop_articles = new ArrayList<>(3);
+        Sorting.getItems(4, articles);
+        Sorting.get_Popular_Items(3, pop_articles);
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch(position){
-                case 0:
-                    return "Recents";
-                case 1:
-                    return "Populaire";
-                case 2:
-                    return "Boutiques";
-                default:
-                    return null;
+        //Getting recents and populaire articles
+
+        featured_info = articles.get(1);
+        f_recent = articles.get(2);
+        s_recent = articles.get(3);
+        t_recent = articles.get(4);
+
+        f_pop = articles.get(1);
+        s_pop = articles.get(2);
+        t_pop = articles.get(3);
+
+        //Displaying images
+
+        Glide.with(mContext)
+                .load(featured_info.getP_photo())
+                .into(featured);
+
+        Glide.with(mContext)
+                .load(f_recent.getP_photo())
+                .into(recents1);
+        Glide.with(mContext)
+                .load(s_recent.getP_photo())
+                .into(recents2);
+        Glide.with(mContext)
+                .load(t_recent.getP_photo())
+                .into(recents3);
+
+        Glide.with(mContext)
+                .load(f_pop.getP_photo())
+                .into(recents1);
+        Glide.with(mContext)
+                .load(s_pop.getP_photo())
+                .into(recents2);
+        Glide.with(mContext)
+                .load(t_pop.getP_photo())
+                .into(recents3);
+
+        sRecents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Go to Bag Fragment
             }
-        }
+        });
+        sPop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return Recents.newInstance(0, "Page # 1");
-                case 1:
-                    return Popular.newInstance(1, "Page # 2");
-                case 2:
-                    return Recents.newInstance(2, "Page # 3");
-                default:
-                    return null;
             }
-        }
+        });
+        sShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

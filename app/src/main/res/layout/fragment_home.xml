@@ -5,7 +5,202 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home">
+    <RelativeLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:text="@string/top_name"
+            android:layout_width="wrap_content"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/bag"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_search"
+        android:layout_marginRight="20dp">
+
+        <EditText
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_string"
+            android:background="@android:color/transparent"
+            android:id="@+id/search"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentStart="true"
+            android:inputType="text"
+            android:layout_marginEnd="30dp"
+            android:autofillHints="@string/search_string"
+            android:elevation="6dp"/>
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/search_icon"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/search_icon_description" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:id="@+id/featured"
+            android:layout_height="wrap_content"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Populaire"
+            android:layout_marginLeft="7dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Voir tout"
+            android:id="@+id/see_popular"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/first_popular_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/second_popular_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/third_popular_image"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Nouveautes"
+            android:layout_marginLeft="7dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Voir tout"
+            android:id="@+id/see_recents"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/first_recent_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/second_recent_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/third_recent_image"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Magazins"
+            android:layout_marginLeft="7dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Voir tout"
+            android:id="@+id/see_shops"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/first_shop_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/second_shop_image"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:id="@+id/third_shop_image"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</FrameLayout>
+
+    <!--
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/my_pager"
         android:layout_width="match_parent"
@@ -17,5 +212,4 @@
             android:layout_height="wrap_content" />
 
     </androidx.viewpager.widget.ViewPager>
-
-</FrameLayout>
+    -->

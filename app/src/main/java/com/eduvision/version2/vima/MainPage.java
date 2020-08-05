@@ -29,7 +29,7 @@ public class MainPage extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.home:
-                                replaceFragment(Home.newInstance(2, 0));
+                                replaceFragment(new Home());
                                 return true;
                             case R.id.menu:
                                 replaceFragment(new Menu());
