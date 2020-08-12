@@ -46,9 +46,9 @@ public class ProfilePage extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
+
         gridView = findViewById(R.id.grid);
         name = findViewById(R.id.name);
         numb_likes = findViewById(R.id.number_of_likes);
@@ -59,7 +59,7 @@ public class ProfilePage extends AppCompatActivity {
         settings = findViewById(R.id.settings);
         myArray = new ArrayList<>(3);
 
-        mDatabase.child("Custumers").child(Integer.toString(id)).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Customers").child(Integer.toString(id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

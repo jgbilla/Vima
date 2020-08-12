@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.eduvision.version2.vima.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,15 +39,17 @@ public class SeConnecter extends Fragment {
     private final static int RC_SIGN_IN = 2;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     EditText Email, Password;
-    String email,  password;
+    String email, password;
     Button seConnecter;
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
+    TextView ForgottenPassword;
 
-    public SeConnecter(){
+    public SeConnecter() {
 
     }
 
@@ -61,6 +65,7 @@ public class SeConnecter extends Fragment {
 
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,14 +92,26 @@ public class SeConnecter extends Fragment {
 
                 email = Email.getText().toString();
                 password = Password.getText().toString();
+
+
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
+
 
             }
 
         });
+ForgottenPassword = getView().findViewById(R.id.mot_de_passe_oublie);
 
+ForgottenPassword.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent change = new Intent(getContext(), Reset_password.class);
+        startActivity(change);
     }
+});
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -119,12 +136,11 @@ public class SeConnecter extends Fragment {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "Bienvenue",
                             Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
-                }
-                else {
+                } else {
                     Toast.makeText(getContext(), "Votre email ou mot de passe est incorrect",
                             Toast.LENGTH_SHORT).show();
                 }

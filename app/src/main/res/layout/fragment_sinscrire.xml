@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Sinscrire">
+    tools:context=".Login.Sinscrire">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

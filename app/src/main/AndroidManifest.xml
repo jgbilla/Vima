@@ -20,14 +20,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-        <activity android:name=".SearchEngine.Search_engine"></activity>
+        <activity android:name=".Login.Reset_password"></activity>
+        <activity android:name=".SearchEngine.Search_engine" />
         <activity
             android:name=".MainPage"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|adjustResize">
-
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".SearchHandling" />
@@ -40,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".login_activity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".articlePage" />
 
         <meta-data
@@ -63,6 +61,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfilePage" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.eduvision.version2.vima;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
@@ -52,6 +55,7 @@ public class Bag extends Fragment {
     RecyclerView searchResults;
     DatabaseReference databaseReference;
     Button clear;
+    ImageView profile;
 
 
 
@@ -152,9 +156,12 @@ public class Bag extends Fragment {
         nameList = new ArrayList<>();
         photoList = new ArrayList<>();
 
+        clear.setVisibility(View.INVISIBLE);
+
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                clear.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -162,6 +169,7 @@ public class Bag extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {
+
 
                 if(!s.toString().isEmpty()){
                     clear.setVisibility(View.VISIBLE);
@@ -184,10 +192,26 @@ clear.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         searchView.setText("");
+        hideKeyboard(getView());
     }
 });
 
+//Access Profile
+profile = getView().findViewById(R.id.profile_image);
+
+profile.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent= new Intent(getContext(), ProfilePage.class);
+        startActivity(intent);
     }
+});
+    }
+
+private void hideKeyboard(View v){
+    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+    inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
+}
 
 
 

@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.eduvision.version2.vima.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -34,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Objects;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -47,6 +50,7 @@ public class Sinscrire extends Fragment {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference usersRef = database.getReference("Users/Acheteurs");
     SignInButton signup;
+    FirebaseAuth.AuthStateListener mAuthStateListener;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     SharedPreferences sharedPreferences;
@@ -83,7 +87,6 @@ public class Sinscrire extends Fragment {
         return  inflater.inflate(R.layout.fragment_sinscrire, container, false);
 
     }
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -133,8 +136,9 @@ public class Sinscrire extends Fragment {
                     editor.putString("gender", selection);
                     editor.apply();
 
-                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, RC_SIGN_IN);
+
+                            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                            startActivityForResult(signInIntent, RC_SIGN_IN);
 
                 }
 
@@ -201,6 +205,7 @@ public class Sinscrire extends Fragment {
 
         }
     }
+
 
 
 
