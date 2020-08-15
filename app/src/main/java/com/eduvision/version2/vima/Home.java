@@ -109,14 +109,14 @@ public class Home extends Fragment {
 
         //Getting recents and populaire articles
 
-        featured_info = articles.get(1);
-        f_recent = articles.get(2);
-        s_recent = articles.get(3);
-        t_recent = articles.get(4);
+        featured_info = articles.get(0);
+        f_recent = articles.get(1);
+        s_recent = articles.get(2);
+        t_recent = articles.get(3);
 
-        f_pop = articles.get(1);
-        s_pop = articles.get(2);
-        t_pop = articles.get(3);
+        f_pop = pop_articles.get(0);
+        s_pop = pop_articles.get(1);
+        t_pop = pop_articles.get(2);
 
         //Displaying images
 
