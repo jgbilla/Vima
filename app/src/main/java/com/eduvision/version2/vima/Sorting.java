@@ -44,13 +44,13 @@ public class Sorting {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                             shop[0] = dataSnapshot2.child(Integer.toString(finalShop_id)).child("infos").child("name").toString();
                             infos.setShop_name(shop[0]);
+                            infos.setRank(lastId[0] -i);
+                            myList.add(infos);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
                     });
-                    infos.setRank(lastId[0] -i);
-                    myList.add(infos);
                 }
             }
             @Override
@@ -62,7 +62,7 @@ public class Sorting {
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected static void get_Popular_Items(final int n, @NonNull ArrayList<individual_info_class> myList){
         getItems(n, myList);
-        myList.sort(Comparator.comparingInt(individual_info_class::getPopularity_index).reversed());
+        myList.sort(Comparator.comparingInt(individual_info_class::getRank).reversed());
     }
 
 }
