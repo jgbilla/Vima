@@ -27,7 +27,6 @@ import java.util.Objects;
 public class Home extends Fragment {
     Context mContext;
 
-    //Voir tout textviews
     TextView sRecents, sPop, sShop;
 
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
@@ -88,15 +87,15 @@ public class Home extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         featured = Objects.requireNonNull(getView()).findViewById(R.id.featured);
-        recents1 = getView().findViewById(R.id.first_recent_image);
-        recents2 = getView().findViewById(R.id.second_recent_image);
-        recents3 = getView().findViewById(R.id.third_recent_image);
-        pop1 = getView().findViewById(R.id.first_popular_image);
-        pop2 = getView().findViewById(R.id.second_popular_image);
-        pop3 = getView().findViewById(R.id.third_popular_image);
-        shop1 = getView().findViewById(R.id.first_shop_image);
-        shop2 = getView().findViewById(R.id.second_shop_image);
-        shop3 = getView().findViewById(R.id.third_shop_image);
+        recents1 = getView().findViewById(R.id.frimage); //fr = first recent
+        recents2 = getView().findViewById(R.id.srimage);
+        recents3 = getView().findViewById(R.id.srimage);
+        pop1 = getView().findViewById(R.id.fpimage); //fp = first popular
+        pop2 = getView().findViewById(R.id.spimage);
+        pop3 = getView().findViewById(R.id.tpimage);
+        shop1 = getView().findViewById(R.id.fsimage); //fs = first shop
+        shop2 = getView().findViewById(R.id.ssimage);
+        shop3 = getView().findViewById(R.id.tsimage);
 
         sRecents = getView().findViewById(R.id.see_recents);
         sPop = getView().findViewById(R.id.see_popular);

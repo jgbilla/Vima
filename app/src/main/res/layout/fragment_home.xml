@@ -1,203 +1,687 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home">
-    <RelativeLayout
-        android:padding="5dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_centerHorizontal="true"
-            android:text="@string/top_name"
-            android:layout_width="wrap_content"
-            android:textSize="26sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="5dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/bag"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="20dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/top_name"
+                android:textSize="26sp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/bag"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="2dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FFFFFF"/>
+            android:background="@drawable/border_search">
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="65dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:autofillHints="@string/search_string"
+                android:background="@android:color/transparent"
+                android:elevation="6dp"
+                android:hint="@string/search_string"
+                android:inputType="text" />
 
-    <RelativeLayout
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border_search"
-        android:layout_marginRight="20dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/search_icon_description"
+                android:src="@drawable/search_icon" />
 
-        <EditText
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginVertical="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_string"
-            android:background="@android:color/transparent"
-            android:id="@+id/search"
-            android:layout_marginRight="30dp"
-            android:layout_alignParentStart="true"
-            android:inputType="text"
-            android:layout_marginEnd="30dp"
-            android:autofillHints="@string/search_string"
-            android:elevation="6dp"/>
+            android:padding="5dp">
 
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/search_icon"
-            android:layout_margin="10dp"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/search_icon_description" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_alignParentLeft="true"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_centerVertical="true"
+                android:elevation="1dp"
+                card_view:cardCornerRadius="30dp"
+                android:background="@color/White"
+                android:layout_height="50dp"/>
 
-    </RelativeLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:background="@color/White"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/rewind"
+                android:layout_marginLeft="12dp"
+                android:elevation="2dp"
+                android:layout_height="wrap_content" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <ImageView
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:elevation="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:textSize="20dp"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:background="#63000000"
+                android:text="ALDO" />
+
+            <ImageView
+                android:id="@+id/featured"
+                android:layout_width="wrap_content"
+                android:src="@drawable/x9kgos2nz9c"
+                android:layout_height="240dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_alignParentRight="true"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_centerVertical="true"
+                android:elevation="1dp"
+                card_view:cardCornerRadius="30dp"
+                android:background="@color/White"
+                android:layout_height="50dp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:background="@color/White"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/rewinde5f0cfcc"
+                android:layout_marginRight="12dp"
+                android:elevation="2dp"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:id="@+id/featured"
-            android:layout_height="wrap_content"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+            android:layout_height="250dp"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="7dp"
+                    android:text="Populaire"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/see_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Voir Tout" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
 
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/frimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Populaire"
-            android:layout_marginLeft="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Voir tout"
-            android:id="@+id/see_popular"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/first_popular_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/second_popular_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/third_popular_image"
-            android:layout_height="match_parent"/>
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/srimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/trimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:weightSum="3"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="7dp"
+                    android:textColor="@color/Black"
+                    android:text="Nouveautés"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/see_recents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Voir Tout" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/fpimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/spimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/tpimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="3"
+            android:layout_height="250dp"
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="7dp"
+                    android:text="Boutiques"
+                    android:textSize="20dp"
+                    android:textColor="@color/Black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/see_shops"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Voir Tout" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/fsimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/ssimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="100dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:layout_marginRight="20dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="5dp">
+
+                    <ImageView
+                        android:id="@+id/tsimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="top"
+                        android:background="#ffffff"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/whi4jnmir8" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:text="Children"
+                            android:textColor="@color/Black"
+                            android:textSize="10dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:paddingLeft="5dp"
+                            android:text="Coat and Jackets"
+                            android:textSize="7dp" />
+
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
-
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Nouveautes"
-            android:layout_marginLeft="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Voir tout"
-            android:id="@+id/see_recents"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/first_recent_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/second_recent_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/third_recent_image"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="Magazins"
-            android:layout_marginLeft="7dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Voir tout"
-            android:id="@+id/see_shops"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/first_shop_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/second_shop_image"
-            android:layout_height="match_parent"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:id="@+id/third_shop_image"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
 </FrameLayout>
 
     <!--

@@ -2,12 +2,18 @@ package com.eduvision.version2.vima;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -21,13 +27,12 @@ public class Menu extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    TabAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    private ImageButton categorie_enfant;
-    private ImageButton categorie_homme;
-    private ImageButton categorie_femme;
 
     public Menu() {
         // Required empty public constructor
@@ -66,30 +71,18 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        categorie_enfant = rootView.findViewById(R.id.categorie_enfant);
-        categorie_femme = rootView.findViewById(R.id.categorie_femme);
-        categorie_homme = rootView.findViewById(R.id.categorie_homme);
-
-        categorie_enfant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
-        categorie_femme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
-        categorie_homme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //direct to page
-            }
-        });
-
         return rootView;
 
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstance){
+        viewPager = getView().findViewById(R.id.menu_view_pager);
+        tabLayout = getView().findViewById(R.id.menu_tabLayout);
+        adapter = new TabAdapter(getFragmentManager());
+        adapter.addFragment(new tab_boutiques(), "Boutiques");
+        adapter.addFragment(new Recents(), "Recents");
+        adapter.addFragment(new Popular(), "Populaires");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
     }
 }

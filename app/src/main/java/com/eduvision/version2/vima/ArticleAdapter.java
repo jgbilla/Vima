@@ -76,7 +76,7 @@ public class ArticleAdapter extends BaseAdapter {
                 A like button and TextViews for the name, photo, price and shop
                 You will provide suitable infos as an ArrayList<individual_info_class> in the constructor*/
                 case 1:
-                    convertView = layoutInflater.inflate(R.layout.model, null);
+                    convertView = layoutInflater.inflate(R.layout.pop_article_model, null);
                     temp = article_list.get(position);
                 case 2:
                     convertView = layoutInflater.inflate(R.layout.model2, null);

@@ -1,6 +1,6 @@
 package com.eduvision.version2.vima;
 
-/*There are 4 classes in total that are used to model the different nodes of the firebase article database. The public class
+/*There are 4 classes in total that are used to pop_article_model the different nodes of the firebase article database. The public class
 * Article is left in case anyone wants to use it*/
 
  class Article_info{
@@ -152,7 +152,7 @@ package com.eduvision.version2.vima;
 
 public class Article {
     /*
-    This class is the model used to upload a new article onto firebase
+    This class is the pop_article_model used to upload a new article onto firebase
     I am not using this class anymore but I'm letting it should anyone wants to use it
     Check out the other classes in this file!
      */

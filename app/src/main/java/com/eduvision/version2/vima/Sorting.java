@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Sorting {
 
@@ -23,22 +24,27 @@ public class Sorting {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 lastId[0] = (int) dataSnapshot.getChildrenCount();
-                String name;
-                String price;
-                String photo;
+                String name, price, photo;
                 final String[] shop = new String[1];
                 int shop_id;
-                for(int i=0; i<(n-1); i++){
+
+
+                for(int a=0; a<(n-1); a++){
+                    final int i = a;
                     final individual_info_class infos = new individual_info_class();
-                    name = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("name").getValue().toString();
-                    infos.setName(name);
-                    price = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("price").getValue().toString();
-                    infos.setPrice(price);
-                    photo = dataSnapshot.child(Integer.toString(lastId[0] -i)).child("pictures").child("p_photos").getValue().toString();
-                    infos.setP_photo(photo);
+
+                    name = Objects.requireNonNull(dataSnapshot.child(Integer.toString(lastId[0] - i)).child("infos").child("name").getValue()).toString();
+                    price = Objects.requireNonNull(dataSnapshot.child(Integer.toString(lastId[0] - i)).child("infos").child("price").getValue()).toString();
+                    photo = Objects.requireNonNull(dataSnapshot.child(Integer.toString(lastId[0] - i)).child("pictures").child("p_photos").getValue()).toString();
                     shop_id = (int) dataSnapshot.child(Integer.toString(lastId[0] -i)).child("infos").child("seller_id").getValue();
+
+                    infos.setP_photo(photo);
+                    infos.setPrice(price);
+                    infos.setName(name);
                     infos.setSeller_id(shop_id);
+
                     final int finalShop_id = shop_id;
+
                     mDatabase.child("Shops").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {

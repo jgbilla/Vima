@@ -33,7 +33,6 @@ public class Recents extends Fragment {
 
 
     public static Recents newInstance(int page, String title) {
-        //Create newInstance: See Home class
         Recents recents = new Recents();
         Bundle args = new Bundle();
         args.putInt("someInt", page);

@@ -1,36 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Bag">
 
-    <!-- TODO: Update blank fragment layout -->
 
-    <ImageButton
-        android:id="@+id/categorie_femme"
-        android:src="@drawable/categorie_femme"
-        android:background="@color/White"
-        android:scaleType = "centerCrop"
-        android:layout_width="206dp"
-        android:layout_height="452dp" />
-
-    <ImageButton
-        android:id="@+id/categorie_homme"
-        android:src="@drawable/categorie_homme"
-        android:background="@color/White"
-        android:scaleType = "centerCrop"
-        android:layout_width="209dp"
-        android:layout_height="452dp"
-        android:layout_alignParentRight="true" />
-
-    <ImageButton
-        android:id="@+id/categorie_enfant"
+    <RelativeLayout
+        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/categorie_enfant"
-        android:background="@color/White"/>
+        android:layout_height="40dp">
 
-</RelativeLayout>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:text="@string/top_name"
+            android:layout_width="wrap_content"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/bag"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF"/>
+
+
+
+    </RelativeLayout>
+
+
+    <com.eduvision.version2.vima.NonSwipeableViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/menu_view_pager"
+        android:layout_marginTop="30dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/menu_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@android:dimen/notification_large_icon_height"
+            app:tabGravity="fill"
+            app:tabTextColor="@color/Grey"
+            app:tabTextAppearance="@style/MyCustomTabText"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabSelectedTextColor="@color/Black"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable">
+        </com.google.android.material.tabs.TabLayout>
+    </com.eduvision.version2.vima.NonSwipeableViewPager>
+
+
+</LinearLayout>
