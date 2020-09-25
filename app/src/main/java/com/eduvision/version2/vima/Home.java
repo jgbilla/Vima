@@ -1,5 +1,6 @@
 package com.eduvision.version2.vima;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +28,7 @@ import java.util.Objects;
  */
 public class Home extends Fragment {
     Context mContext;
-
+    private static final int REQUEST_LOCATION = 1;
     TextView sRecents, sPop, sShop;
 
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
@@ -67,6 +69,7 @@ public class Home extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         if (getArguments() != null) {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getInt(ARG_PARAM2);

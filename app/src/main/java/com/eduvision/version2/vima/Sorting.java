@@ -50,7 +50,7 @@ public class Sorting {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                             shop[0] = dataSnapshot2.child(Integer.toString(finalShop_id)).child("infos").child("name").toString();
                             infos.setShop_name(shop[0]);
-                            infos.setRank(lastId[0] -i);
+                            infos.setRank(lastId[0] -1);
                             myList.add(infos);
                         }
                         @Override

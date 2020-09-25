@@ -1,57 +1,238 @@
 package com.eduvision.version2.vima;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.location.Location;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.api.GoogleApi;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.PeriodFormat;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.ContentValues.TAG;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static java.lang.String.format;
 
 public class ProfilePage extends AppCompatActivity {
-    public static ArrayList <String[]>  myArray;
+    public static ArrayList<String[]> myArray;
     FirebaseStorage myFireBaseStorage = FirebaseStorage.getInstance();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    StorageReference storageReference;
+    FirebaseUser user;
+    private static final int IMAGE_REQUEST = 1;
+    private Uri ImageUri;
     int id;
+    private StorageTask uploadTask;
+    FirebaseAuth mAuth;
+
     GridView gridView;
-    TextView name, numb_likes, numb_fav;
-    ImageView photo;
+    TextView name, telephone, email, adresse;
+    ImageView profile;
+    String username, Phone;
     ImageButton settings;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String finalImage;
+
+    LocationManager locationManager;
+    private static final int REQUEST_LOCATION = 1;
+    String latitude, longitude;
+    FusedLocationProviderClient fusedLocationClient;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
 
-        gridView = findViewById(R.id.grid);
+
+
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        mAuth = FirebaseAuth.getInstance();
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+
+        user = mAuth.getCurrentUser();
+
+        storageReference = FirebaseStorage.getInstance().getReference("ProfilePictures").child(user.getUid());
+
+        settings = findViewById(R.id.settings);
+
+        AlertDialog.Builder modifysettings = new AlertDialog.Builder(this);
+        modifysettings.setTitle("Modifications");
+
+        final View customLayout = getLayoutInflater().inflate(R.layout.custom_dialog_profile_modification, null);
+        modifysettings.setView(customLayout);
+
+        AlertDialog dialog = modifysettings.create();
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    OnGPS();
+                } else {
+                    getLocation();
+
+                }
+            }
+        });
+
+        Button ChangeUsername = customLayout.findViewById(R.id.change_username);
+        AlertDialog.Builder newUsername = new AlertDialog.Builder(this);
+        newUsername.setTitle("Insert new Username");
+
+        final View customUsername = getLayoutInflater().inflate(R.layout.custom_dialog_modify_username, null);
+        newUsername.setView(customUsername);
+        AlertDialog userdialog = newUsername.create();
+        ChangeUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userdialog.show();
+            }
+        });
+
+        EditText text = customUsername.findViewById(R.id.new_username);
+
+        Button save = customUsername.findViewById(R.id.save_new_username);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
+                progressDialog.setMax(100);
+                progressDialog.show();
+                String getUsername = text.getText().toString();
+                Log.d(TAG, "Username is: " + getUsername);
+
+                mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("username", getUsername);
+                mDatabase.updateChildren(map);
+                username = sharedPreferences.getString("username", "nothing");
+                editor.putString("username", getUsername);
+                editor.apply();
+                progressDialog.dismiss();
+
+                Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+
+                name = findViewById(R.id.name);
+                username = sharedPreferences.getString("username", "nothing");
+                name.setText(username);
+                userdialog.hide();
+                dialog.hide();
+
+            }
+        });
+
+
+        Button ChangePicture = customLayout.findViewById(R.id.change_picture);
+        ChangePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImage();
+            }
+        });
+
         name = findViewById(R.id.name);
-        numb_likes = findViewById(R.id.number_of_likes);
+        username = sharedPreferences.getString("username", "nothing");
+        name.setText(username);
+
+        profile = findViewById(R.id.profile_picture);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
+
+        telephone = findViewById(R.id.numero_de_telephone);
+ Phone = sharedPreferences.getString("telephone", "Entrez votre numero de telephone");
+
+        Log.d(TAG, "Phone is:" + Phone);
+        telephone.setText(Phone);
+
+        email = findViewById(R.id.adresse_mail);
+        String Email = sharedPreferences.getString("email", "Entrez votre email");
+        email.setText(Email);
+
+        adresse = findViewById(R.id.adresse);
+        String Adresse = sharedPreferences.getString("location", "Ajoutez votre adresse");
+       adresse.setText(Adresse);
+
+        /*
         numb_fav = findViewById(R.id.number_of_favorites);
         photo = findViewById(R.id.profile_picture);
         final String[] eventDate = new String[1];
@@ -129,7 +310,7 @@ public class ProfilePage extends AppCompatActivity {
                 gridView.setAdapter(new Profile_Article_Adapter(myArray));
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                        /*Get to chosen Article page*/
+                        //Get to chosen Article page
                         Intent myIntent = new Intent(ProfilePage.this, articlePage.class);
                         myIntent.putExtra("id", myArray.get(position));
                         startActivity(myIntent);
@@ -150,4 +331,168 @@ public class ProfilePage extends AppCompatActivity {
         });
 
     }
+    */
+    }
+
+    private void OnGPS() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+
+    private void getLocation(){
+
+        if (ActivityCompat.checkSelfPermission(
+                ProfilePage.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                ProfilePage.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else{
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // GPS location can be null if GPS is switched off
+                            Log.d(TAG, "We made it: " + location);
+                            if (location != null) {
+
+                                double lat = location.getLatitude();
+                                double longi = location.getLongitude();
+
+                                latitude = String.valueOf(lat);
+                                longitude = String.valueOf(longi);
+
+                                Geocoder geocoder;
+                                List<Address> addresses = new ArrayList<>();
+                                geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+                                try {
+                                    addresses = geocoder.getFromLocation(lat, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                                String city = addresses.get(0).getLocality();
+                                String state = addresses.get(0).getAdminArea();
+                                String country = addresses.get(0).getCountryName();
+                                String postalCode = addresses.get(0).getPostalCode();
+                                String knownName = addresses.get(0).getFeatureName();
+
+                                Log.d(TAG, "We made it:" + address);
+                            }
+                        }
+                    });
+            }
+        }
+
+
+    private void openImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, IMAGE_REQUEST);
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadImage(){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Sauvegarde en cours");
+        progressDialog.show();
+
+        if (ImageUri != null){
+            final StorageReference fileReference = storageReference.child(System.currentTimeMillis() +"."+getFileExtension(ImageUri));
+
+            uploadTask = fileReference.putFile(ImageUri);
+
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                   if (!task.isSuccessful()){
+                       throw  task.getException();
+                   }
+                   return fileReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()){
+                        Uri downloadUri = task.getResult();
+                        String mUri = downloadUri.toString();
+
+                        editor.putString("profile", mUri);
+                        editor.apply();
+
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("ImageURL", mUri);
+                        mDatabase.updateChildren(map);
+
+
+                        Glide.with(getApplicationContext())
+                                .load(mUri)
+                                .placeholder(R.drawable.categorie_enfant)
+                                .into(profile);
+
+                        progressDialog.dismiss();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Veuillez reessayer", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+
+
+            }
+        else{
+            Toast.makeText(getApplicationContext(), "Veuillez reselectionner une image", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() !=null){
+            ImageUri = data.getData();
+
+        }
+
+        if (uploadTask !=null && uploadTask.isInProgress()){
+            Toast.makeText(getApplicationContext(), "Sauvegarde en cours", Toast.LENGTH_SHORT).show();
+        }else {
+            uploadImage();
+        }
+    }
+
+
+
+
 }

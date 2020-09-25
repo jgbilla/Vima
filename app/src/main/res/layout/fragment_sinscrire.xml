@@ -16,6 +16,21 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+
+        <EditText
+            android:id="@+id/sinscrire_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:backgroundTint="#FFFFFF"
+            android:drawableTint="#FFFFFF"
+            android:hint="Nom d'utilisateur"
+            android:inputType="text"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            android:textCursorDrawable="@null" />
+
         <EditText
             android:id="@+id/sinscrire_email"
             android:layout_width="match_parent"

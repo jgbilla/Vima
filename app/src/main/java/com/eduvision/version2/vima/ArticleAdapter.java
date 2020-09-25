@@ -95,17 +95,17 @@ public class ArticleAdapter extends BaseAdapter {
         assert convertView != null;
         final ImageButton like_button = convertView.findViewById(R.id.like_button);
         final TextView name = convertView.findViewById(R.id.nameA);
-        final ImageView photo = convertView.findViewById(R.id.photo);
+//        final ImageView photo = convertView.findViewById(R.id.photo);
         final TextView price = convertView.findViewById(R.id.price);
         final TextView shop = convertView.findViewById(R.id.shop);
 
         StorageReference storageReference = myFireBaseStorage.getReferenceFromUrl(photoA);
-        Glide.with(mContext)
+        /*Glide.with(mContext)
                 .load(storageReference)
-                .into(photo);
+                //.into(photo);
         name.setText(nameA);
         price.setText(priceA);
-        shop.setText(shopA);
+        shop.setText(shopA);*/
 
         //Handling the like option
         //Well, we set an image if the like button is pushed and another one otherwise

@@ -12,7 +12,7 @@
         android:padding="2dp"
         app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="1dp"
-        android:id="@+id/image_result"/>
+        android:id="@+id/image_result" />
 
     <TextView
         android:layout_height="wrap_content"

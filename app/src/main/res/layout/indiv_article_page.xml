@@ -17,7 +17,7 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/big_picture"
-                        android:src="@drawable/imageBg"
+                        android:src="@drawable/imagebg"
                         android:layout_width="match_parent"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
@@ -75,10 +75,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="#000000000"
+                    android:background="#000000"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/groupeDeMasques6"/>
+                    android:src="@drawable/groupedemasques6"/>
 
 
             </RelativeLayout>
@@ -281,7 +281,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/colorGreybc51919d"/>
+                        android:src="@drawable/colorgreybc51919d"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:text="+"

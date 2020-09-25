@@ -1,8 +1,17 @@
 package com.eduvision.version2.vima.Login;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +22,46 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.eduvision.version2.vima.MainPage;
 import com.eduvision.version2.vima.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.ContentValues.TAG;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -43,11 +77,20 @@ public class SeConnecter extends Fragment {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     EditText Email, Password;
-    String email, password;
+    String email, password, id;
     Button seConnecter;
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
     TextView ForgottenPassword;
+    DatabaseReference databaseReference;
+
+    //Localisation
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
+    String latitude, longitude;
+    FusedLocationProviderClient fusedLocationClient;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    FirebaseUser user;
 
     public SeConnecter() {
 
@@ -79,12 +122,18 @@ public class SeConnecter extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Localisation
+        ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+
         Email = getView().findViewById(R.id.se_connecter_email);
         Password = getView().findViewById(R.id.se_connecter_password);
         seConnecter = getView().findViewById(R.id.se_connecter_button);
         mAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+        sharedPreferences =getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         seConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +189,65 @@ ForgottenPassword.setOnClickListener(new View.OnClickListener() {
                     Toast.makeText(getContext(), "Bienvenue",
                             Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
+                    assert user != null;
+                    id = user.getUid();
+
+                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child("Users").child("Acheteurs").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                                String Userid = snapshot.child("id").getValue(String.class);
+
+                                if (id.equals(Userid)) {
+                                    String username = snapshot.child("username").getValue(String.class);
+                                    editor.putString("username", username);
+                                    editor.apply();
+
+                                    String Picture = snapshot.child("ImageURL").getValue(String.class);
+                                    editor.putString("profile", Picture);
+                                    editor.apply();
+
+                                    String Phone = snapshot.child("telephone").getValue(String.class);
+                                    editor.putString("telephone", Phone);
+                                    editor.apply();
+
+                                    String Email = snapshot.child("email").getValue(String.class);
+                                    editor.putString("email", Email);
+                                    editor.apply();
+
+                                    String Adress = snapshot.child("Adresse").getValue(String.class);
+
+                                    if(Adress != null){
+                                        editor.putString("location", Adress);
+                                        editor.apply();
+
+                                    } else{
+                                        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                                        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                            OnGPS();
+                                        } else {
+                                            getLocation();
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                    Intent r = new Intent(getContext(), MainPage.class);
+                    startActivity(r);
+
                 } else {
                     Toast.makeText(getContext(), "Votre email ou mot de passe est incorrect",
                             Toast.LENGTH_SHORT).show();
@@ -147,6 +255,75 @@ ForgottenPassword.setOnClickListener(new View.OnClickListener() {
             }
         });
     }
+    private void OnGPS() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setMessage("La Localisation nous permettra de vous offrir les meilleurs services. Autoriser la localisation?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
+
+    private void getLocation(){
+
+        if (ActivityCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+        else{
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // GPS location can be null if GPS is switched off
+                            if (location != null) {
+
+                                double lat = location.getLatitude();
+                                double longi = location.getLongitude();
+
+                                latitude = String.valueOf(lat);
+                                longitude = String.valueOf(longi);
+
+                                Geocoder geocoder;
+                                List<Address> addresses = new ArrayList<>();
+                                geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+                                try {
+                                    addresses = geocoder.getFromLocation(lat, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                                String city = addresses.get(0).getLocality();
+                                String state = addresses.get(0).getAdminArea();
+                                String country = addresses.get(0).getCountryName();
+                                String postalCode = addresses.get(0).getPostalCode();
+                                String knownName = addresses.get(0).getFeatureName();
+
+                                Log.d(TAG, "We made it:" + address);
+                                user = mAuth.getCurrentUser();
+                                mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                                HashMap<String, Object> map = new HashMap<>();
+                                map.put("Adresse", address);
+                                mDatabase.updateChildren(map);
+                                editor.putString("location", address);
+                                editor.apply();
+                            }
+                        }
+                    });
+        }
+    }
 
 }
