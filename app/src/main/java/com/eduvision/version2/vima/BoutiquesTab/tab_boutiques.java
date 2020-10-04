@@ -3,6 +3,7 @@ package com.eduvision.version2.vima.BoutiquesTab;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,8 +71,11 @@ public class tab_boutiques extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        int gridColumnCount =
+                getResources().getInteger(R.integer.grid_column_count);
+
         RecyclerView recyclerView = getView().findViewById(R.id.list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridColumnCount));
         recyclerView.setAdapter(new Adapter(shops, getContext()));
 
 
@@ -81,6 +85,10 @@ public class tab_boutiques extends Fragment {
 
     private ShopConstructor[] shops = {
             new ShopConstructor("Celio", R.drawable.categorie_enfant,"Ouaga2000"),
+            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
+            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
+            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
+            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
             new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000")
 
     };

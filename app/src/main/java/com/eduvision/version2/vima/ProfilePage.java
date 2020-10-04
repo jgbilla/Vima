@@ -97,7 +97,7 @@ public class ProfilePage extends AppCompatActivity {
     TextView name, telephone, email, adresse;
     ImageView profile;
     String username, Phone;
-    ImageButton settings;
+    ImageButton settings, back;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     String finalImage;
@@ -112,6 +112,16 @@ public class ProfilePage extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_layout);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
 
 
