@@ -8,9 +8,8 @@
         android:id="@+id/new_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#FFFFFF"
-        android:drawableTint="#FFFFFF"
-        android:hint="Nom d'utilisateur"
+        android:backgroundTint="@color/Grey"
+        android:drawableTint="@color/Grey"
         android:inputType="text"
         android:textColor="@color/Black"
         android:textColorHint="#808080"
@@ -25,6 +24,7 @@
         android:textColor="@color/Black"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:background="#FF0000"/>
 
 </LinearLayout>

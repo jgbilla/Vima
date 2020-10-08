@@ -1,7 +1,6 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,16 +11,13 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -29,20 +25,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.location.Location;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.api.GoogleApi;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,35 +42,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import org.joda.time.DateTime;
-import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.PeriodFormat;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.ContentValues.TAG;
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static java.lang.String.format;
 
 public class ProfilePage extends AppCompatActivity {
     public static ArrayList<String[]> myArray;
@@ -96,7 +73,7 @@ public class ProfilePage extends AppCompatActivity {
     GridView gridView;
     TextView name, telephone, email, adresse;
     ImageView profile;
-    String username, Phone;
+    String username, Phone, Email;
     ImageButton settings, back;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -153,18 +130,13 @@ public class ProfilePage extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.show();
                 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    OnGPS();
-                } else {
-                    getLocation();
 
-                }
             }
         });
-
+//Changing the username
         Button ChangeUsername = customLayout.findViewById(R.id.change_username);
         AlertDialog.Builder newUsername = new AlertDialog.Builder(this);
-        newUsername.setTitle("Insert new Username");
+        newUsername.setTitle("Insert");
 
         final View customUsername = getLayoutInflater().inflate(R.layout.custom_dialog_modify_username, null);
         newUsername.setView(customUsername);
@@ -173,41 +145,157 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 userdialog.show();
+
+                EditText text = customUsername.findViewById(R.id.new_username);
+
+                Button save = customUsername.findViewById(R.id.save_new_username);
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
+                        progressDialog.setMax(100);
+                        progressDialog.show();
+                        String getUsername = text.getText().toString();
+                        Log.d(TAG, "Username is: " + getUsername);
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("username", getUsername);
+                        mDatabase.updateChildren(map);
+                        username = sharedPreferences.getString("username", "nothing");
+                        editor.putString("username", getUsername);
+                        editor.apply();
+                        progressDialog.dismiss();
+
+                        Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+
+                        name = findViewById(R.id.name);
+                        username = sharedPreferences.getString("username", "nothing");
+                        name.setText(username);
+                        userdialog.hide();
+                        dialog.hide();
+
+                    }
+                });
+
             }
         });
 
-        EditText text = customUsername.findViewById(R.id.new_username);
 
-        Button save = customUsername.findViewById(R.id.save_new_username);
-        save.setOnClickListener(new View.OnClickListener() {
+
+        //Change number
+        Button ChangeNumber = customLayout.findViewById(R.id.change_number);
+
+        ChangeNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
-                progressDialog.setMax(100);
-                progressDialog.show();
-                String getUsername = text.getText().toString();
-                Log.d(TAG, "Username is: " + getUsername);
+                userdialog.show();
 
-                mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("username", getUsername);
-                mDatabase.updateChildren(map);
-                username = sharedPreferences.getString("username", "nothing");
-                editor.putString("username", getUsername);
-                editor.apply();
-                progressDialog.dismiss();
+                EditText number = customUsername.findViewById(R.id.new_username);
+                Button saveNumber = customUsername.findViewById(R.id.save_new_username);
+                saveNumber.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
+                        progressDialog.setMax(100);
+                        progressDialog.show();
+                        String getNumber = number.getText().toString();
 
-                Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("telephone", getNumber);
+                        mDatabase.updateChildren(map);
+                        Phone = sharedPreferences.getString("telephone", "Entrez votre numero de telephone");
+                        editor.putString("telephone", getNumber);
+                        editor.apply();
+                        progressDialog.dismiss();
 
-                name = findViewById(R.id.name);
-                username = sharedPreferences.getString("username", "nothing");
-                name.setText(username);
-                userdialog.hide();
-                dialog.hide();
+                        Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+
+                        telephone = findViewById(R.id.numero_de_telephone);
+                        Phone = sharedPreferences.getString("telephone", "nothing");
+                        telephone.setText(Phone);
+                        userdialog.hide();
+                        dialog.hide();
+
+                        number.setText("");
+
+
+                    }
+                });
+            }
+        });
+
+
+
+        //Change email
+        Button ChangeEmail = customLayout.findViewById(R.id.change_email);
+
+        ChangeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userdialog.show();
+
+                EditText Mail = customUsername.findViewById(R.id.new_username);
+                Button saveEmail = customUsername.findViewById(R.id.save_new_username);
+                saveEmail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
+                        progressDialog.setMax(100);
+                        progressDialog.show();
+                        String getEmail = Mail.getText().toString();
+
+                        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("email", getEmail);
+                        mDatabase.updateChildren(map);
+                        Email = sharedPreferences.getString("email", "Entrez votre email");
+                        editor.putString("email", getEmail);
+                        editor.apply();
+                        progressDialog.dismiss();
+
+                        Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+
+                        email = findViewById(R.id.adresse_mail);
+                        Email = sharedPreferences.getString("email", "Entrez votre email");
+                        email.setText(Email);
+                        userdialog.hide();
+                        dialog.hide();
+
+                    }
+                });
+            }
+        });
+
+
+
+        //Change location
+        Button Changelocation = customLayout.findViewById(R.id.change_location);
+        Changelocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    OnGPS();
+                } else {
+                    getLocation();
+
+                }
 
             }
         });
 
+        //Sign out
+
+        Button signOut = customLayout.findViewById(R.id.sign_out);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent a = new Intent(getApplicationContext(), login_activity.class);
+                startActivity(a);
+            }
+        });
 
         Button ChangePicture = customLayout.findViewById(R.id.change_picture);
         ChangePicture.setOnClickListener(new View.OnClickListener() {
@@ -230,8 +318,6 @@ public class ProfilePage extends AppCompatActivity {
 
         telephone = findViewById(R.id.numero_de_telephone);
  Phone = sharedPreferences.getString("telephone", "Entrez votre numero de telephone");
-
-        Log.d(TAG, "Phone is:" + Phone);
         telephone.setText(Phone);
 
         email = findViewById(R.id.adresse_mail);
@@ -241,6 +327,8 @@ public class ProfilePage extends AppCompatActivity {
         adresse = findViewById(R.id.adresse);
         String Adresse = sharedPreferences.getString("location", "Ajoutez votre adresse");
        adresse.setText(Adresse);
+
+
 
         /*
         numb_fav = findViewById(R.id.number_of_favorites);

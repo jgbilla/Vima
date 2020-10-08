@@ -12,17 +12,20 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -42,18 +45,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,6 +83,7 @@ public class SeConnecter extends Fragment {
     FirebaseStorage firebaseStorage;
     TextView ForgottenPassword;
     DatabaseReference databaseReference;
+    private CheckBox showPassword;
 
     //Localisation
     private static final int REQUEST_LOCATION = 1;
@@ -128,12 +129,25 @@ public class SeConnecter extends Fragment {
 
         Email = getView().findViewById(R.id.se_connecter_email);
         Password = getView().findViewById(R.id.se_connecter_password);
+        showPassword = getView().findViewById(R.id.checkbox);
         seConnecter = getView().findViewById(R.id.se_connecter_button);
         mAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         sharedPreferences =getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+                    Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         seConnecter.setOnClickListener(new View.OnClickListener() {
             @Override

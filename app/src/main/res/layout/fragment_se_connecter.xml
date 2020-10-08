@@ -45,14 +45,26 @@
 
         </EditText>
 
+        <androidx.appcompat.widget.AppCompatCheckBox
+
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:buttonTint="@color/White"
+            android:text="Afficher le mot de passe"
+            android:textColor="@color/White" />
+
         <TextView
             android:id="@+id/mot_de_passe_oublie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mot de Passe Oublie?"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/White"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:text="Mot de Passe Oublie?"
+            android:textColor="@color/White" />
+
 
     </LinearLayout>
 
@@ -64,7 +76,7 @@
         <Button
             android:id="@+id/se_connecter_button"
             android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:background="#FF0000"

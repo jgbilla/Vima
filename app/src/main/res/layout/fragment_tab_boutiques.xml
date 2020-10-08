@@ -8,6 +8,7 @@
     android:layout_marginBottom="100dp"
     tools:context=".BoutiquesTab.tab_boutiques">
 
+
     <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/list"
     android:layout_width="wrap_content"

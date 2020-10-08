@@ -46,6 +46,7 @@ public class MainPage extends AppCompatActivity {
                     }
                 });
 
+
     }
 
     public void replaceFragment(Fragment Fragment) {

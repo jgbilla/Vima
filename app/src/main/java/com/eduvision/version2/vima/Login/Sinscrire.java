@@ -1,8 +1,6 @@
 package com.eduvision.version2.vima.Login;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,11 +13,15 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,7 +33,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.eduvision.version2.vima.Home;
-import com.eduvision.version2.vima.ProfilePage;
 import com.eduvision.version2.vima.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -57,7 +58,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.ContentValues.TAG;
@@ -86,6 +86,7 @@ public class Sinscrire extends Fragment {
     FirebaseStorage firebaseStorage;
     private RadioGroup radioSexGroup;
     private RadioButton radioSexButton;
+    private CheckBox showPassword;
 
     //Localisation
     private static final int REQUEST_LOCATION = 1;
@@ -138,11 +139,24 @@ public class Sinscrire extends Fragment {
         Email = getView().findViewById(R.id.sinscrire_email);
         Telephone = getView().findViewById(R.id.sinscrire_telephone);
         Password = getView().findViewById(R.id.sinscrire_password);
+        showPassword = getView().findViewById(R.id.checkbox);
         Username = getView().findViewById(R.id.sinscrire_username);
         sinscrire = getView().findViewById(R.id.sinscrire_button);
         mAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else{
+                    Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
 
         sinscrire.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +251,6 @@ public class Sinscrire extends Fragment {
                         OnGPS();
                     } else {
                         getLocation();
-
                     }
 Intent t = new Intent(getContext(), Home.class);
                     startActivity(t);

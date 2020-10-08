@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <integer name="grid_column_count">1</integer>
+    <dimen name="margin_bottom_number">100dp</dimen>
+    <integer name="margin_bottom_number">100</integer>
+</resources>

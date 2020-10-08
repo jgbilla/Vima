@@ -77,36 +77,51 @@
 
         </EditText>
 
-       <RadioGroup
-           android:id="@+id/radio_gender"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="30dp"
-           android:layout_marginTop="20dp"
-           android:layout_marginRight="30dp"
-           android:orientation="horizontal"
-           >
+        <androidx.appcompat.widget.AppCompatCheckBox
 
-           <RadioButton
-               android:id="@+id/radio_male"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:outlineSpotShadowColor="#FFFFFF"
-               android:text="Homme"
-               android:textColor="#FFFFFF">
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="40dp"
+            android:buttonTint="@color/White"
+            android:outlineAmbientShadowColor="@color/White"
+            android:text="Afficher le mot de passe"
+            android:textColor="@color/White" />
 
-           </RadioButton>
+        <RadioGroup
+            android:id="@+id/radio_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal">
 
-           <RadioButton
-               android:id="@+id/radio_female"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:outlineSpotShadowColor="#FFFFFF"
-               android:text="Femme"
-               android:textColor="#FFFFFF">
+            <RadioButton
+                android:id="@+id/radio_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/White"
+                android:outlineAmbientShadowColor="@color/White"
+                android:outlineSpotShadowColor="#FFFFFF"
+                android:text="Homme"
+                android:textColor="#FFFFFF">
 
-           </RadioButton>
-       </RadioGroup>
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/radio_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/White"
+                android:outlineAmbientShadowColor="@color/White"
+                android:outlineSpotShadowColor="#FFFFFF"
+                android:text="Femme"
+                android:textColor="#FFFFFF">
+
+            </RadioButton>
+        </RadioGroup>
 
 
     </LinearLayout>

@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingRight="20dp"
+    card_view:cardCornerRadius="10dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/settings"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_settings_24"
+            android:outlineSpotShadowColor="@color/Black"
+            />
     <Button
         android:id="@+id/change_picture"
         android:layout_width="match_parent"
@@ -25,4 +40,45 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"/>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/change_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier le numero de telephone"
+        android:background="@color/White"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/change_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier votre email"
+        android:background="@color/White"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/change_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier votre localisation"
+        android:background="@color/White"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Se deconnecter"
+            android:textColor="@color/Black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="#FF0000"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

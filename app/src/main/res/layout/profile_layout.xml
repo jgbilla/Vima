@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/gradient"
+    android:background="#0f0f0f"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_gravity="top"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_marginEnd="5dp"
             android:id="@+id/back"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:background="#00000000"
             android:src="@drawable/ic_outline_arrow_back_ios_24"
            />
         <TextView
-            android:layout_width="0dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Profile"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -43,6 +49,11 @@
 
     </LinearLayout>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_picture"
@@ -61,7 +72,10 @@
             android:layout_marginTop="10dp"
             android:textColor="#FFFFFF"
             tools:text="Jean BILLA"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+        android:textSize="30sp"/>
+
+</LinearLayout>
 
 
 <androidx.cardview.widget.CardView
@@ -70,13 +84,14 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
-    android:layout_height="200dp"
-    card_view:cardCornerRadius="10dp">
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="10dp"
+    android:layout_marginTop="50dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
     <LinearLayout
@@ -84,7 +99,8 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="0dp"
@@ -92,7 +108,11 @@
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
             android:layout_weight="1"
-            android:layout_marginStart="15dp"/>
+            android:layout_marginStart="15dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -100,16 +120,28 @@
             tools:text="76170020"
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
     </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/Grey"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="0dp"
@@ -117,7 +149,11 @@
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
             android:layout_weight="1"
-            android:layout_marginStart="15dp"/>
+            android:layout_marginStart="15dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -125,16 +161,28 @@
             tools:text="j.billa@iso.bf"
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
     </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/Grey"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="0dp"
@@ -142,7 +190,11 @@
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
             android:layout_weight="1"
-            android:layout_marginStart="15dp"/>
+            android:layout_marginStart="15dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -150,12 +202,19 @@
             tools:text="Karpala, Ouagadougou"
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="15sp"
+            app:autoSizeMaxTextSize="40sp"
+            app:autoSizeStepGranularity="2sp"/>
 
     </LinearLayout>
     </LinearLayout>
+
 
 
 </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
