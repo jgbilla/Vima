@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:orientation="vertical">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -76,69 +75,67 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginVertical="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
             android:padding="5dp">
 
-            <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_centerVertical="true"
-                android:elevation="1dp"
-                card_view:cardCornerRadius="30dp"
                 android:background="@color/White"
-                android:layout_height="50dp"/>
+                android:elevation="1dp"
+                card_view:cardCornerRadius="30dp" />
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:background="@color/White"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/rewind"
                 android:layout_marginLeft="12dp"
+                android:background="@color/White"
                 android:elevation="2dp"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/rewind" />
 
 
             <TextView
-                android:layout_centerInParent="true"
-                android:elevation="1dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="#63000000"
+                android:elevation="1dp"
+                android:paddingHorizontal="10dp"
+                android:text="ALDO"
                 android:textColor="@color/White"
                 android:textSize="20dp"
-                android:paddingHorizontal="10dp"
-                android:textStyle="bold"
-                android:background="#63000000"
-                android:text="ALDO" />
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/featured"
                 android:layout_width="wrap_content"
-                android:src="@drawable/x9kgos2nz9c"
-                android:layout_height="240dp" />
+                android:layout_height="240dp"
+                android:src="@drawable/x9kgos2nz9c" />
 
-            <androidx.cardview.widget.CardView
+            <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_centerVertical="true"
-                android:elevation="1dp"
-                card_view:cardCornerRadius="30dp"
                 android:background="@color/White"
-                android:layout_height="50dp"/>
+                android:elevation="1dp"
+                card_view:cardCornerRadius="30dp" />
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:background="@color/White"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/rewinde5f0cfcc"
                 android:layout_marginRight="12dp"
+                android:background="@color/White"
                 android:elevation="2dp"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/rewinde5f0cfcc" />
         </RelativeLayout>
 
 
@@ -326,9 +323,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:weightSum="3"
             android:layout_marginHorizontal="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="3">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -340,8 +337,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="7dp"
-                    android:textColor="@color/Black"
                     android:text="Nouveautés"
+                    android:textColor="@color/Black"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -358,15 +355,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:gravity="center"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:clickable="true"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
+                    android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -409,10 +406,10 @@
 
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:clickable="true"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -455,10 +452,9 @@
 
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:clickable="true"
-                    android:layout_marginRight="20dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -504,10 +500,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:weightSum="3"
             android:layout_height="250dp"
             android:layout_marginHorizontal="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="3">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -520,8 +516,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="7dp"
                     android:text="Boutiques"
-                    android:textSize="20dp"
                     android:textColor="@color/Black"
+                    android:textSize="20dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -537,15 +533,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:gravity="center"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:clickable="true"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -588,10 +584,10 @@
 
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:clickable="true"
                     android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -634,10 +630,9 @@
 
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:clickable="true"
-                    android:layout_marginRight="20dp"
                     android:foreground="?android:attr/selectableItemBackground"
                     card_view:cardCornerRadius="10dp"
                     card_view:cardElevation="5dp">
@@ -679,10 +674,8 @@
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-</FrameLayout>
+</ScrollView>
 
     <!--
     <androidx.viewpager.widget.ViewPager

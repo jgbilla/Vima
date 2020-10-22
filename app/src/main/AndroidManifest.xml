@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
 
     <meta-data
         android:name="com.eduvision.version2.vima.ClassWithGridleModule"
@@ -44,7 +46,11 @@
         </activity>
         <activity android:name=".login_activity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".articlePage" />
+        <activity android:name=".UploadActivity" />
+        <activity android:name=".articlePage">
+
+        </activity>
+        <activity android:name=".Verify" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -67,6 +73,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfilePage" />
+        <activity android:name=".shopPage" />
     </application>
 
 </manifest>

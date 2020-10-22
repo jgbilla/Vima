@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_width="match_parent"
-    android:padding="10dp"
+    android:layout_width="wrap_content"
+    android:padding="5dp"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+    android:layout_width="wrap_content"
     android:elevation="5dp"
     android:layout_height="wrap_content"
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shop"
+                android:text="Drogba Shop"
+                android:textSize="15dp"
+                android:textColor="@color/Black"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/article_picture"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:src="@drawable/whi4jnmir8"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerInside" />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <LinearLayout
-                    android:layout_width="110dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center_horizontal"
@@ -54,23 +61,7 @@
                         android:textColor="@color/Black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/shop"
-                        android:layout_marginTop="5dp"
-                        android:text="Shop"
-                        android:textSize="15dp"
-                        android:textColor="@color/Black"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
 
-
-                    <TextView
-                        android:id="@+id/article_type"
-                        android:textSize="15dp"
-                        android:text="T-shirt"
-                        android:layout_marginTop="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

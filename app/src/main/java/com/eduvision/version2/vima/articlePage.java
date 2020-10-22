@@ -1,11 +1,14 @@
 package com.eduvision.version2.vima;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,30 +29,54 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class articlePage extends AppCompatActivity {
 
-    Article_info info;
-    Article_description bDescription;
-    Article_pictures bPictures;
-
-    IndividualArticleConstructor individualArticleConstructor;
     private long article_id;
-    Context mContext;
-    FirebaseStorage myFireBaseStorage = FirebaseStorage.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     TextView price, title, description, shop_name, shop_description, shop_location;
     ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, sm_pic4, shop_pic;
     CircleImageView profile_picture;
     Spinner spin1, spin2;
 
+    public void whatclick(View v){
+        String number = "+22676603608";
+        String url = "https://api.whatsapp.com/send?phone="+number;
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    public void callclick(View v){
+
+        String number = "+22676603608";
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+number));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
+    public void smsclick(View v){
+        String number = "+22676603608";
+        String message = "J'ai connu votre boutique a travers l'applocation Vima";
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("smsto:"+number));
+        intent.putExtra("sms_body", message);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.indiv_article_page);
-        Bundle i = getIntent().getExtras();
-        assert i != null;
-        individual_info_class article = (individual_info_class) i.getParcelable("id");
-        article_id = article.getRank();
 
-        // Refer to individual_article_page.xml to see what those are all about
+        LinearLayout myll = findViewById(R.id.ll);
+        myll.setBackgroundResource(R.drawable.border_home);
+        Bundle i = getIntent().getExtras();
+        IndividualArticle article = new IndividualArticle();
+        if(i != null){
+            article = Fetching.myData.get(i.getInt("LockerKey"));
+        }
+
+        article_id = article.getRank();
         profile_picture = findViewById(R.id.profile_image);
         price = findViewById(R.id.article_price);
         title = findViewById(R.id.article_title);
@@ -64,8 +91,27 @@ public class articlePage extends AppCompatActivity {
         spin1 = findViewById(R.id.color_spinner);
         spin2 = findViewById(R.id.sex_spinner);
 
+        //Fetch
+        /*
+        ArticleAdapter.glideIt(big_pic, bPictures.getPhoto(), mContext);
+        ArticleAdapter.glideIt(sm_pic1, bPictures.getSmall_pic1(), mContext);
+        ArticleAdapter.glideIt(sm_pic2, bPictures.getSmall_pic2(), mContext);
+        ArticleAdapter.glideIt(sm_pic3, bPictures.getSmall_pic3(), mContext);
+        ArticleAdapter.glideIt(sm_pic4, bPictures.getSmall_pic4(), mContext);
+        */
+
+        price.setText(article.getPrice().toString());
+        title.setText(article.getName());
+        description.setText(article.getName());
+        shop_name.setText(article.getShop_name());
+        shop_description.setText(article.getShop_name());
+        shop_location.setText(article.getShop_name());
+
+
+        /*
         final String[] sizeSelected = new String[1];
         final String[] colorSelected = new String[1];
+
         mDatabase.child("Articles").child(Long.toString(article_id)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,5 +207,8 @@ public class articlePage extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        */
+
+
     }
 }

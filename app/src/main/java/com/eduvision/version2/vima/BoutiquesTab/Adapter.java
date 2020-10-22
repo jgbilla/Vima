@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eduvision.version2.vima.Fetching;
+import com.eduvision.version2.vima.IndividualArticle;
 import com.eduvision.version2.vima.R;
 
 //An adapter to display the shops correctly
@@ -30,16 +32,16 @@ public class Adapter extends  RecyclerView.Adapter<Adapter.HorizontalViewHolder>
     public HorizontalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.boutique_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.shop_article_model, parent, false);
         return new HorizontalViewHolder(view);
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
-        holder.Name.setText(shops[position].name);
-        holder.Location.setText(shops[position].location);
-        holder.linearLayout.setBackground(context.getResources().getDrawable(shops[position].logo));
+        //holder.Name.setText(shops[position].name);
+        //holder.Location.setText(shops[position].location);
+        //holder.linearLayout.setBackground(context.getResources().getDrawable(shops[position].logo));
 
 
     }

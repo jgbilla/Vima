@@ -3,9 +3,6 @@
 <stroke
 	android:width="2dip"
 	android:color="#000000" />
-<corners android:radius="10dip"/>
-<padding android:left="10dip"
-	android:top="10dip"
-	android:right="10dip"
-	android:bottom="10dip" />
+<border android:left="10dip"
+	android:top="10dip"/>
 </shape>

@@ -22,6 +22,8 @@ public class MainPage extends AppCompatActivity {
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
+        replaceFragment(new Home());
+
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -45,6 +47,7 @@ public class MainPage extends AppCompatActivity {
                         return false;
                     }
                 });
+        replaceFragment(new Home());
 
 
     }

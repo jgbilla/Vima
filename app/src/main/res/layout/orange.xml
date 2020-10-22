@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login.SeConnecter"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Verify">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/top_name"
+            android:textSize="26sp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/profile"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF"/>
+
+    </RelativeLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/verify_view_pager"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/verify_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@android:dimen/notification_large_icon_height"
+            app:tabGravity="fill"
+            app:tabTextColor="@color/Grey"
+            app:tabTextAppearance="@style/MyCustomTabText"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabSelectedTextColor="@color/Black"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable">
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.viewpager.widget.ViewPager>
 
 
 </LinearLayout>
-
-

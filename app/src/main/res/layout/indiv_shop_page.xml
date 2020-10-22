@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/big_picture"
+                        android:src="@drawable/imagebg"
+                        android:layout_width="match_parent"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="60dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_height="300dp" />
+
+                </RelativeLayout>
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/profile"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    app:civ_border_width="2dp"
+                    android:layout_marginTop="20dp"
+                    app:civ_border_color="#FFFFFF"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#00ffffff"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/groupedemasques6"/>
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#00ffffff"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/mask39764a28" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contactez-Nous"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/Black"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:scaleType="fitCenter"
+                    android:onClick="callclick"
+                    android:src="@drawable/phone_icon"/>
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:background="#00000000"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_height="60dp"
+                    android:onClick="whatclick"
+                    android:src="@drawable/whatsapp_icon"/>
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:onClick="smsclick"
+                    android:src="@drawable/sms_icon"/>
+            </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qui Sommes nous?"
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/Black"/>
+            <TextView
+                android:id="@+id/shop_page_description"
+                android:text="Celio est une grane boutique situee a Ouaga qui vend des produits de qualite jgdc hcI I knoz it qint hqrd ohh but you knoz zoo iafjhf fiuhfieruhr ihffir"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:layout_marginHorizontal="30dp"
+                android:textColor="@color/Black"
+                android:layout_height="wrap_content" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/shop_view_pager">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/shopTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?actionBarSize"
+                app:tabGravity="fill"
+                app:tabTextColor="#808080"
+                app:tabIndicatorColor="#FFFFFF"
+                app:tabSelectedTextColor="#FFFFFF"
+                app:tabIndicatorHeight="4dp"
+                app:tabBackground="@color/White"
+                app:tabMode="fixed">
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
+        </ScrollView>

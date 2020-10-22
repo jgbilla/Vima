@@ -5,10 +5,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
@@ -37,7 +42,7 @@ public class login_activity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-  FrameLayout frameLayout;
+    FrameLayout frameLayout;
     FragmentManager fm;
 
 
@@ -45,7 +50,7 @@ public class login_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
-
+        Fetching.getItems();
         viewPager = findViewById(R.id.sign_up_view_pager);
         tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
@@ -53,9 +58,32 @@ public class login_activity extends AppCompatActivity {
         adapter.addFragment(new SeConnecter(), "Se connecter");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        ImageView myLogo = (ImageView) findViewById(R.id.logo);
+        myLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                startActivity(intent);
+            }
+        });
+        Button upload = findViewById(R.id.upload);
+        upload.setOnClickListener(new View.OnClickListener(){
 
-
-
+            @Override
+            public void onClick(View view) {
+                if (Fetching.isDataFetched == "No"){
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable(){
+                        @Override
+                        public void run(){
+                            Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
+                        }
+                    }, 3000);
+                }
+                Intent intent = new Intent(login_activity.this, UploadActivity.class);
+                startActivity(intent);
+            }
+        });
 
         /*
 

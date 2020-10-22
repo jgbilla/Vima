@@ -169,7 +169,7 @@ public class Article {
     public Article() {// We must define an empty constructor
     }
 
-    public Article(String description, String name, String price, String photo, String shop, String small_pic1, String small_pic2, String small_pic3, String small_pic4) {
+    public Article(String description, String name, String price, String photo, String shop, String small_pic1, String small_pic2, String small_pic3) {
         this.description = description;
         this.name = name;
         this.price = price;
@@ -178,7 +178,6 @@ public class Article {
         this.small_pic1 = small_pic1;
         this.small_pic2 = small_pic2;
         this.small_pic3 = small_pic3;
-        this.small_pic4 = small_pic4;
     }
 
     public String getDescription() {
@@ -245,11 +244,5 @@ public class Article {
         this.small_pic3 = small_pic3;
     }
 
-    public String getSmall_pic4() {
-        return small_pic4;
-    }
 
-    public void setSmall_pic4(String small_pic4) {
-        this.small_pic4 = small_pic4;
-    }
 }

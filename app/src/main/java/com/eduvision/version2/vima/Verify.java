@@ -4,11 +4,72 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+
+import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.google.android.material.tabs.TabLayout;
+
 /*
 The class Verify contains a set of "useful" methods that you might need to use. Feel free to change some values here and there.
  */
-public class Verify{
+public class Verify extends AppCompatActivity {
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    FragmentManager mf;
+    TabAdapter adapter;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        int myCase = 0;
+        if (extras != null){
+            myCase = Integer.parseInt(extras.getString("key"));
+        }
+        FragmentManager fm = getSupportFragmentManager();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.orange);
+        viewPager = findViewById(R.id.verify_view_pager);
+        tabLayout = findViewById(R.id.verify_tabLayout);
+        adapter = new TabAdapter(fm);
+        adapter.addFragment(new tab_boutiques(), "Boutiques");
+        adapter.addFragment(new Recents(), "Recents");
+        adapter.addFragment(new Popular(), "Populaires");
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(myCase-1);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                position = 3;
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                position = 0;
+
+            }
+        });
+    }
+
+
+
     /***************************************************************************************************************/
     public boolean isConnected(Context c){
         /*

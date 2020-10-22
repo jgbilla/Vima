@@ -2,23 +2,26 @@ package com.eduvision.version2.vima;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -32,7 +35,7 @@ public class Home extends Fragment {
     TextView sRecents, sPop, sShop;
 
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
-    individual_info_class featured_info, f_recent, s_recent, t_recent, f_pop, s_pop, t_pop;
+    IndividualArticle featured_info, f_recent, s_recent, t_recent, f_pop, s_pop, t_pop;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,15 +87,110 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         return inflater.inflate(R.layout.fragment_home, container, false);
 }
+public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
+        ArrayList<IndividualArticle> myList = myList1;
+        for(int i = 0; i<(myList.size()-1); i++) {
+            for (int a = 0; a < (myList.size()-1); a++) {
+                if (myList.get(a).getPopularity_index() > myList.get(a + 1).getPopularity_index()) {
+                    IndividualArticle temp = myList.get(a + 1);
+                    myList.set(a + 1, myList.get(a));
+                    myList.set(a, temp);
+                }
+            }
+        }
+        return myList;
+    }
+    public static ArrayList<IndividualArticle> mySortedData = new ArrayList<>(80);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        mySortedData = sort(Fetching.myData);
+
+        sRecents = view.findViewById(R.id.see_recents);
+        sPop = view.findViewById(R.id.see_popular);
+        sShop = view.findViewById(R.id.see_shops);
+
+        shop1 = view.findViewById(R.id.fsimage);
+        shop2 = view.findViewById(R.id.ssimage);
+        shop3 = view.findViewById(R.id.tsimage);
+
+        featured = view.findViewById(R.id.featured);
+
+        recents1 = view.findViewById(R.id.frimage); //fr = first recent
+        recents2 = view.findViewById(R.id.srimage);
+        recents3 = view.findViewById(R.id.trimage);
+
+        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
+
+        pop1 = view.findViewById(R.id.fpimage); //fp = first popular
+        pop2 = view.findViewById(R.id.spimage);
+        pop3 = view.findViewById(R.id.tpimage);
+
+        ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+
+        shop1 = view.findViewById(R.id.fsimage); //fs = first shop
+        shop2 = view.findViewById(R.id.ssimage);
+        shop3 = view.findViewById(R.id.tsimage);
+
+        shop1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    startActivity(myIntent);
+            }
+        });
+        shop2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    startActivity(myIntent);
+            }
+        });
+        shop3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    startActivity(myIntent);
+            }
+        });
+        sRecents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "2");
+                    startActivity(myIntent);
+            }
+        });
+        sPop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "3");
+                    startActivity(myIntent);
+            }
+        });
+        sShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "1");
+                    startActivity(myIntent);
+            }
+        });
+
+        /*
         featured = Objects.requireNonNull(getView()).findViewById(R.id.featured);
         recents1 = getView().findViewById(R.id.frimage); //fr = first recent
         recents2 = getView().findViewById(R.id.srimage);
-        recents3 = getView().findViewById(R.id.srimage);
+        recents3 = getView().findViewById(R.id.trimage);
         pop1 = getView().findViewById(R.id.fpimage); //fp = first popular
         pop2 = getView().findViewById(R.id.spimage);
         pop3 = getView().findViewById(R.id.tpimage);
@@ -100,13 +198,9 @@ public class Home extends Fragment {
         shop2 = getView().findViewById(R.id.ssimage);
         shop3 = getView().findViewById(R.id.tsimage);
 
-        sRecents = getView().findViewById(R.id.see_recents);
-        sPop = getView().findViewById(R.id.see_popular);
-        sShop = getView().findViewById(R.id.see_shops);
-
         ArrayList<individual_info_class> articles = new ArrayList<>(4);
         ArrayList<individual_info_class> pop_articles = new ArrayList<>(3);
-        Sorting.getItems(4, articles);
+        articles = Sorting.getItems(4);
         Sorting.get_Popular_Items(3, pop_articles);
 
         //Getting recents and populaire articles
@@ -121,7 +215,8 @@ public class Home extends Fragment {
         t_pop = pop_articles.get(2);
 
         //Displaying images
-
+        */
+        /*
         Glide.with(mContext)
                 .load(featured_info.getP_photo())
                 .into(featured);
@@ -164,5 +259,7 @@ public class Home extends Fragment {
 
             }
         });
+
+         */
     }
 }

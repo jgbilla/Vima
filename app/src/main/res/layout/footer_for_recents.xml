@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="top"
-    android:layout_marginTop="10dp"
-    android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
-
-
-    <ListView
-        android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:divider="@null" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:id = "@+id/l"
-        android:layout_alignBottom="@id/gridview"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Suivant"
-            android:id = "@+id/suivant"
+            android:id = "@+id/previous"
             android:textStyle="bold"
             android:layout_marginRight="3dp"
             android:layout_alignParentRight="true"
@@ -37,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retour"
-            android:id = "@+id/previous"
+            android:id = "@+id/suivant"
             android:textStyle="bold"
             android:layout_marginLeft="3dp"
             android:layout_alignParentLeft="true"
@@ -46,11 +30,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
-            android:layout_marginRight="3dp"
             android:id = "@+id/counter"
+            android:layout_marginRight="3dp"
             android:textStyle="bold"
             android:layout_centerInParent="true"
             android:textSize="15sp"/>
     </RelativeLayout>
-
-</RelativeLayout>

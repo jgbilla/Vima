@@ -1,148 +1,159 @@
 package com.eduvision.version2.vima;
 
 import android.content.Context;
-import android.media.MediaPlayer;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 /*
 I used this class as a BaseAdapter for both the Recent and the Popular Activities
  */
 
 public class ArticleAdapter extends BaseAdapter {
-    protected int index;
-    ArrayList<individual_info_class> myList = Recents.getMyList();
-    String nameA, priceA, typeA, photoA, shopA;
-    Context mContext; boolean isLiked = false;
-    private DatabaseReference mDatabase;
-    protected ArrayList<individual_info_class> article_list;
-    private FirebaseStorage myFireBaseStorage;
-    MediaPlayer mediaPlayer;
-    individual_info_class finalTemp;
+    private Context mContext;
+    LayoutInflater myInflater;
+    int dif;
+    FirebaseStorage storage;
+    String myLayout;
+    public static IndividualArticle myArticle;
+    ArrayList<IndividualArticle> MyList;
 
-    public ArticleAdapter(Context context, ArrayList<individual_info_class> theList, int index) {
-        this.mContext = context;
-        this.index = index;
-        this.article_list = theList;
+    public ArticleAdapter(Context c, int n, String forLayout) {
+        mContext = c;
+        dif = n;
+        this.myInflater = LayoutInflater.from(c);
+        myLayout = forLayout;
+        /*ArrayList<individual_info_class> givenList,
+        MyList = givenList;*/
     }
 
-    @Override
     public int getCount() {
-        return 30;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        final individual_info_class temp = myList.get(position);
-        return temp.getRank();
-    }
-
-    //******************************************************************************************************************
-    //Creating the View that will be passed on
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        //Getting the info for current article
-        individual_info_class temp = new individual_info_class();
-
-        if (convertView == null) {
-            final LayoutInflater layoutInflater= LayoutInflater.from(mContext);
-            switch(index){
-                /*This index will decide whether we are in the Recent or Popular cases
-                You can add more cases for this index to suit your interests ;)
-                Anyways the layout should contain:
-                A like button and TextViews for the name, photo, price and shop
-                You will provide suitable infos as an ArrayList<individual_info_class> in the constructor*/
-                case 1:
-                    convertView = layoutInflater.inflate(R.layout.pop_article_model, null);
-                    temp = article_list.get(position);
-                case 2:
-                    convertView = layoutInflater.inflate(R.layout.model2, null);
-                    temp = article_list.get(position);
-                default:
-                    convertView = null;
-            }
+       /* int count;
+        if(myLayout == "Popular"){
+            count = Fetching.PopularPageNumber;
         }
-        priceA = temp.getPrice();
-        photoA = temp.getP_photo();
-        shopA = temp.getShop_name();
-        nameA = temp.getName();
-        myFireBaseStorage = FirebaseStorage.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        else if(myLayout == "Recents"){
+            count = Fetching.RecentsPageNumber;
+        }
+        else{
+            count = 16;
+        }
 
-        assert convertView != null;
-        final ImageButton like_button = convertView.findViewById(R.id.like_button);
-        final TextView name = convertView.findViewById(R.id.nameA);
-//        final ImageView photo = convertView.findViewById(R.id.photo);
-        final TextView price = convertView.findViewById(R.id.price);
-        final TextView shop = convertView.findViewById(R.id.shop);
+        */
+        return 16;
+    }
 
-        StorageReference storageReference = myFireBaseStorage.getReferenceFromUrl(photoA);
-        /*Glide.with(mContext)
+    public Object getItem(int position) {
+        return position;
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public static void glideIt(ImageView image, String myArticle, Context mContext){
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(myArticle);
+        Glide.with(mContext)
                 .load(storageReference)
-                //.into(photo);
-        name.setText(nameA);
-        price.setText(priceA);
-        shop.setText(shopA);*/
+                .into(image);
+    }
 
-        //Handling the like option
-        //Well, we set an image if the like button is pushed and another one otherwise
-        //TODO: Add a node in Article where we can find the users who liked and check whether it was already liked or no
-        like_button.setImageResource(R.drawable.like_a);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        position++;
+        if (convertView == null) {
+            ImageView myImage;
+            TextView myShop, myPrice, myDescription;
 
-        //mediaPlayer is used to create a ding sound when like button is pressed
-      mediaPlayer = MediaPlayer.create(like_button.getContext(),R.raw.ding_sound);
-       finalTemp = temp;
-        like_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDatabase.child("articles").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        isLiked = !isLiked;
-                        final int[] counter = new int[1];
-                        String id = Integer.toString(finalTemp.getRank());
-                        counter[0] = (int) dataSnapshot.child(id).child("infos").child("likes").getValue();
-                        if(isLiked){
-                            like_button.setImageResource(R.drawable.like_b);
-                            mediaPlayer.start();
-                            mDatabase.child("articles").child("info").child("likes").setValue(counter[0]++);
-                        }
-                        else{
-                            like_button.setImageResource(R.drawable.like_a);
-                            mediaPlayer.start();
-                            mDatabase.child("articles").child("info").child("likes").setValue(counter[0]--);
-                        }
+            switch (myLayout){
+                case "Popular":
+                    convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
+                    if(Fetching.isDataFetched=="Yes"){
+                        myArticle = Home.mySortedData.get(Fetching.PopularPageNumber*position);
+                        Fetching.changeText(convertView, myArticle, mContext);
+                        int finalPosition = position;
+                        convertView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent myIntent = new Intent(mContext, articlePage.class);
+                                myIntent.putExtra("LockerKey", finalPosition);
+                                mContext.startActivity(myIntent);
+                            }
+                        });
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    break;
+                case "Recents":
+                    convertView = myInflater.inflate(R.layout.pop_article_model, parent, false);
+                    if(Fetching.isDataFetched=="Yes"){
+                        myArticle = Fetching.myData.get(Fetching.RecentsPageNumber*position);
+                        Fetching.changeText(convertView, myArticle, mContext);
+                        int finalPosition = position;
+                        convertView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent myIntent = new Intent(mContext, articlePage.class);
+                                myIntent.putExtra("LockerKey", finalPosition);
+                                mContext.startActivity(myIntent);
+                            }
+                        });
                     }
-                });
+                    break;
+                case "Boutiques":
+                    convertView = myInflater.inflate(R.layout.boutique_item, parent, false);
+                    /*
+                    myImage = convertView.findViewById(R.id.article_picture);
+                    glideIt(myImage, myArticle);
+                     */
+                    break;
+                case "ShopArticles":
+                    convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
+                    /*
+                    myImage = convertView.findViewById(R.id.article_shop_picture);
+                    ImageView myImage1 = convertView.findViewById(R.id.second_article_shop_picture);
+                    ImageView myImage2 = convertView.findViewById(R.id.shop_picture);
+                    glideIt(myImage, Fetching.getItems(position*3, "Articles"));
+                    glideIt(myImage1, Fetching.getItems(position*3-1, "Articles"));
+                    glideIt(myImage2, Fetching.getItems(position*3-2, "Articles"));
+                     */
+                    break;
+                default:
+                    convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
+                    break;
             }
-        });
+
+            /*
+            ImageView myView = (ImageView) convertView.findViewById(R.id.shop_picture);
+            TextView type = (TextView) convertView.findViewById(R.id.article_description);
+            TextView price = (TextView) convertView.findViewById(R.id.article_price);
+            TextView name = (TextView) convertView.findViewById(R.id.article_name);
+
+            Glide.with(mContext)
+                    .load(MyList.get(position).getP_photo())
+                    .into(myView);
+            type.setText(MyList.get(position).getShop_name());
+            name.setText(MyList.get(position).getName());
+            price.setText(MyList.get(position).getPrice());
+             */
+
+        }
 
         return convertView;
     }
+
 }
