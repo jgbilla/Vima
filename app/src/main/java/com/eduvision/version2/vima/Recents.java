@@ -3,17 +3,20 @@ package com.eduvision.version2.vima;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,6 +35,10 @@ public class Recents extends Fragment {
     MaterialSearchView materialSearchView;
     Button previous, suivant;
     TextView counter;
+
+    public static ArrayList<IndividualArticle> myLikedItems = new ArrayList<>(1);
+
+    public static ArrayList<Integer> likedItemsPosition = new ArrayList<>(1);
 
     public static Recents newInstance(int page, String title) {
         Recents recents = new Recents();
@@ -72,6 +79,7 @@ public class Recents extends Fragment {
                     Fetching.RecentsPageNumber--;
                     counter.setText(Integer.toString(Fetching.RecentsPageNumber));
                     articleAdapter.notifyDataSetChanged();
+                    articlegv.smoothScrollToPosition(0);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
@@ -81,9 +89,15 @@ public class Recents extends Fragment {
         suivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fetching.RecentsPageNumber = Fetching.RecentsPageNumber + 1;
-                counter.setText(Integer.toString(Fetching.RecentsPageNumber));
-                articleAdapter.notifyDataSetChanged();
+                if(Fetching.RecentsPageNumber <= 5) {
+                    Fetching.RecentsPageNumber ++;
+                    counter.setText(Integer.toString(Fetching.RecentsPageNumber));
+                    articleAdapter.notifyDataSetChanged();
+                    articlegv.smoothScrollToPosition(0);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                }
             }
         });
         /*
@@ -94,6 +108,40 @@ public class Recents extends Fragment {
             startActivity(myIntent);
         });
         */
+
+        SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
+        myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Fetching.isDataFetched = "No";
+                new DownloadFilesTask().execute();
+
+                if (!Fetching.isInternetAvailable(getApplicationContext())) {
+                    //...
+                    myRefreshLayout.setRefreshing(false);
+
+                } else {
+                    if (Fetching.isDataFetched.equals("No")) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Fetching.isDataFetched.equals("No")) {
+                                    //...
+                                    myRefreshLayout.setRefreshing(false);
+                                } else {
+                                    myRefreshLayout.setRefreshing(false);
+                                    articleAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }, 1000);
+                    } else {
+                        myRefreshLayout.setRefreshing(false);
+                        articleAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -132,9 +180,4 @@ public class Recents extends Fragment {
         */
     }
 
-    }
-
-
-
-
-
+}

@@ -4,6 +4,8 @@ package com.eduvision.version2.vima;
 public class IndividualArticle{
     //Custom class used to get the specific info needed for displaying Recents and Popular classes
     private String name, p_photo, shop_name;
+    int positionInDataBase = 0;
+    int positionInArray = 0;
     private Long rank, seller_id, popularity_index, price;
 
     public IndividualArticle() {
@@ -55,10 +57,6 @@ public class IndividualArticle{
 
     public Long getPopularity_index() {
         return popularity_index;
-    }
-
-    public int getIndex() {
-        return Integer.parseInt(popularity_index.toString());
     }
 
     public void setPopularity_index(Long popularity_index) {

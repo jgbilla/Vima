@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -32,7 +35,7 @@ public class Popular extends Fragment {
         return populars;
     }
 
-//TODO: Add footer to list
+    //TODO: Add footer to list
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,12 +62,12 @@ public class Popular extends Fragment {
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Fetching.PopularPageNumber != 1){
+                if (Fetching.PopularPageNumber != 1) {
                     Fetching.PopularPageNumber--;
                     counter.setText(Integer.toString(Fetching.PopularPageNumber));
                     articleAdapter.notifyDataSetChanged();
-                }
-                else{
+                    grid.smoothScrollToPosition(0);
+                } else {
                     Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
                 }
             }
@@ -72,9 +75,15 @@ public class Popular extends Fragment {
         suivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fetching.PopularPageNumber = Fetching.PopularPageNumber + 1;
-                counter.setText(Integer.toString(Fetching.PopularPageNumber));
-                articleAdapter.notifyDataSetChanged();
+                if(Fetching.PopularPageNumber <= 5) {
+                    Fetching.PopularPageNumber = Fetching.PopularPageNumber + 1;
+                    counter.setText(Integer.toString(Fetching.PopularPageNumber));
+                    articleAdapter.notifyDataSetChanged();
+                    grid.smoothScrollToPosition(0);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                }
             }
         });
         /*
@@ -96,9 +105,44 @@ public class Popular extends Fragment {
             }
         });
         */
+        SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
+        myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Fetching.isDataFetched = "No";
+                new DownloadFilesTask().execute();
+
+                if (!Fetching.isInternetAvailable(getApplicationContext())) {
+                    //...
+                    myRefreshLayout.setRefreshing(false);
+
+                } else {
+                    if (Fetching.isDataFetched.equals("No")) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Fetching.isDataFetched.equals("No")) {
+                                    //...
+                                    myRefreshLayout.setRefreshing(false);
+                                } else {
+                                    myRefreshLayout.setRefreshing(false);
+                                    articleAdapter.notifyDataSetChanged();
+
+                                }
+                            }
+                        }, 1000);
+                    } else {
+                        myRefreshLayout.setRefreshing(false);
+                        articleAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
         return view;
 
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,19 +9,22 @@
     android:layout_gravity="center_horizontal"
     android:orientation="vertical">
 
-
-    <ListView
-        android:id="@+id/gridview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:divider="@null" />
-
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:divider="@null" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:id = "@+id/l"
-        android:layout_alignBottom="@id/gridview"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content">
 
         <Button

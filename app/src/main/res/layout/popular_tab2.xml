@@ -5,17 +5,22 @@
     android:layout_height="match_parent"
     android:gravity="top"
     android:orientation="vertical">
-        <GridView
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
             android:layout_width="match_parent"
-            android:id="@+id/grid"
-            android:numColumns="2"
-            android:stretchMode="columnWidth"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+                <GridView
+                    android:layout_width="match_parent"
+                    android:id="@+id/grid"
+                    android:numColumns="2"
+                    android:stretchMode="columnWidth"
+                    android:layout_height="wrap_content" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
             android:id = "@+id/l"
-            android:layout_alignBottom="@id/grid"
+            android:layout_alignParentBottom="true"
             android:layout_height="wrap_content">
 
                 <Button

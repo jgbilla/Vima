@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.eduvision.version2.vima.ArticleAdapter;
 import com.eduvision.version2.vima.R;
@@ -72,12 +73,14 @@ public class tab_boutiques extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        int gridColumnCount =
+        //int gridColumnCount =
                 getResources().getInteger(R.integer.grid_column_count);
 
-        RecyclerView recyclerView = getView().findViewById(R.id.list);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridColumnCount));
-        recyclerView.setAdapter(new Adapter(shops, getContext()));
+        ListView recyclerView = getView().findViewById(R.id.list);
+        //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridColumnCount));
+        //recyclerView.setAdapter(new Adapter(shops, getContext()));
+
+        recyclerView.setAdapter(new ArticleAdapter(getContext(), 1,  "Boutiques"));
 
 
 

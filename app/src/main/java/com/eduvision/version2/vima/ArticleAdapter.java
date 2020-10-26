@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -22,6 +25,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.eduvision.version2.vima.Recents.likedItemsPosition;
+import static com.eduvision.version2.vima.Recents.myLikedItems;
 /*
 I used this class as a BaseAdapter for both the Recent and the Popular Activities
  */
@@ -33,6 +38,7 @@ public class ArticleAdapter extends BaseAdapter {
     FirebaseStorage storage;
     String myLayout;
     public static IndividualArticle myArticle;
+    public static IndividualArticle myArticle_one;
     ArrayList<IndividualArticle> MyList;
 
     public ArticleAdapter(Context c, int n, String forLayout) {
@@ -76,16 +82,24 @@ public class ArticleAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        position++;
         if (convertView == null) {
-            ImageView myImage;
-            TextView myShop, myPrice, myDescription;
 
             switch (myLayout){
-                case "Popular":
-                    convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
-                    if(Fetching.isDataFetched=="Yes"){
-                        myArticle = Home.mySortedData.get(Fetching.PopularPageNumber*position);
+                case "Recents":
+                    if(Fetching.isDataFetched.equals("Yes")) {
+                        myArticle = Fetching.myData.get(Fetching.RecentsPageNumber*position*2);
+                        myArticle_one = Fetching.myData.get(Fetching.RecentsPageNumber*position*2+1);
+                        convertView = myInflater.inflate(R.layout._pop_article_model, parent, false);
+                        ImageButton myBtn = convertView.findViewById(R.id.like_button);
+
+                        TextView myShop = convertView.findViewById(R.id.shop_two);
+                        TextView myDescription = convertView.findViewById(R.id.article_name_two);
+                        TextView myPrice = convertView.findViewById(R.id.article_price_two);
+                        myShop.setText(myArticle.getShop_name());
+                        myDescription.setText(myArticle.getName());
+                        myPrice.setText(myArticle.getPrice().toString());
+                        ArticleAdapter.glideIt(convertView.findViewById(R.id.article_picture_two), myArticle.getP_photo(), mContext);
+
                         Fetching.changeText(convertView, myArticle, mContext);
                         int finalPosition = position;
                         convertView.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +110,22 @@ public class ArticleAdapter extends BaseAdapter {
                                 mContext.startActivity(myIntent);
                             }
                         });
+                        myBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //Toggle from icon_a to icon_b or vice-versa
+                                //Add item to likedItems
+                                //I tried with Fetching.handleLike but it had some weird behavior
+                                //Fetching.handleLike written as a comment
+                            }
+                        });
                     }
                     break;
-                case "Recents":
-                    convertView = myInflater.inflate(R.layout.pop_article_model, parent, false);
-                    if(Fetching.isDataFetched=="Yes"){
-                        myArticle = Fetching.myData.get(Fetching.RecentsPageNumber*position);
+                case "Popular":
+                    convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
+                    if(Fetching.isDataFetched.equals("Yes")){
+                        myArticle = Home.mySortedData.get(Fetching.PopularPageNumber*position);
+
                         Fetching.changeText(convertView, myArticle, mContext);
                         int finalPosition = position;
                         convertView.setOnClickListener(new View.OnClickListener() {
@@ -115,11 +139,16 @@ public class ArticleAdapter extends BaseAdapter {
                     }
                     break;
                 case "Boutiques":
-                    convertView = myInflater.inflate(R.layout.boutique_item, parent, false);
-                    /*
-                    myImage = convertView.findViewById(R.id.article_picture);
-                    glideIt(myImage, myArticle);
-                     */
+                    convertView = myInflater.inflate(R.layout.shop_article_model, parent, false);
+                    //Fetch real shopData and remove this
+                    Fetching.shopData = Fetching.myData;
+                    ImageView myImage = convertView.findViewById(R.id.article_picture);
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(Fetching.shopData.get(position).getP_photo());
+                    Glide.with(mContext)
+                            .load(storageReference)
+                            .into(myImage);
+                    //glideIt(myImage, myArticle);
+
                     break;
                 case "ShopArticles":
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);

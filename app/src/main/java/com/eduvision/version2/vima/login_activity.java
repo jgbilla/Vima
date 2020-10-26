@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
@@ -50,7 +51,7 @@ public class login_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
-        Fetching.getItems();
+        new DownloadFilesTask().execute();
         viewPager = findViewById(R.id.sign_up_view_pager);
         tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
@@ -59,11 +60,35 @@ public class login_activity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         ImageView myLogo = (ImageView) findViewById(R.id.logo);
+        final int[] i = {0};
         myLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainPage.class);
-                startActivity(intent);
+                if (!Fetching.isInternetAvailable(getApplicationContext())){
+                    Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
+                }
+                else {
+                    if(Fetching.isDataFetched.equals("No")){
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable(){
+                            @Override
+                            public void run(){
+                                Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
+                                if(Fetching.isDataFetched.equals("No")){
+                                    Log.println(Log.INFO, "Handler Tag", "Data is still not fetched. Logging out.");
+                                }
+                                else{
+                                    Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        }, 1000);
+                    }
+                    else{
+                        Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                        startActivity(intent);
+                    }
+                }
             }
         });
         Button upload = findViewById(R.id.upload);
@@ -71,15 +96,7 @@ public class login_activity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if (Fetching.isDataFetched == "No"){
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable(){
-                        @Override
-                        public void run(){
-                            Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
-                        }
-                    }, 3000);
-                }
+
                 Intent intent = new Intent(login_activity.this, UploadActivity.class);
                 startActivity(intent);
             }
@@ -91,6 +108,7 @@ public class login_activity extends AppCompatActivity {
        mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("prefID", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
 
 
         FacebookSdk.sdkInitialize(getApplicationContext());
