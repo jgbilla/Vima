@@ -1,11 +1,10 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.articlePage;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -68,8 +70,7 @@ public class Popular extends Fragment {
                     articleAdapter.notifyDataSetChanged();
                     grid.smoothScrollToPosition(0);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
-                }
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);                }
             }
         });
         suivant.setOnClickListener(new View.OnClickListener() {
@@ -82,29 +83,10 @@ public class Popular extends Fragment {
                     grid.smoothScrollToPosition(0);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
-                }
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);                }
             }
         });
-        /*
-        super.onCreate(savedInstanceState);
-        GridView articlegv = view.findViewById(R.id.gridview_popular);
-        Recents.getItems(100);
-        ArrayList<individual_info_class> pop_list = Recents.getMyList();
 
-        //We are ranking the articles by order of popularity
-        pop_list.sort(Comparator.comparingInt(individual_info_class::getPopularity_index).reversed());
-
-        articlegv.setAdapter(new ArticleAdapter(getActivity(), pop_list, 2));
-        articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                //Get to chosen Article page
-                Intent myIntent = new Intent(getActivity(), articlePage.class);
-                myIntent.putExtra("id", (Parcelable) pop_list.get(position));
-                startActivity(myIntent);
-            }
-        });
-        */
         SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -115,6 +97,7 @@ public class Popular extends Fragment {
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
                     //...
                     myRefreshLayout.setRefreshing(false);
+                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
 
                 } else {
                     if (Fetching.isDataFetched.equals("No")) {
@@ -125,10 +108,10 @@ public class Popular extends Fragment {
                                 if (Fetching.isDataFetched.equals("No")) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
+                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
                                 } else {
                                     myRefreshLayout.setRefreshing(false);
                                     articleAdapter.notifyDataSetChanged();
-
                                 }
                             }
                         }, 1000);

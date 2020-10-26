@@ -1,9 +1,7 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +10,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.eduvision.version2.vima.Home;
+import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.articlePage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
-import static com.eduvision.version2.vima.Recents.likedItemsPosition;
-import static com.eduvision.version2.vima.Recents.myLikedItems;
 /*
 I used this class as a BaseAdapter for both the Recent and the Popular Activities
  */
@@ -140,18 +131,21 @@ public class ArticleAdapter extends BaseAdapter {
                     break;
                 case "Boutiques":
                     convertView = myInflater.inflate(R.layout.shop_article_model, parent, false);
-                    //Fetch real shopData and remove this
-                    Fetching.shopData = Fetching.myData;
+                    IndividualShop myShop = FetchShops.shopData.get(position);
+                    TextView shopName = convertView.findViewById(R.id.name);
+                    shopName.setText(myShop.getName());
+                    TextView location = convertView.findViewById(R.id.location);
+                    location.setText(myShop.getLocation());
                     ImageView myImage = convertView.findViewById(R.id.article_picture);
                     StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(Fetching.shopData.get(position).getP_photo());
                     Glide.with(mContext)
                             .load(storageReference)
                             .into(myImage);
-                    //glideIt(myImage, myArticle);
 
                     break;
                 case "ShopArticles":
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
+
                     /*
                     myImage = convertView.findViewById(R.id.article_shop_picture);
                     ImageView myImage1 = convertView.findViewById(R.id.second_article_shop_picture);

@@ -1,11 +1,9 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Tabs;
 
 
 public class IndividualArticle{
-    //Custom class used to get the specific info needed for displaying Recents and Popular classes
     private String name, p_photo, shop_name;
     int positionInDataBase = 0;
-    int positionInArray = 0;
     private Long rank, seller_id, popularity_index, price;
 
     public IndividualArticle() {

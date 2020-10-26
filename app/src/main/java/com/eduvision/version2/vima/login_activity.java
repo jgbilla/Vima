@@ -14,10 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
+import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import com.eduvision.version2.vima.Tabs.Fetching;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;

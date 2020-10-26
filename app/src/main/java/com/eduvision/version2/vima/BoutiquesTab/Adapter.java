@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eduvision.version2.vima.Fetching;
-import com.eduvision.version2.vima.IndividualArticle;
 import com.eduvision.version2.vima.R;
 
 //An adapter to display the shops correctly

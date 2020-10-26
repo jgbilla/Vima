@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,15 +6,16 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.TabAdapter;
+import com.eduvision.version2.vima.Tabs.Popular;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.tabs.TabLayout;
 
 /*

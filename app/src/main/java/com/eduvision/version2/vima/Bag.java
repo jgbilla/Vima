@@ -22,6 +22,8 @@ import android.widget.ImageView;
 
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.eduvision.version2.vima.Tabs.Popular;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

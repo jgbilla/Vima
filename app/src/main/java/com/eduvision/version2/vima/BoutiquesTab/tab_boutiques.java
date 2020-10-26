@@ -3,16 +3,13 @@ package com.eduvision.version2.vima.BoutiquesTab;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.eduvision.version2.vima.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.R;
 
 /**
@@ -74,26 +71,13 @@ public class tab_boutiques extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //int gridColumnCount =
-                getResources().getInteger(R.integer.grid_column_count);
+        getResources().getInteger(R.integer.grid_column_count);
 
         ListView recyclerView = getView().findViewById(R.id.list);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridColumnCount));
-        //recyclerView.setAdapter(new Adapter(shops, getContext()));
 
-        recyclerView.setAdapter(new ArticleAdapter(getContext(), 1,  "Boutiques"));
-
-
+        recyclerView.setAdapter(new ArticleAdapter(getContext(), 1, "Boutiques"));
 
 
     }
 
-    private ShopConstructor[] shops = {
-            new ShopConstructor("Celio", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000"),
-            new ShopConstructor("Aldo", R.drawable.categorie_enfant,"Ouaga2000")
-
-    };
-    }
+}

@@ -1,6 +1,5 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Tabs;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,8 +15,8 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.articlePage;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -31,7 +28,6 @@ public class Recents extends Fragment {
     private int page;
     private static boolean transfer = false;
     ListView articlegv;
-    FirebaseDatabase rootref;
     MaterialSearchView materialSearchView;
     Button previous, suivant;
     TextView counter;
@@ -56,11 +52,9 @@ public class Recents extends Fragment {
         View view = inflater.inflate(R.layout.recents_tab1, container, false);
         super.onCreate(savedInstanceState);
         articlegv = view.findViewById(R.id.gridview);
-        // myList = Sorting.getItems(15);
         ArticleAdapter articleAdapter = new ArticleAdapter(getContext(), 1, "Recents");
         articlegv.setAdapter(new ArticleAdapter(getContext(), 1, "Recents"));
-        // View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents, null, false);
-        // articlegv.addFooterView(footerView);
+
         articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -82,7 +76,7 @@ public class Recents extends Fragment {
                     articlegv.smoothScrollToPosition(0);
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -96,18 +90,10 @@ public class Recents extends Fragment {
                     articlegv.smoothScrollToPosition(0);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
                 }
             }
         });
-        /*
-        articlegv.setOnItemClickListener((parent, v, position, id) -> {
-            //Get to specific chosen Article page, It is not complete yet tho
-            Intent myIntent = new Intent(getActivity(), articlePage.class);
-            // myIntent.putExtra("id", (Parcelable) myList.get(position));
-            startActivity(myIntent);
-        });
-        */
 
         SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -119,6 +105,7 @@ public class Recents extends Fragment {
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
                     //...
                     myRefreshLayout.setRefreshing(false);
+                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
 
                 } else {
                     if (Fetching.isDataFetched.equals("No")) {
@@ -129,6 +116,7 @@ public class Recents extends Fragment {
                                 if (Fetching.isDataFetched.equals("No")) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
+                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
                                 } else {
                                     myRefreshLayout.setRefreshing(false);
                                     articleAdapter.notifyDataSetChanged();
