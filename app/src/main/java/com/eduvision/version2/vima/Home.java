@@ -23,8 +23,6 @@ import com.eduvision.version2.vima.Tabs.Verify;
 
 import java.util.ArrayList;
 
-
-
 public class Home extends Fragment {
     Context mContext;
     private static final int REQUEST_LOCATION = 1;
