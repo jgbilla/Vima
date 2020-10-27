@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Fragment Bag. Here lists of shops, most recent and popular articles are displayed in Tabs-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Bag">
 
     <RelativeLayout
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:padding="5dp">
 
         <TextView
-            android:layout_centerHorizontal="true"
-            android:text="@string/top_name"
             android:layout_width="wrap_content"
-            android:textSize="26sp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_height="wrap_content" />
+            android:text="@string/top_name"
+            android:textSize="26sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/bag"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="#FFFFFF"/>
-
+            android:src="@drawable/ic_baseline_person_24"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp" />
 
 
     </RelativeLayout>
 
 
-   <include
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       layout="@layout/search_engine_layout">
+    <include
+        layout="@layout/search_engine_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-   </include>
+    </include>
 
-    <com.eduvision.version2.vima.NonSwipeableViewPager
+    <com.eduvision.version2.vima.DesignElements.NonSwipeableViewPager
+        android:id="@+id/bag_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/bag_view_pager"
         android:layout_marginTop="30dp">
 
         <com.google.android.material.tabs.TabLayout
@@ -54,14 +56,13 @@
             android:layout_height="wrap_content"
             android:minHeight="@android:dimen/notification_large_icon_height"
             app:tabGravity="fill"
-            app:tabTextColor="@color/Grey"
-            app:tabTextAppearance="@style/MyCustomTabText"
             app:tabIndicatorColor="#FFFFFF"
-            app:tabSelectedTextColor="@color/Black"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable">
-        </com.google.android.material.tabs.TabLayout>
-    </com.eduvision.version2.vima.NonSwipeableViewPager>
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/Black"
+            app:tabTextAppearance="@style/MyCustomTabText"
+            app:tabTextColor="@color/Grey"></com.google.android.material.tabs.TabLayout>
+    </com.eduvision.version2.vima.DesignElements.NonSwipeableViewPager>
 
 
 </LinearLayout>

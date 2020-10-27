@@ -3,7 +3,6 @@ package com.eduvision.version2.vima.SearchEngine;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +25,6 @@ public class Search_engine extends AppCompatActivity {
 
 
     DatabaseReference databaseReference;
-    ArrayList<String> nameList;
-    ArrayList<StorageReference> photoList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +61,6 @@ public class Search_engine extends AppCompatActivity {
                         StorageReference reference = FirebaseStorage.getInstance().getReference().child(finalphoto[finalphoto.length-2]).child(test);
 
                         //ToDo: All images should have the same name as the item so that we can retrieve them easily. Add this feature here.
-
 
                         photoList.add(reference);
                         Log.d(TAG, "Value is: " + photoList);

@@ -49,7 +49,7 @@ public class Popular extends Fragment {
         grid = view.findViewById(R.id.grid);
         ArticleAdapter articleAdapter = new ArticleAdapter(getContext(), 1, "Popular");
         grid.setAdapter(articleAdapter);
-        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents, null, false);
+        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents_tab, null, false);
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

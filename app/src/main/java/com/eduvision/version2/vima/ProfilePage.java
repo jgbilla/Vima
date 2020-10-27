@@ -20,7 +20,6 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.eduvision.version2.vima.Login.login_activity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
@@ -59,36 +59,28 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.ContentValues.TAG;
 
 public class ProfilePage extends AppCompatActivity {
-    public static ArrayList<String[]> myArray;
-    FirebaseStorage myFireBaseStorage = FirebaseStorage.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private static final int IMAGE_REQUEST = 1;
+    private static final int REQUEST_LOCATION = 1;
     StorageReference storageReference;
     FirebaseUser user;
-    private static final int IMAGE_REQUEST = 1;
-    private Uri ImageUri;
-    int id;
-    private StorageTask uploadTask;
     FirebaseAuth mAuth;
-
-    GridView gridView;
     TextView name, telephone, email, adresse;
     ImageView profile;
     String username, Phone, Email;
     ImageButton settings, back;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String finalImage;
-
     LocationManager locationManager;
-    private static final int REQUEST_LOCATION = 1;
     String latitude, longitude;
     FusedLocationProviderClient fusedLocationClient;
-
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private Uri ImageUri;
+    private StorageTask uploadTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile_layout);
+        setContentView(R.layout.profile_page_layout);
 
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -97,34 +89,26 @@ public class ProfilePage extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
-
+        //Location
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         mAuth = FirebaseAuth.getInstance();
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        //SharedPreferences
         sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
-
         editor = sharedPreferences.edit();
 
+        //Firebase
         user = mAuth.getCurrentUser();
-
         storageReference = FirebaseStorage.getInstance().getReference("ProfilePictures").child(user.getUid());
 
         settings = findViewById(R.id.settings);
 
         AlertDialog.Builder modifysettings = new AlertDialog.Builder(this);
         modifysettings.setTitle("Modifications");
-
-        final View customLayout = getLayoutInflater().inflate(R.layout.custom_dialog_profile_modification, null);
+        final View customLayout = getLayoutInflater().inflate(R.layout.model_custom_dialog_profile_modification, null);
         modifysettings.setView(customLayout);
-
         AlertDialog dialog = modifysettings.create();
-
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +122,7 @@ public class ProfilePage extends AppCompatActivity {
         AlertDialog.Builder newUsername = new AlertDialog.Builder(this);
         newUsername.setTitle("Insert");
 
-        final View customUsername = getLayoutInflater().inflate(R.layout.custom_dialog_modify_username, null);
+        final View customUsername = getLayoutInflater().inflate(R.layout.model_custom_dialog_modify_username, null);
         newUsername.setView(customUsername);
         AlertDialog userdialog = newUsername.create();
         ChangeUsername.setOnClickListener(new View.OnClickListener() {
@@ -279,14 +263,12 @@ public class ProfilePage extends AppCompatActivity {
                     OnGPS();
                 } else {
                     getLocation();
-
                 }
 
             }
         });
 
         //Sign out
-
         Button signOut = customLayout.findViewById(R.id.sign_out);
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +279,7 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
+        //Modify picture
         Button ChangePicture = customLayout.findViewById(R.id.change_picture);
         ChangePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,6 +441,9 @@ public class ProfilePage extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         }
         else{
+            final ProgressDialog progressDialog = new ProgressDialog(ProfilePage.this);
+            progressDialog.setMessage("Sauvegarde en cours");
+            progressDialog.show();
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
@@ -483,12 +469,7 @@ public class ProfilePage extends AppCompatActivity {
                                 }
 
                                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                                String city = addresses.get(0).getLocality();
-                                String state = addresses.get(0).getAdminArea();
-                                String country = addresses.get(0).getCountryName();
-                                String postalCode = addresses.get(0).getPostalCode();
-                                String knownName = addresses.get(0).getFeatureName();
-
+                                progressDialog.dismiss();
                                 Log.d(TAG, "We made it:" + address);
                             }
                         }
@@ -587,6 +568,7 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Sauvegarde en cours", Toast.LENGTH_SHORT).show();
         }else {
             uploadImage();
+
         }
     }
 

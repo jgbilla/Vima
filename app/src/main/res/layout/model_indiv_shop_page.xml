@@ -32,7 +32,6 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/profile_image"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -73,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:text="Contactez-Nous"
                 android:textSize="20dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/Black"/>
             <LinearLayout
@@ -108,7 +107,7 @@
             android:layout_height="wrap_content"
             android:text="Qui Sommes nous?"
             android:textSize="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/Black"/>
             <TextView

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Fragment SignIn-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:backgroundTint="#FFFFFF"
-            android:drawableTint="#FFFFFF"
+            android:backgroundTint="@color/White"
+            android:drawableTint="@color/White"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:textColor="#FFFFFF"
@@ -41,7 +43,8 @@
             android:hint="Mot de passe"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null">
+            android:textCursorDrawable="@null"
+            android:inputType="textPassword">
 
         </EditText>
 

@@ -1,63 +1,34 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.Login;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.eduvision.version2.vima.Login.SeConnecter;
-import com.eduvision.version2.vima.Login.Sinscrire;
-import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.eduvision.version2.vima.MainPage;
+import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.TabAdapter;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
-import com.facebook.CallbackManager;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.SignInButton;
+import com.eduvision.version2.vima.UploadActivity;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class login_activity extends AppCompatActivity {
 
-    SignInButton signup;
-    FirebaseAuth mAuth;
-    private final static int RC_SIGN_IN = 2;
-    GoogleSignInClient mGoogleSignInClient;
-    private final String PREFERENCE_FILE_KEY = "myAppPreference";
-    private static final String KEY_USERNAME = "prefUserNameKey";
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
-    Context context = this;
-    View fragment;
     private TabAdapter adapter;
-
-    CallbackManager mCallbackManager;
-
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    FrameLayout frameLayout;
-    FragmentManager fm;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_activity);
-        new DownloadFilesTask().execute();
-        Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
+        setContentView(R.layout.login_activity);
 
         viewPager = findViewById(R.id.sign_up_view_pager);
         tabLayout = findViewById(R.id.tabLayout);
@@ -66,6 +37,8 @@ public class login_activity extends AppCompatActivity {
         adapter.addFragment(new SeConnecter(), "Se connecter");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+
         ImageView myLogo = (ImageView) findViewById(R.id.logo);
         final int[] i = {0};
         myLogo.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +47,7 @@ public class login_activity extends AppCompatActivity {
                 if (!Fetching.isInternetAvailable(getApplicationContext())){
                     Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
                 }
-                else {
+                else  {
                     if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable(){

@@ -38,7 +38,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -71,10 +70,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 public class Sinscrire extends Fragment {
     private final static int RC_SIGN_IN = 2;
+    //Localisation
+    private static final int REQUEST_LOCATION = 1;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference usersRef = database.getReference("Users/Acheteurs");
-    SignInButton signup;
-    FirebaseAuth.AuthStateListener mAuthStateListener;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     SharedPreferences sharedPreferences;
@@ -84,17 +83,15 @@ public class Sinscrire extends Fragment {
     Button sinscrire;
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
-    private RadioGroup radioSexGroup;
-    private RadioButton radioSexButton;
-    private CheckBox showPassword;
-
-    //Localisation
-    private static final int REQUEST_LOCATION = 1;
+    AlertDialog.Builder alertDialog;
     LocationManager locationManager;
     String latitude, longitude;
     FusedLocationProviderClient fusedLocationClient;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user;
+    private RadioGroup radioSexGroup;
+    private RadioButton radioSexButton;
+    private CheckBox showPassword;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     // TODO: Rename parameter arguments, choose names that match
 
     public Sinscrire() {
@@ -117,7 +114,7 @@ public class Sinscrire extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sinscrire, container, false);
+        return inflater.inflate(R.layout.fragment_sinscrire_in_login_activity_tab_layout, container, false);
 
     }
 
@@ -128,6 +125,7 @@ public class Sinscrire extends Fragment {
         //Localisation
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        alertDialog = new AlertDialog.Builder(getContext());
 
 
 
@@ -264,29 +262,8 @@ Intent t = new Intent(getContext(), Home.class);
         });
     }
 
-    public static class User {
-
-        public String email;
-        public String id;
-        public String telephone;
-        public String gender;
-        public String username;
-
-
-        public User(String email, String id, String telephone, String gender, String username){
-            this.email =email;
-            this.id = id;
-            this.telephone = telephone;
-            this.gender = gender;
-            this.username = username;
-
-        }
-    }
-
-
     private void OnGPS() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setMessage("La Localisation nous permettra de vous offrir les meilleurs services. Autoriser la localisation?").setCancelable(false)
+        alertDialog.setMessage("La Localisation nous permettra de vous offrir les meilleurs services. Autoriser la localisation?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -298,10 +275,10 @@ Intent t = new Intent(getContext(), Home.class);
                 dialog.cancel();
             }
         });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 
+        final AlertDialog alertDialogfinal = alertDialog.create();
+        alertDialogfinal.show();
+    }
 
     private void getLocation(){
 
@@ -335,11 +312,6 @@ Intent t = new Intent(getContext(), Home.class);
                                 }
 
                                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                                String city = addresses.get(0).getLocality();
-                                String state = addresses.get(0).getAdminArea();
-                                String country = addresses.get(0).getCountryName();
-                                String postalCode = addresses.get(0).getPostalCode();
-                                String knownName = addresses.get(0).getFeatureName();
 
                                 Log.d(TAG, "We made it:" + address);
                                 user = mAuth.getCurrentUser();
@@ -352,6 +324,25 @@ Intent t = new Intent(getContext(), Home.class);
                             }
                         }
                     });
+        }
+    }
+
+    public static class User {
+
+        public String email;
+        public String id;
+        public String telephone;
+        public String gender;
+        public String username;
+
+
+        public User(String email, String id, String telephone, String gender, String username){
+            this.email =email;
+            this.id = id;
+            this.telephone = telephone;
+            this.gender = gender;
+            this.username = username;
+
         }
     }
 

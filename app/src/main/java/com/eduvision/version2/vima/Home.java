@@ -1,59 +1,68 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Verify;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Home extends Fragment {
-    Context mContext;
     private static final int REQUEST_LOCATION = 1;
-    TextView sRecents, sPop, sShop;
-
-    ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
-    IndividualArticle featured_info, f_recent, s_recent, t_recent, f_pop, s_pop, t_pop;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
+    public static ArrayList<IndividualArticle> mySortedData = new ArrayList<>(80);
+    TextView sRecents, sPop, sShop;
+   ProgressBar Progress;
+    ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3, profile;
+    EditText searchView;
+    RecyclerView searchResults;
+    DatabaseReference databaseReference;
+    Button clear;
+    ArrayList<String> nameList;
+    ArrayList<StorageReference> photoList;
+    Search_engine search = new Search_engine();
     private int mParam1;
     private int mParam2;
+
 
     public Home() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Home.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Home newInstance(int param1, int param2) {
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
@@ -67,6 +76,7 @@ public class Home extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         if (getArguments() != null) {
@@ -83,6 +93,7 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         return inflater.inflate(R.layout.fragment_home, container, false);
 }
+
 public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
         ArrayList<IndividualArticle> myList = myList1;
         for(int i = 0; i<(myList.size()-1); i++) {
@@ -96,91 +107,161 @@ public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
         }
         return myList;
     }
-    public static ArrayList<IndividualArticle> mySortedData = new ArrayList<>(80);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
+        new DownloadFilesTask().execute();
         mySortedData = sort(Fetching.myData);
-        Log.println(Log.INFO,"Tagging", String.valueOf(FetchShops.shopData.size()));
-        sRecents = view.findViewById(R.id.see_recents);
-        sPop = view.findViewById(R.id.see_popular);
-        sShop = view.findViewById(R.id.see_shops);
+        if (mySortedData.isEmpty()){
+            new DownloadFilesTask().execute();
+        }
 
-        shop1 = view.findViewById(R.id.fsimage);
-        shop2 = view.findViewById(R.id.ssimage);
-        shop3 = view.findViewById(R.id.tsimage);
+        else{
 
-        featured = view.findViewById(R.id.featured);
+            Log.println(Log.INFO,"Tagging", String.valueOf(FetchShops.shopData.size()));
+            sRecents = view.findViewById(R.id.see_recents);
+            sPop = view.findViewById(R.id.see_popular);
+            sShop = view.findViewById(R.id.see_shops);
 
-        recents1 = view.findViewById(R.id.frimage); //fr = first recent
-        recents2 = view.findViewById(R.id.srimage);
-        recents3 = view.findViewById(R.id.trimage);
+            shop1 = view.findViewById(R.id.fsimage);
+            shop2 = view.findViewById(R.id.ssimage);
+            shop3 = view.findViewById(R.id.tsimage);
 
-        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
+            featured = view.findViewById(R.id.featured);
 
-        pop1 = view.findViewById(R.id.fpimage); //fp = first popular
-        pop2 = view.findViewById(R.id.spimage);
-        pop3 = view.findViewById(R.id.tpimage);
+            recents1 = view.findViewById(R.id.frimage); //fr = first recent
+            recents2 = view.findViewById(R.id.srimage);
+            recents3 = view.findViewById(R.id.trimage);
 
-        ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+            ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
+            ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
+            ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
 
-        shop1 = view.findViewById(R.id.fsimage); //fs = first shop
-        shop2 = view.findViewById(R.id.ssimage);
-        shop3 = view.findViewById(R.id.tsimage);
+            pop1 = view.findViewById(R.id.fpimage); //fp = first popular
+            pop2 = view.findViewById(R.id.spimage);
+            pop3 = view.findViewById(R.id.tpimage);
 
-        shop1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
+            ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
+            ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+
+            shop1 = view.findViewById(R.id.fsimage); //fs = first shop
+            shop2 = view.findViewById(R.id.ssimage);
+            shop3 = view.findViewById(R.id.tsimage);
+
+            shop1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     startActivity(myIntent);
-            }
-        });
-        shop2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                }
+            });
+            shop2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     startActivity(myIntent);
-            }
-        });
-        shop3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                }
+            });
+            shop3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     startActivity(myIntent);
-            }
-        });
-        sRecents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                }
+            });
+            sRecents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
                     myIntent.putExtra("key", "2");
                     startActivity(myIntent);
-            }
-        });
-        sPop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                }
+            });
+            sPop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
                     myIntent.putExtra("key", "3");
                     startActivity(myIntent);
-            }
-        });
-        sShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                }
+            });
+            sShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
                     myIntent.putExtra("key", "1");
                     startActivity(myIntent);
+                }
+            });
+
+        }
+//Search engine
+        searchResults = getView().findViewById(R.id.search_results);
+        clear = getView().findViewById(R.id.clear);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        searchView = getView().findViewById(R.id.search);
+
+        searchResults.setHasFixedSize(true);
+        searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchResults.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        nameList = new ArrayList<>();
+        photoList = new ArrayList<>();
+
+        clear.setVisibility(View.INVISIBLE);
+
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+                if(!s.toString().isEmpty()){
+                    clear.setVisibility(View.VISIBLE);
+
+                    //calling the search engine activity and the function that handles the search
+                    search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
+                }
+                else {
+                    nameList.clear();
+                    photoList.clear();
+                    searchResults.removeAllViews();
+
+                }
+
+            }
+
+
+        });
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setText("");
+                hideKeyboard(getView());
             }
         });
+
+        profile = getView().findViewById(R.id.profile_image);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getContext(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         /*
         featured = Objects.requireNonNull(getView()).findViewById(R.id.featured);
@@ -258,4 +339,36 @@ public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
 
          */
     }
+
+    private void hideKeyboard(View v){
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
+    }
+
+    private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected Long doInBackground(URL... urls) {
+            Fetching.getItems();
+            FetchShops.getShops();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Long result) {
+            // execution of result of Long time consuming operation
+            progressDialog.dismiss();
+
+        }
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(getContext(),
+                    "ProgressDialog",
+                    "Wait for the items to load");
+        }
+
+    }
 }
+

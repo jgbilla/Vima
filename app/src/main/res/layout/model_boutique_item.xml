@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--Model. This is how the buttons to access the shops
+individuals pages will look like.
+-->
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -8,10 +13,10 @@
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:elevation="100dp"
         card_view:cardCornerRadius="20dp">
 
@@ -20,10 +25,10 @@
             android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:scaleType="fitCenter">
 
 
@@ -34,23 +39,23 @@
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:text="Ouaga 2000"
             android:textColor="@color/Black"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp"
-            android:text="Ouaga 2000"
             />
 
         <TextView
             android:id="@+id/name"
-            android:text="ALDO"
-            android:textSize="30sp"
-            android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/Black"
             android:layout_alignParentBottom= "true"
+            android:layout_marginStart="30dp"
             android:layout_marginBottom="30dp"
+            android:text="ALDO"
+            android:textColor="@color/Black"
+            android:textSize="30sp"
             />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

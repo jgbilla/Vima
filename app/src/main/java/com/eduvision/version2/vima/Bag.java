@@ -2,6 +2,15 @@ package com.eduvision.version2.vima;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -9,19 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-
-import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.tabs.TabLayout;
@@ -39,45 +37,28 @@ import java.util.ArrayList;
  */
 public class Bag extends Fragment {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    TabAdapter adapter;
-    int position;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TabAdapter adapter;
     EditText searchView;
     RecyclerView searchResults;
     DatabaseReference databaseReference;
     Button clear;
     ImageView profile;
-
-
-
-
     ArrayList<String> nameList;
     ArrayList<StorageReference> photoList;
-
     Search_engine search = new Search_engine();
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private String mParam1;
+    private String mParam2;
 
     public Bag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Bag.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Bag newInstance(String param1, String param2) {
         Bag fragment = new Bag();
         Bundle args = new Bundle();

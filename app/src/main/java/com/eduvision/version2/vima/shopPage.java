@@ -6,15 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.eduvision.version2.vima.Login.SeConnecter;
-import com.eduvision.version2.vima.Login.Sinscrire;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -72,7 +69,7 @@ public class shopPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.indiv_shop_page);
+        setContentView(R.layout.model_indiv_shop_page);
 
         viewPager = findViewById(R.id.shop_view_pager);
         tabLayout = findViewById(R.id.shopTabLayout);

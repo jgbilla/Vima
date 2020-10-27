@@ -19,8 +19,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.eduvision.version2.vima.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -32,27 +30,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     ArrayList<String> nameList;
     ArrayList<StorageReference> photoList;
 
-    FirebaseDatabase storage;
-    DatabaseReference storageReference;
-
-    class  SearchViewHolder extends RecyclerView.ViewHolder{
-
-        ImageView image;
-        TextView name;
-
-        public SearchViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            image = itemView.findViewById(R.id.image_result);
-            name = itemView.findViewById(R.id.name_text);
-        }
-    }
 
     public SearchAdapter(Context context, ArrayList<String> nameList,  ArrayList<StorageReference> photoList){
         this.context = context;
         this.nameList = nameList;
         this.photoList = photoList;
     }
+
     @NonNull
     @Override
     public SearchAdapter.SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -91,6 +75,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public int getItemCount() {
         return nameList.size();
+    }
+
+    class  SearchViewHolder extends RecyclerView.ViewHolder{
+
+        ImageView image;
+        TextView name;
+
+        public SearchViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            image = itemView.findViewById(R.id.image_result);
+            name = itemView.findViewById(R.id.name_text);
+        }
     }
 
 

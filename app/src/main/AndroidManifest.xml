@@ -44,8 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login_activity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Login.login_activity" />
         <activity android:name=".UploadActivity" />
         <activity android:name=".articlePage">
 

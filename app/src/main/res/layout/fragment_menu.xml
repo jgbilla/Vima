@@ -36,7 +36,7 @@
     </RelativeLayout>
 
 
-    <com.eduvision.version2.vima.NonSwipeableViewPager
+    <com.eduvision.version2.vima.DesignElements.NonSwipeableViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/menu_view_pager"
@@ -55,7 +55,7 @@
             app:tabIndicatorHeight="0dp"
             app:tabMode="scrollable">
         </com.google.android.material.tabs.TabLayout>
-    </com.eduvision.version2.vima.NonSwipeableViewPager>
+    </com.eduvision.version2.vima.DesignElements.NonSwipeableViewPager>
 
 
 </LinearLayout>

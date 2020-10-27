@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,14 +54,14 @@ public class articlePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.indiv_article_page);
+        setContentView(R.layout.model_indiv_article_page);
 
         LinearLayout myll = findViewById(R.id.ll);
         myll.setBackgroundResource(R.drawable.border_home);
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
         if(i != null){
-            article = Fetching.myData.get(i.getInt("LockerKey"));
+           // article = Fetching.myData.get(i.getInt("LockerKey"));
         }
 
         article_id = article.getRank();

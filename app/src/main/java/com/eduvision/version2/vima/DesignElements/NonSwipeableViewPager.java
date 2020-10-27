@@ -1,4 +1,4 @@
-package com.eduvision.version2.vima;
+package com.eduvision.version2.vima.DesignElements;
 
 import android.content.Context;
 import android.util.AttributeSet;

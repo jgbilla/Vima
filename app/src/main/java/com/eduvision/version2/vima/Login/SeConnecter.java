@@ -64,13 +64,11 @@ import static android.content.ContentValues.TAG;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
 
- */
 public class SeConnecter extends Fragment {
     private final static int RC_SIGN_IN = 2;
+    //Localisation
+    private static final int REQUEST_LOCATION = 1;
     FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -83,20 +81,16 @@ public class SeConnecter extends Fragment {
     FirebaseStorage firebaseStorage;
     TextView ForgottenPassword;
     DatabaseReference databaseReference;
-    private CheckBox showPassword;
-
-    //Localisation
-    private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     String latitude, longitude;
     FusedLocationProviderClient fusedLocationClient;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user;
+    private CheckBox showPassword;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     public SeConnecter() {
 
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,8 +100,6 @@ public class SeConnecter extends Fragment {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
-
-
     }
 
 
@@ -115,7 +107,7 @@ public class SeConnecter extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_se_connecter, container, false);
+        return inflater.inflate(R.layout.fragment_sign_in_login_activity_tab_layout, container, false);
     }
 
 
@@ -137,6 +129,7 @@ public class SeConnecter extends Fragment {
         sharedPreferences =getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        //Show and Hide password
         showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -156,11 +149,8 @@ public class SeConnecter extends Fragment {
                 email = Email.getText().toString();
                 password = Password.getText().toString();
 
-
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
-
             }
 
         });
@@ -257,7 +247,6 @@ ForgottenPassword.setOnClickListener(new View.OnClickListener() {
 
                         }
                     });
-
 
                     Intent r = new Intent(getContext(), MainPage.class);
                     startActivity(r);
