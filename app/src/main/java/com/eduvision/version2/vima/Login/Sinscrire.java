@@ -88,6 +88,8 @@ public class Sinscrire extends Fragment {
     private RadioButton radioSexButton;
     private CheckBox showPassword;
 
+    AlertDialog.Builder alertDialog;
+
     //Localisation
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
@@ -128,6 +130,7 @@ public class Sinscrire extends Fragment {
         //Localisation
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+        alertDialog = new AlertDialog.Builder(getContext());
 
 
 
@@ -285,8 +288,7 @@ Intent t = new Intent(getContext(), Home.class);
 
 
     private void OnGPS() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-        builder.setMessage("La Localisation nous permettra de vous offrir les meilleurs services. Autoriser la localisation?").setCancelable(false)
+        alertDialog.setMessage("La Localisation nous permettra de vous offrir les meilleurs services. Autoriser la localisation?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -298,8 +300,9 @@ Intent t = new Intent(getContext(), Home.class);
                 dialog.cancel();
             }
         });
-        final AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+
+        final AlertDialog alertDialogfinal = alertDialog.create();
+        alertDialogfinal.show();
     }
 
 

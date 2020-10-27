@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,7 +61,7 @@ public class articlePage extends AppCompatActivity {
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
         if(i != null){
-            article = Fetching.myData.get(i.getInt("LockerKey"));
+           // article = Fetching.myData.get(i.getInt("LockerKey"));
         }
 
         article_id = article.getRank();

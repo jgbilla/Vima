@@ -1,9 +1,5 @@
 package com.eduvision.version2.vima;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
+
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
@@ -26,8 +26,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class login_activity extends AppCompatActivity {
 
@@ -74,7 +72,7 @@ public class login_activity extends AppCompatActivity {
                 if (!Fetching.isInternetAvailable(getApplicationContext())){
                     Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
                 }
-                else {
+                else  {
                     if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable(){

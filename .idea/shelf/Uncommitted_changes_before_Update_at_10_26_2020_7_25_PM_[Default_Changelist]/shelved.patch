@@ -1,0 +1,145 @@
+Index: app/src/main/java/com/eduvision/version2/vima/Login/Reset_password.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.eduvision.version2.vima.Login;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.text.TextUtils;\r\nimport android.util.Patterns;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.EditText;\r\nimport android.widget.Toast;\r\n\r\nimport com.eduvision.version2.vima.R;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\n\r\npublic class Reset_password extends AppCompatActivity {\r\nButton sendEmail;\r\nEditText email;\r\nprivate FirebaseAuth mAuth;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_reset_password);\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n        sendEmail = findViewById(R.id.envoyer_email);\r\n        email = findViewById(R.id.new_email);\r\n\r\n\r\n        sendEmail.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                String userEmail = email.getText().toString();\r\n\r\n                if (TextUtils.isEmpty(userEmail) || !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){\r\n                    Toast.makeText(Reset_password.this, \"Inserez une adresse valide\", Toast.LENGTH_SHORT).show();\r\n                }\r\n                else {\r\n                    mAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {\r\n                        @Override\r\n                        public void onComplete(@NonNull Task<Void> task) {\r\n\r\n                            if (task.isSuccessful()){\r\n                                Toast.makeText(Reset_password.this, \"Verifiez votre boite mail s'il vous plait\", Toast.LENGTH_LONG).show();\r\n                                startActivity(new Intent(Reset_password.this, SeConnecter.class));\r\n                            }\r\n\r\n                            else {\r\n                                String message = task.getException().getMessage();\r\n                                Toast.makeText(Reset_password.this, \"Une erreur s'est produite, veuillez reessayer: \"+message, Toast.LENGTH_LONG).show();\r\n                            }\r\n                        }\r\n                    });\r\n                }\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/eduvision/version2/vima/Login/Reset_password.java	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ app/src/main/java/com/eduvision/version2/vima/Login/Reset_password.java	(date 1603738775524)
+@@ -1,8 +1,5 @@
+ package com.eduvision.version2.vima.Login;
+ 
+-import androidx.annotation.NonNull;
+-import androidx.appcompat.app.AppCompatActivity;
+-
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.text.TextUtils;
+@@ -12,6 +9,9 @@
+ import android.widget.EditText;
+ import android.widget.Toast;
+ 
++import androidx.annotation.NonNull;
++import androidx.appcompat.app.AppCompatActivity;
++
+ import com.eduvision.version2.vima.R;
+ import com.google.android.gms.tasks.OnCompleteListener;
+ import com.google.android.gms.tasks.Task;
+Index: app/src/main/java/com/eduvision/version2/vima/articlePage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.eduvision.version2.vima;\r\n\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.eduvision.version2.vima.Tabs.Fetching;\r\nimport com.eduvision.version2.vima.Tabs.IndividualArticle;\r\n\r\nimport de.hdodenhof.circleimageview.CircleImageView;\r\n\r\npublic class articlePage extends AppCompatActivity {\r\n\r\n    private long article_id;\r\n    TextView price, title, description, shop_name, shop_description, shop_location;\r\n    ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, sm_pic4, shop_pic;\r\n    CircleImageView profile_picture;\r\n    Spinner spin1, spin2;\r\n\r\n    public void whatclick(View v){\r\n        String number = \"+22676603608\";\r\n        String url = \"https://api.whatsapp.com/send?phone=\"+number;\r\n        Intent i = new Intent(Intent.ACTION_VIEW);\r\n        i.setData(Uri.parse(url));\r\n        startActivity(i);\r\n    }\r\n    public void callclick(View v){\r\n\r\n        String number = \"+22676603608\";\r\n        Intent intent = new Intent(Intent.ACTION_DIAL);\r\n        intent.setData(Uri.parse(\"tel:\"+number));\r\n        if (intent.resolveActivity(getPackageManager()) != null) {\r\n            startActivity(intent);\r\n        }\r\n\r\n    }\r\n    public void smsclick(View v){\r\n        String number = \"+22676603608\";\r\n        String message = \"J'ai connu votre boutique a travers l'applocation Vima\";\r\n        Intent intent = new Intent(Intent.ACTION_SENDTO);\r\n        intent.setData(Uri.parse(\"smsto:\"+number));\r\n        intent.putExtra(\"sms_body\", message);\r\n        if (intent.resolveActivity(getPackageManager()) != null) {\r\n            startActivity(intent);\r\n        }\r\n\r\n    }\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.indiv_article_page);\r\n\r\n        LinearLayout myll = findViewById(R.id.ll);\r\n        myll.setBackgroundResource(R.drawable.border_home);\r\n        Bundle i = getIntent().getExtras();\r\n        IndividualArticle article = new IndividualArticle();\r\n        if(i != null){\r\n            article = Fetching.myData.get(i.getInt(\"LockerKey\"));\r\n        }\r\n\r\n        article_id = article.getRank();\r\n        profile_picture = findViewById(R.id.profile_image);\r\n        price = findViewById(R.id.article_price);\r\n        title = findViewById(R.id.article_title);\r\n        description = findViewById(R.id.article_description);\r\n        shop_name = findViewById(R.id.shop_name);\r\n        shop_description = findViewById(R.id.shop_description);\r\n        shop_location = findViewById(R.id.shop_location);\r\n        big_pic = findViewById(R.id.big_picture);\r\n        sm_pic1 = findViewById(R.id.smaller_images1);\r\n        sm_pic2 = findViewById(R.id.smaller_images2);\r\n        shop_pic = findViewById(R.id.shop_picture);\r\n        spin1 = findViewById(R.id.color_spinner);\r\n        spin2 = findViewById(R.id.sex_spinner);\r\n\r\n        //Fetch\r\n        /*\r\n        ArticleAdapter.glideIt(big_pic, bPictures.getPhoto(), mContext);\r\n        ArticleAdapter.glideIt(sm_pic1, bPictures.getSmall_pic1(), mContext);\r\n        ArticleAdapter.glideIt(sm_pic2, bPictures.getSmall_pic2(), mContext);\r\n        ArticleAdapter.glideIt(sm_pic3, bPictures.getSmall_pic3(), mContext);\r\n        ArticleAdapter.glideIt(sm_pic4, bPictures.getSmall_pic4(), mContext);\r\n        */\r\n\r\n        price.setText(article.getPrice().toString());\r\n        title.setText(article.getName());\r\n        description.setText(article.getName());\r\n        shop_name.setText(article.getShop_name());\r\n        shop_description.setText(article.getShop_name());\r\n        shop_location.setText(article.getShop_name());\r\n\r\n\r\n        /*\r\n        final String[] sizeSelected = new String[1];\r\n        final String[] colorSelected = new String[1];\r\n\r\n        mDatabase.child(\"Articles\").child(Long.toString(article_id)).addListenerForSingleValueEvent(new ValueEventListener() {\r\n            @Override\r\n            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {\r\n                info = dataSnapshot.child(\"infos\").child(\"name\").getValue(Article_info.class);\r\n                bDescription = dataSnapshot.child(\"infos\").child(\"name\").getValue(Article_description.class);\r\n                bPictures = dataSnapshot.child(\"infos\").child(\"name\").getValue(Article_pictures.class);\r\n\r\n                //Setting up the spinner for colors\r\n                ArrayList<String> colors = new ArrayList<>();\r\n                int color_count = (int) dataSnapshot.child(\"infos\").child(\"name\").child(\"description\").child(\"colors\").getChildrenCount();\r\n                for(int i = 1; i<=color_count; i++){\r\n                    colors.add(dataSnapshot.child(\"infos\").child(\"name\").child(\"description\").child(\"colors\").child(Integer.toString(i)).toString());\r\n                }\r\n                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, colors);\r\n                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\r\n                spin1.setAdapter(arrayAdapter);\r\n                spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\r\n                    @Override\r\n                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\r\n                        //Do anything you want with this String, Yay!\r\n                        //For instance: TODO: Pass this String when the user adds the article to their panier\r\n                        colorSelected[0] = parent.getItemAtPosition(position).toString();\r\n                    }\r\n                    @Override\r\n                    public void onNothingSelected(AdapterView <?> parent) {\r\n                    }\r\n                });\r\n\r\n                //Setting up the spinner for sizes\r\n                ArrayList<String> sizes = new ArrayList<>();\r\n                int size_count = (int) dataSnapshot.child(\"infos\").child(\"name\").child(\"description\").child(\"size\").getChildrenCount();\r\n                for(int i = 1; i<=size_count; i++){\r\n                    sizes.add(dataSnapshot.child(\"infos\").child(\"name\").child(\"description\").child(\"size\").child(Integer.toString(i)).toString());\r\n                }\r\n                ArrayAdapter<String> sizeArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, sizes);\r\n                sizeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\r\n                spin1.setAdapter(sizeArrayAdapter);\r\n                spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\r\n                    @Override\r\n                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\r\n                        //Do anything you want with this String, Yay!\r\n                        //For instance: TODO: Pass this String when the user adds the article to their panier\r\n                        sizeSelected[0] = parent.getItemAtPosition(position).toString();\r\n                    }\r\n                    @Override\r\n                    public void onNothingSelected(AdapterView <?> parent) {\r\n                    }\r\n                });\r\n\r\n                //Getting the info of the shop that sells the article\r\n                mDatabase.child(\"Shops\").child(Integer.toString(info.getSeller_id())).addListenerForSingleValueEvent(new ValueEventListener() {\r\n                    @Override\r\n                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {\r\n                        individualArticleConstructor = dataSnapshot.getValue(IndividualArticleConstructor.class);\r\n                        //I am adding all of this inside of the onDataChange because of the asynchronous loading\r\n                        shop_name.setText(individualArticleConstructor.getName());\r\n                        shop_description.setText(individualArticleConstructor.getDescription());\r\n                        shop_location.setText(individualArticleConstructor.getLocation());\r\n                        Glide.with(mContext)\r\n                                .load(individualArticleConstructor.getPicture_logo())\r\n                                .into(shop_pic);\r\n                    }\r\n\r\n                    @Override\r\n                    public void onCancelled(@NonNull DatabaseError databaseError) {\r\n                    }\r\n                });\r\n\r\n                //I am adding all of this inside of the onDataChange function because of the asynchronous loading\r\n                price.setText(info.getPrice());\r\n                title.setText(info.getName());\r\n                description.setText(bDescription.getDescription());\r\n\r\n                //Setting the ImageResource of ImageViews from Firebase data\r\n                Glide.with(mContext)\r\n                        .load(bPictures.getPhoto())\r\n                        .into(big_pic);\r\n                Glide.with(mContext)\r\n                        .load(bPictures.getSmall_pic1())\r\n                        .into(sm_pic1);\r\n                Glide.with(mContext)\r\n                        .load(bPictures.getSmall_pic2())\r\n                        .into(sm_pic2);\r\n                Glide.with(mContext)\r\n                        .load(bPictures.getSmall_pic3())\r\n                        .into(sm_pic3);\r\n                Glide.with(mContext)\r\n                        .load(bPictures.getSmall_pic4())\r\n                        .into(sm_pic4);\r\n            }\r\n\r\n            @Override\r\n            public void onCancelled(@NonNull DatabaseError databaseError) {\r\n            }\r\n        });\r\n        */\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/eduvision/version2/vima/articlePage.java	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ app/src/main/java/com/eduvision/version2/vima/articlePage.java	(date 1603739002058)
+@@ -11,7 +11,7 @@
+ 
+ import androidx.appcompat.app.AppCompatActivity;
+ 
+-import com.eduvision.version2.vima.Tabs.Fetching;
++
+ import com.eduvision.version2.vima.Tabs.IndividualArticle;
+ 
+ import de.hdodenhof.circleimageview.CircleImageView;
+@@ -62,7 +62,7 @@
+         Bundle i = getIntent().getExtras();
+         IndividualArticle article = new IndividualArticle();
+         if(i != null){
+-            article = Fetching.myData.get(i.getInt("LockerKey"));
++           // article = Fetching.myData.get(i.getInt("LockerKey"));
+         }
+ 
+         article_id = article.getRank();
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/compiler.xml	(date 1603738775556)
++++ .idea/compiler.xml	(date 1603738775556)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ .idea/gradle.xml	(date 1603738775540)
+@@ -14,6 +14,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"NullableNotNullManager\">\r\n    <option name=\"myDefaultNullable\" value=\"org.jetbrains.annotations.Nullable\" />\r\n    <option name=\"myDefaultNotNull\" value=\"androidx.annotation.NonNull\" />\r\n    <option name=\"myNullables\">\r\n      <value>\r\n        <list size=\"12\">\r\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.Nullable\" />\r\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nullable\" />\r\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"javax.annotation.CheckForNull\" />\r\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.Nullable\" />\r\n          <item index=\"4\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.Nullable\" />\r\n          <item index=\"5\" class=\"java.lang.String\" itemvalue=\"androidx.annotation.Nullable\" />\r\n          <item index=\"6\" class=\"java.lang.String\" itemvalue=\"android.annotation.Nullable\" />\r\n          <item index=\"7\" class=\"java.lang.String\" itemvalue=\"androidx.annotation.RecentlyNullable\" />\r\n          <item index=\"8\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.qual.Nullable\" />\r\n          <item index=\"9\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.compatqual.NullableDecl\" />\r\n          <item index=\"10\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.compatqual.NullableType\" />\r\n          <item index=\"11\" class=\"java.lang.String\" itemvalue=\"com.android.annotations.Nullable\" />\r\n        </list>\r\n      </value>\r\n    </option>\r\n    <option name=\"myNotNulls\">\r\n      <value>\r\n        <list size=\"11\">\r\n          <item index=\"0\" class=\"java.lang.String\" itemvalue=\"org.jetbrains.annotations.NotNull\" />\r\n          <item index=\"1\" class=\"java.lang.String\" itemvalue=\"javax.annotation.Nonnull\" />\r\n          <item index=\"2\" class=\"java.lang.String\" itemvalue=\"edu.umd.cs.findbugs.annotations.NonNull\" />\r\n          <item index=\"3\" class=\"java.lang.String\" itemvalue=\"android.support.annotation.NonNull\" />\r\n          <item index=\"4\" class=\"java.lang.String\" itemvalue=\"androidx.annotation.NonNull\" />\r\n          <item index=\"5\" class=\"java.lang.String\" itemvalue=\"android.annotation.NonNull\" />\r\n          <item index=\"6\" class=\"java.lang.String\" itemvalue=\"androidx.annotation.RecentlyNonNull\" />\r\n          <item index=\"7\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.qual.NonNull\" />\r\n          <item index=\"8\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.compatqual.NonNullDecl\" />\r\n          <item index=\"9\" class=\"java.lang.String\" itemvalue=\"org.checkerframework.checker.nullness.compatqual.NonNullType\" />\r\n          <item index=\"10\" class=\"java.lang.String\" itemvalue=\"com.android.annotations.NonNull\" />\r\n        </list>\r\n      </value>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectPlainTextFileTypeManager\">\r\n    <file url=\"file://$PROJECT_DIR$/app/src/main/res/drawable/ic_outline_settings_24.xml\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ .idea/misc.xml	(date 1603738775571)
+@@ -39,10 +39,7 @@
+       </value>
+     </option>
+   </component>
+-  <component name="ProjectPlainTextFileTypeManager">
+-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_outline_settings_24.xml" />
+-  </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Sat May 30 16:09:24 GMT 2020\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-6.1.1-all.zip\r\ndistributionPath=wrapper/dists\r\nzipStorePath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>windows-1252
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1603738775587)
+@@ -1,6 +1,6 @@
+-#Sat May 30 16:09:24 GMT 2020
++#Sun Oct 18 17:35:43 GMT 2020
+ distributionBase=GRADLE_USER_HOME
+-distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+ distributionPath=wrapper/dists
+-zipStorePath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
++zipStorePath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.5-bin.zip
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        mavenCentral()\r\n        maven { url 'https://maven.google.com' }\r\n\r\n        \r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.0.2'\r\n        classpath 'com.google.gms:google-services:4.3.3'\r\n\r\n\r\n        \r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision c1858a755a2d0fe65f441cd0dcbb2ea5aeae548e)
++++ build.gradle	(date 1603738775540)
+@@ -10,7 +10,7 @@
+         
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:4.0.2'
++        classpath 'com.android.tools.build:gradle:4.1.0'
+         classpath 'com.google.gms:google-services:4.3.3'
+ 
+ 

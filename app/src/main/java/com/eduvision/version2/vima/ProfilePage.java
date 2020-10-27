@@ -278,7 +278,9 @@ public class ProfilePage extends AppCompatActivity {
                 if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     OnGPS();
                 } else {
+
                     getLocation();
+
 
                 }
 
@@ -458,6 +460,9 @@ public class ProfilePage extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         }
         else{
+            final ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+            progressDialog.setMessage("Sauvegarde en cours");
+            progressDialog.show();
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
@@ -488,7 +493,7 @@ public class ProfilePage extends AppCompatActivity {
                                 String country = addresses.get(0).getCountryName();
                                 String postalCode = addresses.get(0).getPostalCode();
                                 String knownName = addresses.get(0).getFeatureName();
-
+                                progressDialog.dismiss();
                                 Log.d(TAG, "We made it:" + address);
                             }
                         }
@@ -587,6 +592,7 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Sauvegarde en cours", Toast.LENGTH_SHORT).show();
         }else {
             uploadImage();
+
         }
     }
 
