@@ -8,6 +8,7 @@
     android:background="@drawable/border"
     android:padding="10dp"
     android:layout_height="50dp"
+    android:maxHeight="50dp"
     android:backgroundTint="@color/Grey"
     android:id="@+id/custom_toast_container">
 

@@ -27,7 +27,6 @@ public class Fetching {
     public static int PopularPageNumber = 1;
     public static int RecentsPageNumber = 1;
     public static ArrayList<IndividualArticle> myData = new ArrayList<>(80);
-    public static ArrayList<IndividualArticle> shopData = new ArrayList<>(80);
     public static String isDataFetched = "No";
     public static String isDataBeingFetched = "No";
     public static ArrayList<IndividualArticle> homeArticlesData = new ArrayList<>(4);

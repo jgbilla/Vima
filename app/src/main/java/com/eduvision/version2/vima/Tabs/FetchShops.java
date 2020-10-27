@@ -37,7 +37,7 @@ public class FetchShops {
                 IndividualShop currentArticle;
                 String sCounter = snapshot.child("counter").getValue().toString();
                 int counter = Integer.parseInt(sCounter);
-                for(int i = 1; i<=(10); i++){
+                for(int i = 1; i<=(16); i++){
                     if(i < counter){
                         currentArticle = snapshot.child(Integer.toString(i)).getValue(IndividualShop.class);
                     }

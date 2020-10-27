@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Verify;
@@ -103,7 +105,7 @@ public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
 
 
         mySortedData = sort(Fetching.myData);
-
+        Log.println(Log.INFO,"Tagging", String.valueOf(FetchShops.shopData.size()));
         sRecents = view.findViewById(R.id.see_recents);
         sPop = view.findViewById(R.id.see_popular);
         sShop = view.findViewById(R.id.see_shops);

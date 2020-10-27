@@ -14,16 +14,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class login_activity extends AppCompatActivity {
 
@@ -53,6 +57,8 @@ public class login_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_activity);
         new DownloadFilesTask().execute();
+        Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
+
         viewPager = findViewById(R.id.sign_up_view_pager);
         tabLayout = findViewById(R.id.tabLayout);
         adapter = new TabAdapter(getSupportFragmentManager());
@@ -69,13 +75,13 @@ public class login_activity extends AppCompatActivity {
                     Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
                 }
                 else {
-                    if(Fetching.isDataFetched.equals("No")){
+                    if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable(){
                             @Override
                             public void run(){
                                 Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
-                                if(Fetching.isDataFetched.equals("No")){
+                                if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
                                     Log.println(Log.INFO, "Handler Tag", "Data is still not fetched. Logging out.");
                                 }
                                 else{

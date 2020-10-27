@@ -2,6 +2,7 @@ package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +138,8 @@ public class ArticleAdapter extends BaseAdapter {
                     TextView location = convertView.findViewById(R.id.location);
                     location.setText(myShop.getLocation());
                     ImageView myImage = convertView.findViewById(R.id.article_picture);
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(Fetching.shopData.get(position).getP_photo());
+                    Log.println(Log.INFO,"Tagging",  FetchShops.shopData.get(position).getP_photo());
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(FetchShops.shopData.get(position).getP_photo());
                     Glide.with(mContext)
                             .load(storageReference)
                             .into(myImage);
