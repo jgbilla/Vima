@@ -121,24 +121,22 @@
                 android:layout_height="wrap_content" />
 
         <androidx.viewpager.widget.ViewPager
+            android:id="@+id/shop_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:id="@+id/shop_view_pager">
+            android:layout_height="1000dp"
+            android:layout_marginTop="10dp">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/shopTabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?actionBarSize"
-                app:tabGravity="fill"
-                app:tabTextColor="#808080"
+                android:layout_height="50dp"
+                app:tabGravity="center"
+                app:tabTextColor="@color/Grey"
+                app:tabTextAppearance="@style/MyCustomTabText"
                 app:tabIndicatorColor="#FFFFFF"
-                app:tabSelectedTextColor="#FFFFFF"
-                app:tabIndicatorHeight="4dp"
-                app:tabBackground="@color/White"
-                app:tabMode="fixed">
-            </com.google.android.material.tabs.TabLayout>
+                app:tabSelectedTextColor="@color/Black"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="scrollable"/>
         </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
         </ScrollView>

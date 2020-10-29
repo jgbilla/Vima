@@ -45,12 +45,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".login_activity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" android:launchMode="singleTask"/>
         <activity android:name=".UploadActivity" />
         <activity android:name=".articlePage">
 
         </activity>
-        <activity android:name=".Tabs.Verify" />
+        <activity android:name=".Tabs.Verify" android:launchMode="singleTask">
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -73,6 +74,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfilePage" />
+        <activity android:name=".ArticleAlone" />
         <activity android:name=".shopPage" />
     </application>
 

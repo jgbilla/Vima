@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
-import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.eduvision.version2.vima.Tabs.Boutiques;
 import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.tabs.TabLayout;
@@ -115,7 +115,7 @@ public class Bag extends Fragment {
         viewPager = getView().findViewById(R.id.bag_view_pager);
         tabLayout = getView().findViewById(R.id.bag_tabLayout);
         adapter = new TabAdapter(getFragmentManager());
-        adapter.addFragment(new tab_boutiques(), "Boutiques");
+        adapter.addFragment(new Boutiques(), "Boutiques");
         adapter.addFragment(new Recents(), "Recents");
         adapter.addFragment(new Popular(), "Populaires");
         viewPager.setAdapter(adapter);

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home">
@@ -89,7 +90,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="10dp"
             android:padding="5dp">
 
             <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -105,6 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:id="@+id/goLeft"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:background="@color/White"
@@ -120,12 +122,14 @@
                 android:elevation="1dp"
                 android:paddingHorizontal="10dp"
                 android:text="ALDO"
+                android:id="@+id/shopName"
                 android:textColor="@color/White"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/featured"
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="240dp"
                 android:src="@drawable/x9kgos2nz9c" />
@@ -144,6 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:id="@+id/goRight"
                 android:layout_marginRight="12dp"
                 android:background="@color/White"
                 android:elevation="2dp"
@@ -193,7 +198,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -206,7 +211,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -241,7 +246,7 @@
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -254,7 +259,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -299,7 +304,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -373,7 +378,7 @@
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -386,7 +391,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -419,7 +424,7 @@
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -432,7 +437,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -477,7 +482,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -551,7 +556,7 @@
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -564,7 +569,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -597,7 +602,7 @@
                 <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -610,7 +615,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout
@@ -655,7 +660,7 @@
                         android:layout_height="140dp"
                         android:layout_gravity="top"
                         android:background="#ffffff"
-                        android:scaleType="centerCrop"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/whi4jnmir8" />
 
                     <LinearLayout

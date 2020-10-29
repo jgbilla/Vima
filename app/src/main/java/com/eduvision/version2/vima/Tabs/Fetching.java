@@ -59,7 +59,7 @@ public class Fetching {
         TextView myShop = convertView.findViewById(R.id.shop);
         TextView myDescription = convertView.findViewById(R.id.article_name);
         TextView myPrice = convertView.findViewById(R.id.article_price);
-        myShop.setText(myArticle.getShop_name());
+        //myShop.setText(myArticle.getShop_name());
         myDescription.setText(myArticle.getName());
         myPrice.setText(myArticle.getPrice().toString());
         ArticleAdapter.glideIt(convertView.findViewById(R.id.article_picture), myArticle.getP_photo(), mContext);
@@ -79,6 +79,30 @@ public class Fetching {
         toast.show();
     }
 
+    public static IndividualArticle getArticle(int positionInDatabase){
+        final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+        final IndividualArticle[] currentArticle = new IndividualArticle[1];
+        mDatabase.child("Articles").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String sCounter = snapshot.child("counter").getValue().toString();
+                int counter = Integer.parseInt(sCounter);
+                if(positionInDatabase < counter){
+                    currentArticle[0] = snapshot.child(Integer.toString(positionInDatabase)).getValue(IndividualArticle.class);
+                }
+                else{
+                    currentArticle[0] = snapshot.child(sCounter).getValue(IndividualArticle.class);
+                }
+                }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return currentArticle[0];
+    }
     public static void getItems(){
         isDataBeingFetched = "Yes";
         final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();

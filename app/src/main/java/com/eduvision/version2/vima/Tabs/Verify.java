@@ -11,11 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.eduvision.version2.vima.BoutiquesTab.tab_boutiques;
+import com.eduvision.version2.vima.ImagesTabs;
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.TabAdapter;
-import com.eduvision.version2.vima.Tabs.Popular;
-import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.tabs.TabLayout;
 
 /*
@@ -40,7 +38,7 @@ public class Verify extends AppCompatActivity {
         viewPager = findViewById(R.id.verify_view_pager);
         tabLayout = findViewById(R.id.verify_tabLayout);
         adapter = new TabAdapter(fm);
-        adapter.addFragment(new tab_boutiques(), "Boutiques");
+        adapter.addFragment(new Boutiques(), "Boutiques");
         adapter.addFragment(new Recents(), "Recents");
         adapter.addFragment(new Popular(), "Populaires");
         viewPager.setAdapter(adapter);

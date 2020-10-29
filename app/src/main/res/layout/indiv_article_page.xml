@@ -79,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:id="@+id/go_back"
                     android:layout_alignParentTop="true"
                     android:background="#00ffffff"
                     android:layout_marginTop="20dp"
@@ -154,6 +155,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="Description"
+                    android:textStyle="bold"
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content" />
 
@@ -174,6 +176,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:layout_marginBottom="10dp"
                     android:text="Images" />
 
@@ -181,12 +184,14 @@
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
+                    android:weightSum="3"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/smaller_images1"
                         android:layout_width="100dp"
                         android:scaleType="centerCrop"
+                        android:layout_weight="1"
                         android:src="@drawable/image464ca938"
                         android:layout_marginRight="10dp"
                         android:layout_height="100dp" />
@@ -195,6 +200,7 @@
                         android:id="@+id/smaller_images2"
                         android:src="@drawable/image03172807"
                         android:scaleType="centerCrop"
+                        android:layout_weight="1"
                         android:layout_width="100dp"
                         android:layout_marginRight="10dp"
                         android:layout_height="100dp" />
@@ -203,6 +209,7 @@
                         android:id="@+id/smaller_images3"
                         android:src="@drawable/imageea9eeca1"
                         android:scaleType="centerCrop"
+                        android:layout_weight="1"
                         android:layout_width="100dp"
                         android:layout_height="100dp" />
                 </LinearLayout>
@@ -251,7 +258,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="20dp"
                             android:layout_centerInParent="true"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:orientation="vertical">
 
                             <TextView
@@ -294,11 +301,11 @@
 
                 <androidx.cardview.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="30dp"
                     android:backgroundTint="@color/Red"
+                    android:layout_gravity="center"
                     card_view:cardCornerRadius="10dp"
                     android:orientation="horizontal">
 
@@ -311,29 +318,7 @@
                         android:padding="20dp"
                         android:textStyle="bold"
                         android:textSize="25dp"
-                        android:text="@string/ajouter_au_panier" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    card_view:cardElevation="1dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/colorgreybc51919d"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:text="+"
-                        android:textColor="@color/White"
-                        android:layout_gravity="center"
-                        android:textSize="80dp"
-                        android:layout_height="wrap_content" />
+                        android:text="Liker" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
     </LinearLayout>

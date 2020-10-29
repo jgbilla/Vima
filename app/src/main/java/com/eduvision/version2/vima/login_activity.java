@@ -85,6 +85,8 @@ public class login_activity extends AppCompatActivity {
                                 else{
                                     Intent intent = new Intent(getApplicationContext(), MainPage.class);
                                     startActivity(intent);
+                                    finish();
+
                                 }
                             }
                         }, 1000);
@@ -92,6 +94,7 @@ public class login_activity extends AppCompatActivity {
                     else{
                         Intent intent = new Intent(getApplicationContext(), MainPage.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
