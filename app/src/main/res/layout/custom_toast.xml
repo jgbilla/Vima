@@ -7,7 +7,7 @@
     android:minWidth="200dp"
     android:background="@drawable/border"
     android:padding="10dp"
-    android:layout_height="50dp"
+    android:layout_height="60dp"
     android:maxHeight="50dp"
     android:backgroundTint="@color/Grey"
     android:id="@+id/custom_toast_container">
@@ -17,8 +17,9 @@
         android:layout_alignParentStart="true"
         android:layout_height="wrap_content">
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
+            android:layout_width="21dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
             android:layout_marginEnd="8dp"
             android:src="@drawable/vima_logo"
             android:contentDescription="@string/app_name" />

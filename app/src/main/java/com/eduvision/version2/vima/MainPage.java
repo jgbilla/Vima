@@ -17,9 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.net.URL;
 
 public class MainPage extends AppCompatActivity {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

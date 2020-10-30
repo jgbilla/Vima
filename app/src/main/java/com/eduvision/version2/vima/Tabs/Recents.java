@@ -53,7 +53,7 @@ public class Recents extends Fragment {
         super.onCreate(savedInstanceState);
         articlegv = view.findViewById(R.id.gridview);
         ArticleAdapter articleAdapter = new ArticleAdapter(getContext(), 1, "Recents");
-        articlegv.setAdapter(new ArticleAdapter(getContext(), 1, "Recents"));
+        articlegv.setAdapter(articleAdapter);
 
         articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

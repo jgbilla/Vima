@@ -1,16 +1,20 @@
 package com.eduvision.version2.vima;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.eduvision.version2.vima.Tabs.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -61,7 +65,7 @@ public class articlePage extends AppCompatActivity {
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
         if(i != null){
-           // article = Fetching.myData.get(i.getInt("LockerKey"));
+            article = Fetching.myData.get(i.getInt("LockerKey"));
         }
 
         article_id = article.getRank();
@@ -75,18 +79,63 @@ public class articlePage extends AppCompatActivity {
         big_pic = findViewById(R.id.big_picture);
         sm_pic1 = findViewById(R.id.smaller_images1);
         sm_pic2 = findViewById(R.id.smaller_images2);
+        sm_pic3 = findViewById(R.id.smaller_images3);
         shop_pic = findViewById(R.id.shop_picture);
         spin1 = findViewById(R.id.color_spinner);
         spin2 = findViewById(R.id.sex_spinner);
+        ImageButton goBack = findViewById(R.id.go_back);
 
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
+
+        big_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(articlePage.this, ArticleAlone.class);
+                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
+        sm_pic1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(articlePage.this, ArticleAlone.class);
+                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
+        sm_pic2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(articlePage.this, ArticleAlone.class);
+                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
+        sm_pic3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(articlePage.this, ArticleAlone.class);
+                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
+        Context mContext = getApplicationContext();
         //Fetch
-        /*
-        ArticleAdapter.glideIt(big_pic, bPictures.getPhoto(), mContext);
-        ArticleAdapter.glideIt(sm_pic1, bPictures.getSmall_pic1(), mContext);
-        ArticleAdapter.glideIt(sm_pic2, bPictures.getSmall_pic2(), mContext);
-        ArticleAdapter.glideIt(sm_pic3, bPictures.getSmall_pic3(), mContext);
-        ArticleAdapter.glideIt(sm_pic4, bPictures.getSmall_pic4(), mContext);
-        */
+
+        ArticleAdapter.glideIt(big_pic, article.getP_photo(), mContext);
+        ArticleAdapter.glideIt(sm_pic1, article.getP_photo(), mContext);
+        ArticleAdapter.glideIt(sm_pic2, article.getP_photo(), mContext);
+        ArticleAdapter.glideIt(sm_pic3, article.getP_photo(), mContext);
+
 
         price.setText(article.getPrice().toString());
         title.setText(article.getName());

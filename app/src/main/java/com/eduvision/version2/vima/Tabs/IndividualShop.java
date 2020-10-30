@@ -1,11 +1,18 @@
 package com.eduvision.version2.vima.Tabs;
 
 
+import java.util.ArrayList;
+
 public class IndividualShop {
 
     private String name, p_photo, location;
     public int positionInDataBase;
+    public ArrayList<ArrayList<Long>> shopMap = new ArrayList<>(1);
+    public ArrayList<String> myTitles = new ArrayList<>(1);
 
+    public void setTitles(ArrayList<String> myTitles){
+        this.myTitles = myTitles;
+    }
     public String getLocation() {
         return location;
     }

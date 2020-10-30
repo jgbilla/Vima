@@ -1,17 +1,7 @@
 package com.eduvision.version2.vima.Tabs;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
-import com.eduvision.version2.vima.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,15 +27,37 @@ public class FetchShops {
                 IndividualShop currentArticle;
                 String sCounter = snapshot.child("counter").getValue().toString();
                 int counter = Integer.parseInt(sCounter);
+                DataSnapshot mSnapshot;
+
                 for(int i = 1; i<=(16); i++){
                     if(i < counter){
-                        currentArticle = snapshot.child(Integer.toString(i)).getValue(IndividualShop.class);
+                        currentArticle = snapshot.child(String.valueOf(i)).getValue(IndividualShop.class);
+                        mSnapshot = snapshot.child(Integer.toString(i)).child("Articles");
                     }
                     else{
                         currentArticle = snapshot.child(sCounter).getValue(IndividualShop.class);
+                        mSnapshot = snapshot.child(sCounter).child("Articles");
                     }
-                    Objects.requireNonNull(currentArticle).positionInDataBase = i;
 
+                    ArrayList<String> Titles = new ArrayList<>(1);
+                    for(int c= 1; c<=3; c++) {
+                        ArrayList<Long> ArticlesArray = new ArrayList<>(1);
+                        for (int a= 1; a<160; a++){
+                            DataSnapshot cSnapshot;
+                            if(a<mSnapshot.child(String.valueOf(c)).getChildrenCount()){
+                                cSnapshot = mSnapshot.child(String.valueOf(c)).child(String.valueOf(a));
+                            }
+                            else{
+                                cSnapshot = mSnapshot.child(String.valueOf(c)).child("1");
+                            }
+                            ArticlesArray.add(Long.parseLong(String.valueOf(cSnapshot.getValue())));
+                        }
+                        Titles.add(String.valueOf(mSnapshot.child(String.valueOf(c)).child("name").getValue()));
+                        currentArticle.shopMap.add(ArticlesArray);
+                    }
+                    currentArticle.setTitles(Titles);
+
+                    Objects.requireNonNull(currentArticle).positionInDataBase = i;
                     if(i < 3){
                         homeShopsData.add(currentArticle);
                     }

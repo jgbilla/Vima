@@ -2,6 +2,7 @@ package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Home;
@@ -26,14 +29,14 @@ I used this class as a BaseAdapter for both the Recent and the Popular Activitie
 public class ArticleAdapter extends BaseAdapter {
     private Context mContext;
     LayoutInflater myInflater;
-    int dif;
+    Object dif;
     FirebaseStorage storage;
     String myLayout;
     public static IndividualArticle myArticle;
     public static IndividualArticle myArticle_one;
     ArrayList<IndividualArticle> MyList;
 
-    public ArticleAdapter(Context c, int n, String forLayout) {
+    public ArticleAdapter(Context c, Object n, String forLayout) {
         mContext = c;
         dif = n;
         this.myInflater = LayoutInflater.from(c);
@@ -73,14 +76,15 @@ public class ArticleAdapter extends BaseAdapter {
                 .into(image);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
 
-            switch (myLayout){
+            switch (myLayout) {
                 case "Recents":
-                    if(Fetching.isDataFetched.equals("Yes")) {
-                        myArticle = Fetching.myData.get(Fetching.RecentsPageNumber*position*2);
-                        myArticle_one = Fetching.myData.get(Fetching.RecentsPageNumber*position*2+1);
+                    if (Fetching.isDataFetched.equals("Yes")) {
+                        myArticle = Fetching.myData.get(Fetching.RecentsPageNumber * position * 2);
+                        myArticle_one = Fetching.myData.get(Fetching.RecentsPageNumber * position * 2 + 1);
                         convertView = myInflater.inflate(R.layout._pop_article_model, parent, false);
                         ImageButton myBtn = convertView.findViewById(R.id.like_button);
 
@@ -115,8 +119,8 @@ public class ArticleAdapter extends BaseAdapter {
                     break;
                 case "Popular":
                     convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
-                    if(Fetching.isDataFetched.equals("Yes")){
-                        myArticle = Home.mySortedData.get(Fetching.PopularPageNumber*position);
+                    if (Fetching.isDataFetched.equals("Yes")) {
+                        myArticle = Home.mySortedData.get(Fetching.PopularPageNumber * position);
 
                         Fetching.changeText(convertView, myArticle, mContext);
                         int finalPosition = position;
@@ -125,6 +129,7 @@ public class ArticleAdapter extends BaseAdapter {
                             public void onClick(View view) {
                                 Intent myIntent = new Intent(mContext, articlePage.class);
                                 myIntent.putExtra("LockerKey", finalPosition);
+                                myIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 mContext.startActivity(myIntent);
                             }
                         });
@@ -138,7 +143,6 @@ public class ArticleAdapter extends BaseAdapter {
                     TextView location = convertView.findViewById(R.id.location);
                     location.setText(myShop.getLocation());
                     ImageView myImage = convertView.findViewById(R.id.article_picture);
-                    Log.println(Log.INFO,"Tagging",  FetchShops.shopData.get(position).getP_photo());
                     StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(FetchShops.shopData.get(position).getP_photo());
                     Glide.with(mContext)
                             .load(storageReference)
@@ -146,35 +150,55 @@ public class ArticleAdapter extends BaseAdapter {
 
                     break;
                 case "ShopArticles":
+                    ArrayList<Long> myArticles = (ArrayList<Long>) dif;
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
+                    Log.println(Log.INFO, "Articles in Shop Model", "Inflated");
+                    IndividualArticle fArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 )));
+                    IndividualArticle sArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +1)));
+                    IndividualArticle tArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +2)));
 
-                    /*
-                    myImage = convertView.findViewById(R.id.article_shop_picture);
-                    ImageView myImage1 = convertView.findViewById(R.id.second_article_shop_picture);
-                    ImageView myImage2 = convertView.findViewById(R.id.shop_picture);
-                    glideIt(myImage, Fetching.getItems(position*3, "Articles"));
-                    glideIt(myImage1, Fetching.getItems(position*3-1, "Articles"));
-                    glideIt(myImage2, Fetching.getItems(position*3-2, "Articles"));
-                     */
+
+                    //Picture price description name
+                    TextView price1 = convertView.findViewById(R.id.article_price1);
+                    price1.setText(fArticle.getName());
+                    TextView description1 = convertView.findViewById(R.id.article_description1);
+                    description1.setText(fArticle.getName());
+                    ImageView myImage1 = convertView.findViewById(R.id.article_picture1);
+                    StorageReference storageReference1 = FirebaseStorage.getInstance().getReferenceFromUrl(fArticle.getP_photo());
+                    Glide.with(mContext)
+                            .load(storageReference1)
+                            .into(myImage1);
+
+
+                    TextView price2 = convertView.findViewById(R.id.article_price2);
+                    price2.setText(sArticle.getName());
+                    TextView description2 = convertView.findViewById(R.id.article_description2);
+                    description2.setText(sArticle.getName());
+                    ImageView myImage2 = convertView.findViewById(R.id.article_picture2);
+                    StorageReference storageReference2 = FirebaseStorage.getInstance().getReferenceFromUrl(sArticle.getP_photo());
+                    Glide.with(mContext)
+                            .load(storageReference2)
+                            .into(myImage2);
+
+                    TextView price3 = convertView.findViewById(R.id.article_price3);
+                    price3.setText(tArticle.getName());
+                    TextView description3 = convertView.findViewById(R.id.article_description3);
+                    description3.setText(tArticle.getName());
+                    TextView name = convertView.findViewById(R.id.article_name3);
+                    name.setText(tArticle.getName());
+                    ImageView myImage3 = convertView.findViewById(R.id.article_picture3);
+                    StorageReference storageReference3 = FirebaseStorage.getInstance().getReferenceFromUrl(tArticle.getP_photo());
+                    Glide.with(mContext)
+                            .load(storageReference3)
+                            .into(myImage3);
+
+
+
                     break;
                 default:
                     convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
                     break;
             }
-
-            /*
-            ImageView myView = (ImageView) convertView.findViewById(R.id.shop_picture);
-            TextView type = (TextView) convertView.findViewById(R.id.article_description);
-            TextView price = (TextView) convertView.findViewById(R.id.article_price);
-            TextView name = (TextView) convertView.findViewById(R.id.article_name);
-
-            Glide.with(mContext)
-                    .load(MyList.get(position).getP_photo())
-                    .into(myView);
-            type.setText(MyList.get(position).getShop_name());
-            name.setText(MyList.get(position).getName());
-            price.setText(MyList.get(position).getPrice());
-             */
 
         }
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/go_back"
+        android:layout_alignParentTop="true"
+        android:elevation="1dp"
+        android:background="#00ffffff"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/groupedemasques6"/>
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/whi4jnmir8"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="50dp"
+                android:id="@+id/whitespace"
+                android:gravity="center"
+                android:background="@color/White"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/Black"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/text"
+                    android:layout_height="match_parent"
+                    android:text="Impermeable a Capuche"/>
+
+            </LinearLayout>
+
+    </RelativeLayout>
