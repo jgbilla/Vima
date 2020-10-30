@@ -13,10 +13,8 @@ import androidx.fragment.app.Fragment;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
-import com.eduvision.version2.vima.Tabs.ShopImagesAdapter;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 
 /**

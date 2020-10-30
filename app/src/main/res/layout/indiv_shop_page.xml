@@ -60,10 +60,10 @@
                     android:layout_width="90dp"
                     android:layout_height="50dp"
                     android:scaleType="centerCrop"
+                    android:layout_marginTop="5dp"
                     android:layout_centerInParent="true"
                     android:layout_alignParentTop="true"
                     android:background="#00ffffff"
-                    android:layout_marginTop="10dp"
                     android:src="@drawable/mask39764a28" />
             </RelativeLayout>
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contactez-Nous"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="20dp"
                 android:textColor="@color/Black"/>
@@ -107,13 +107,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Qui Sommes nous?"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/Black"/>
             <TextView
                 android:id="@+id/shop_page_description"
-                android:text="Celio est une grane boutique situee a Ouaga qui vend des produits de qualite jgdc hcI I knoz it qint hqrd ohh but you knoz zoo iafjhf fiuhfieruhr ihffir"
                 android:layout_width="wrap_content"
                 android:textSize="15dp"
                 android:layout_marginHorizontal="30dp"

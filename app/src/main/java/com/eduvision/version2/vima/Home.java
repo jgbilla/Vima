@@ -2,7 +2,6 @@ package com.eduvision.version2.vima;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,14 +32,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Home extends Fragment {
-    Context mContext;
     private static final int REQUEST_LOCATION = 1;
     TextView sRecents, sPop, sShop;
-   ProgressBar Progress;
+    ProgressBar Progress;
 
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
 
-    IndividualArticle featured_info, f_recent, s_recent, t_recent, f_pop, s_pop, t_pop;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -52,56 +49,6 @@ public class Home extends Fragment {
 
     public Home() {
         // Required empty public constructor
-    }
-
-    private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
-
-        ProgressDialog progressDialog;
-
-        @Override
-        protected Long doInBackground(URL... urls) {
-            Fetching.getItems();
-            FetchShops.getShops();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Long result) {
-            // execution of result of Long time consuming operation
-            progressDialog.dismiss();
-
-        }
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(getContext(),
-                    "ProgressDialog",
-                    "Wait for the items to load");
-        }
-
-    }
-
-    protected void onPreExecute() {
-
-        Progress = Objects.requireNonNull(getView()).findViewById(R.id.linlaHeaderProgress);
-        Progress.setVisibility(View.VISIBLE);
-        if (!Fetching.isInternetAvailable(Objects.requireNonNull(getContext()))){
-            Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
-        }
-        else  {
-            if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable(){
-                    @Override
-                    public void run(){
-                        Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
-                        if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
-                            Log.println(Log.INFO, "Handler Tag", "Data is still not fetched. Logging out.");
-                        }
-                    }
-                }, 1000);
-            }
-
-        }
     }
 
 
@@ -142,21 +89,22 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         return inflater.inflate(R.layout.fragment_home, container, false);
 }
-public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
-        ArrayList<IndividualArticle> myList = myList1;
-        for(int i = 0; i<(myList.size()-1); i++) {
-            for (int a = 0; a < (myList.size()-1); a++) {
-                if (myList.get(a).getPopularity_index() > myList.get(a + 1).getPopularity_index()) {
-                    IndividualArticle temp = myList.get(a + 1);
-                    myList.set(a + 1, myList.get(a));
-                    myList.set(a, temp);
+    public ArrayList<IndividualArticle> sort(@NonNull ArrayList<IndividualArticle> myList1){
+        for(int i = 0; i<(myList1.size()-1); i++) {
+                for (int a = 0; a < (myList1.size()-1); a++) {
+                    if (myList1.get(a).getPopularity_index() > myList1.get(a + 1).getPopularity_index()) {
+                        IndividualArticle temp = myList1.get(a + 1);
+                        myList1.set(a + 1, myList1.get(a));
+                        myList1.set(a, temp);
+                    }
                 }
             }
-        }
-        return myList;
+            return myList1;
     }
+
     public static ArrayList<IndividualArticle> mySortedData = new ArrayList<>(80);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -165,207 +113,124 @@ public ArrayList<IndividualArticle> sort(ArrayList<IndividualArticle> myList1){
         super.onViewCreated(view, savedInstanceState);
 
         featured = view.findViewById(R.id.featured);
-        new DownloadFilesTask().execute();
         Progress = Objects.requireNonNull(getView()).findViewById(R.id.linlaHeaderProgress);
         mySortedData = sort(Fetching.myData);
-        if (mySortedData.isEmpty()) {
-            onPreExecute();
-            Progress.setVisibility(View.GONE);
-        } else {
+        Progress.setVisibility(View.GONE);
 
-            Log.println(Log.INFO, "Tagging", String.valueOf(FetchShops.shopData.size()));
-            sRecents = view.findViewById(R.id.see_recents);
-            sPop = view.findViewById(R.id.see_popular);
-            sShop = view.findViewById(R.id.see_shops);
-            Log.println(Log.INFO, "Tagging", String.valueOf(FetchShops.shopData.size()));
+        sRecents = view.findViewById(R.id.see_recents);
+        sPop = view.findViewById(R.id.see_popular);
+        sShop = view.findViewById(R.id.see_shops);
 
-            ImageButton goLeft = view.findViewById(R.id.goLeft);
-            ImageButton goRight = view.findViewById(R.id.goRight);
-            TextView shopName = view.findViewById(R.id.shopName);
+        ImageButton goLeft = view.findViewById(R.id.goLeft);
+        ImageButton goRight = view.findViewById(R.id.goRight);
+        TextView shopName = view.findViewById(R.id.shopName);
 
-            int[] featuredCounter = {0};
-            ArticleAdapter.glideIt(featured, Fetching.myData.get(0).getP_photo(), getContext());
-            shopName.setText(Fetching.myData.get(0).getShop_name());
-            goLeft.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (featuredCounter[0] - 1 > 0 && featuredCounter[0] - 1 < Fetching.myData.size()) {
-                        featuredCounter[0]--;
-                        ArticleAdapter.glideIt(featured,
-                                Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
-                                getContext());
-                        shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
-                    }
+        int[] featuredCounter = {0};
+        ArticleAdapter.glideIt(featured, Fetching.myData.get(0).getP_photo(), getContext());
+        shopName.setText(Fetching.myData.get(0).getShop_name());
+        goLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (featuredCounter[0] - 1 > 0 && featuredCounter[0] - 1 < Fetching.myData.size()) {
+                    featuredCounter[0]--;
+                    ArticleAdapter.glideIt(featured,
+                            Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
+                            getContext());
+                    shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
                 }
-            });
+            }
+        });
 
-            goRight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (featuredCounter[0] + 1 < Fetching.myData.size()) {
-                        featuredCounter[0]++;
-                        ArticleAdapter.glideIt(featured,
-                                Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
-                                getContext());
-                        shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
-                    }
+        goRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (featuredCounter[0] + 1 < Fetching.myData.size()) {
+                    featuredCounter[0]++;
+                    ArticleAdapter.glideIt(featured,
+                            Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
+                            getContext());
+                    shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
                 }
-            });
+            }
+        });
 
-            sRecents = view.findViewById(R.id.see_recents);
-            sPop = view.findViewById(R.id.see_popular);
-            sShop = view.findViewById(R.id.see_shops);
+        sRecents = view.findViewById(R.id.see_recents);
+        sPop = view.findViewById(R.id.see_popular);
+        sShop = view.findViewById(R.id.see_shops);
 
-            shop1 = view.findViewById(R.id.fsimage);
-            shop2 = view.findViewById(R.id.ssimage);
-            shop3 = view.findViewById(R.id.tsimage);
+        shop1 = view.findViewById(R.id.fsimage);
+        shop2 = view.findViewById(R.id.ssimage);
+        shop3 = view.findViewById(R.id.tsimage);
 
-            featured = view.findViewById(R.id.featured);
-            ArticleAdapter.glideIt(shop1, FetchShops.shopData.get(1).getP_photo(), getContext());
-            ArticleAdapter.glideIt(shop2, FetchShops.shopData.get(2).getP_photo(), getContext());
-            ArticleAdapter.glideIt(shop3, FetchShops.shopData.get(3).getP_photo(), getContext());
+        featured = view.findViewById(R.id.featured);
+        ArticleAdapter.glideIt(shop1, FetchShops.shopData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop2, FetchShops.shopData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop3, FetchShops.shopData.get(3).getP_photo(), getContext());
 
-            recents1 = view.findViewById(R.id.frimage); //fr = first recent
-            recents2 = view.findViewById(R.id.srimage);
-            recents3 = view.findViewById(R.id.trimage);
+        recents1 = view.findViewById(R.id.frimage); //fr = first recent
+        recents2 = view.findViewById(R.id.srimage);
+        recents3 = view.findViewById(R.id.trimage);
 
-            ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
-            ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
-            ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
 
-            pop1 = view.findViewById(R.id.fpimage); //fp = first popular
-            pop2 = view.findViewById(R.id.spimage);
-            pop3 = view.findViewById(R.id.tpimage);
+        pop1 = view.findViewById(R.id.fpimage); //fp = first popular
+        pop2 = view.findViewById(R.id.spimage);
+        pop3 = view.findViewById(R.id.tpimage);
 
-            ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
-            ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
-            ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
 
-            shop1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(getActivity(), shopPage.class);
-                    myIntent.putExtra("LockerKey", 0);
-                    startActivity(myIntent);
-                }
-            });
-            shop2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(getActivity(), shopPage.class);
-                    myIntent.putExtra("LockerKey", 1);
-                    startActivity(myIntent);
-                }
-            });
-            shop3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(getActivity(), shopPage.class);
-                    myIntent.putExtra("LockerKey", 0);
-                    myIntent.putExtra("LockerKey", 2);
-                    startActivity(myIntent);
-                }
-            });
-            sRecents.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(getContext(), Verify.class);
-                    myIntent.putExtra("key", "2");
-                    startActivity(myIntent);
-                }
-            });
-            sPop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent myIntent = new Intent(getContext(), Verify.class);
-                    myIntent.putExtra("key", "3");
-                    startActivity(myIntent);
-                }
-            });
-            sShop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent myIntent = new Intent(getContext(), Verify.class);
-                    myIntent.putExtra("key", "1");
-                    startActivity(myIntent);
-                }
-            });
-
-        /*
-        featured = Objects.requireNonNull(getView()).findViewById(R.id.featured);
-        recents1 = getView().findViewById(R.id.frimage); //fr = first recent
-        recents2 = getView().findViewById(R.id.srimage);
-        recents3 = getView().findViewById(R.id.trimage);
-        pop1 = getView().findViewById(R.id.fpimage); //fp = first popular
-        pop2 = getView().findViewById(R.id.spimage);
-        pop3 = getView().findViewById(R.id.tpimage);
-        shop1 = getView().findViewById(R.id.fsimage); //fs = first shop
-        shop2 = getView().findViewById(R.id.ssimage);
-        shop3 = getView().findViewById(R.id.tsimage);
-
-        ArrayList<individual_info_class> articles = new ArrayList<>(4);
-        ArrayList<individual_info_class> pop_articles = new ArrayList<>(3);
-        articles = Sorting.getItems(4);
-        Sorting.get_Popular_Items(3, pop_articles);
-
-        //Getting recents and populaire articles
-
-        featured_info = articles.get(0);
-        f_recent = articles.get(1);
-        s_recent = articles.get(2);
-        t_recent = articles.get(3);
-
-        f_pop = pop_articles.get(0);
-        s_pop = pop_articles.get(1);
-        t_pop = pop_articles.get(2);
-
-        //Displaying images
-        */
-        /*
-        Glide.with(mContext)
-                .load(featured_info.getP_photo())
-                .into(featured);
-
-        Glide.with(mContext)
-                .load(f_recent.getP_photo())
-                .into(recents1);
-        Glide.with(mContext)
-                .load(s_recent.getP_photo())
-                .into(recents2);
-        Glide.with(mContext)
-                .load(t_recent.getP_photo())
-                .into(recents3);
-
-        Glide.with(mContext)
-                .load(f_pop.getP_photo())
-                .into(recents1);
-        Glide.with(mContext)
-                .load(s_pop.getP_photo())
-                .into(recents2);
-        Glide.with(mContext)
-                .load(t_pop.getP_photo())
-                .into(recents3);
-
+        shop1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), shopPage.class);
+                myIntent.putExtra("LockerKey", 0);
+                startActivity(myIntent);
+            }
+        });
+        shop2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), shopPage.class);
+                myIntent.putExtra("LockerKey", 1);
+                startActivity(myIntent);
+            }
+        });
+        shop3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), shopPage.class);
+                myIntent.putExtra("LockerKey", 0);
+                myIntent.putExtra("LockerKey", 2);
+                startActivity(myIntent);
+            }
+        });
         sRecents.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //TODO: Go to Bag Fragment
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getContext(), Verify.class);
+                myIntent.putExtra("key", "2");
+                startActivity(myIntent);
             }
         });
         sPop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(getContext(), Verify.class);
+                myIntent.putExtra("key", "3");
+                startActivity(myIntent);
             }
         });
         sShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(getContext(), Verify.class);
+                myIntent.putExtra("key", "1");
+                startActivity(myIntent);
             }
         });
-
-         */
-        }
     }
 }

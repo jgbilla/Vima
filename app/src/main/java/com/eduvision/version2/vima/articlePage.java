@@ -21,9 +21,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class articlePage extends AppCompatActivity {
 
-    private long article_id;
+    long article_id;
     TextView price, title, description, shop_name, shop_description, shop_location;
-    ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, sm_pic4, shop_pic;
+    ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, shop_pic;
     CircleImageView profile_picture;
     Spinner spin1, spin2;
 
@@ -96,7 +96,9 @@ public class articlePage extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(articlePage.this, ArticleAlone.class);
-                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                if (i != null) {
+                    intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -105,7 +107,9 @@ public class articlePage extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(articlePage.this, ArticleAlone.class);
-                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                if (i != null) {
+                    intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -114,7 +118,9 @@ public class articlePage extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(articlePage.this, ArticleAlone.class);
-                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                if (i != null) {
+                    intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
@@ -123,129 +129,26 @@ public class articlePage extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(articlePage.this, ArticleAlone.class);
-                intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                if (i != null) {
+                    intent.putExtra("LockerKey", i.getInt("LockerKey"));
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });
         Context mContext = getApplicationContext();
-        //Fetch
 
         ArticleAdapter.glideIt(big_pic, article.getP_photo(), mContext);
         ArticleAdapter.glideIt(sm_pic1, article.getP_photo(), mContext);
         ArticleAdapter.glideIt(sm_pic2, article.getP_photo(), mContext);
         ArticleAdapter.glideIt(sm_pic3, article.getP_photo(), mContext);
 
-
-        price.setText(article.getPrice().toString());
+        price.setText(String.valueOf(article.getPrice()));
         title.setText(article.getName());
         description.setText(article.getName());
         shop_name.setText(article.getShop_name());
         shop_description.setText(article.getShop_name());
         shop_location.setText(article.getShop_name());
-
-
-        /*
-        final String[] sizeSelected = new String[1];
-        final String[] colorSelected = new String[1];
-
-        mDatabase.child("Articles").child(Long.toString(article_id)).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                info = dataSnapshot.child("infos").child("name").getValue(Article_info.class);
-                bDescription = dataSnapshot.child("infos").child("name").getValue(Article_description.class);
-                bPictures = dataSnapshot.child("infos").child("name").getValue(Article_pictures.class);
-
-                //Setting up the spinner for colors
-                ArrayList<String> colors = new ArrayList<>();
-                int color_count = (int) dataSnapshot.child("infos").child("name").child("description").child("colors").getChildrenCount();
-                for(int i = 1; i<=color_count; i++){
-                    colors.add(dataSnapshot.child("infos").child("name").child("description").child("colors").child(Integer.toString(i)).toString());
-                }
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, colors);
-                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin1.setAdapter(arrayAdapter);
-                spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        //Do anything you want with this String, Yay!
-                        //For instance: TODO: Pass this String when the user adds the article to their panier
-                        colorSelected[0] = parent.getItemAtPosition(position).toString();
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView <?> parent) {
-                    }
-                });
-
-                //Setting up the spinner for sizes
-                ArrayList<String> sizes = new ArrayList<>();
-                int size_count = (int) dataSnapshot.child("infos").child("name").child("description").child("size").getChildrenCount();
-                for(int i = 1; i<=size_count; i++){
-                    sizes.add(dataSnapshot.child("infos").child("name").child("description").child("size").child(Integer.toString(i)).toString());
-                }
-                ArrayAdapter<String> sizeArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, sizes);
-                sizeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin1.setAdapter(sizeArrayAdapter);
-                spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        //Do anything you want with this String, Yay!
-                        //For instance: TODO: Pass this String when the user adds the article to their panier
-                        sizeSelected[0] = parent.getItemAtPosition(position).toString();
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView <?> parent) {
-                    }
-                });
-
-                //Getting the info of the shop that sells the article
-                mDatabase.child("Shops").child(Integer.toString(info.getSeller_id())).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        individualArticleConstructor = dataSnapshot.getValue(IndividualArticleConstructor.class);
-                        //I am adding all of this inside of the onDataChange because of the asynchronous loading
-                        shop_name.setText(individualArticleConstructor.getName());
-                        shop_description.setText(individualArticleConstructor.getDescription());
-                        shop_location.setText(individualArticleConstructor.getLocation());
-                        Glide.with(mContext)
-                                .load(individualArticleConstructor.getPicture_logo())
-                                .into(shop_pic);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-                //I am adding all of this inside of the onDataChange function because of the asynchronous loading
-                price.setText(info.getPrice());
-                title.setText(info.getName());
-                description.setText(bDescription.getDescription());
-
-                //Setting the ImageResource of ImageViews from Firebase data
-                Glide.with(mContext)
-                        .load(bPictures.getPhoto())
-                        .into(big_pic);
-                Glide.with(mContext)
-                        .load(bPictures.getSmall_pic1())
-                        .into(sm_pic1);
-                Glide.with(mContext)
-                        .load(bPictures.getSmall_pic2())
-                        .into(sm_pic2);
-                Glide.with(mContext)
-                        .load(bPictures.getSmall_pic3())
-                        .into(sm_pic3);
-                Glide.with(mContext)
-                        .load(bPictures.getSmall_pic4())
-                        .into(sm_pic4);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        */
-
 
     }
 }

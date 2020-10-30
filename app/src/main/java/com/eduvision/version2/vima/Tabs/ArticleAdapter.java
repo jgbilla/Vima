@@ -22,42 +22,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-/*
-I used this class as a BaseAdapter for both the Recent and the Popular Activities
- */
 
 public class ArticleAdapter extends BaseAdapter {
     private Context mContext;
     LayoutInflater myInflater;
     Object dif;
-    FirebaseStorage storage;
     String myLayout;
     public static IndividualArticle myArticle;
     public static IndividualArticle myArticle_one;
-    ArrayList<IndividualArticle> MyList;
 
     public ArticleAdapter(Context c, Object n, String forLayout) {
         mContext = c;
         dif = n;
         this.myInflater = LayoutInflater.from(c);
         myLayout = forLayout;
-        /*ArrayList<individual_info_class> givenList,
-        MyList = givenList;*/
     }
 
     public int getCount() {
-       /* int count;
-        if(myLayout == "Popular"){
-            count = Fetching.PopularPageNumber;
-        }
-        else if(myLayout == "Recents"){
-            count = Fetching.RecentsPageNumber;
-        }
-        else{
-            count = 16;
-        }
-
-        */
         return 16;
     }
 
@@ -152,13 +133,11 @@ public class ArticleAdapter extends BaseAdapter {
                 case "ShopArticles":
                     ArrayList<Long> myArticles = (ArrayList<Long>) dif;
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
-                    Log.println(Log.INFO, "Articles in Shop Model", "Inflated");
+
                     IndividualArticle fArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 )));
                     IndividualArticle sArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +1)));
                     IndividualArticle tArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +2)));
 
-
-                    //Picture price description name
                     TextView price1 = convertView.findViewById(R.id.article_price1);
                     price1.setText(fArticle.getName());
                     TextView description1 = convertView.findViewById(R.id.article_description1);
@@ -168,7 +147,6 @@ public class ArticleAdapter extends BaseAdapter {
                     Glide.with(mContext)
                             .load(storageReference1)
                             .into(myImage1);
-
 
                     TextView price2 = convertView.findViewById(R.id.article_price2);
                     price2.setText(sArticle.getName());
@@ -191,8 +169,6 @@ public class ArticleAdapter extends BaseAdapter {
                     Glide.with(mContext)
                             .load(storageReference3)
                             .into(myImage3);
-
-
 
                     break;
                 default:
