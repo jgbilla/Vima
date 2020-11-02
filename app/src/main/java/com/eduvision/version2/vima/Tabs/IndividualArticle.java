@@ -2,8 +2,30 @@ package com.eduvision.version2.vima.Tabs;
 
 
 public class IndividualArticle{
-    private String name, p_photo, shop_name;
-    int positionInDataBase = 0;
+    public int positionInArray = -1;
+    private String name;
+    private String p_photo;
+    private String shop_name;
+
+    public boolean getNumberTimesLiked() {
+        return isLiked;
+    }
+
+    public void setNumberTimesLiked(boolean numberTimesLiked) {
+        this.isLiked = numberTimesLiked;
+    }
+
+    public String getPhone() {
+        return phoneNumber;
+    }
+
+    public void setPhone(String phone) {
+        this.phoneNumber = phone;
+    }
+
+    private String phoneNumber;
+    public int positionInDataBase = 0;
+    public boolean isLiked = false;
     private Long rank, seller_id, popularity_index, price;
 
     public IndividualArticle() {

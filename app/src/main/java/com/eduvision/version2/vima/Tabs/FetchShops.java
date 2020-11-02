@@ -42,7 +42,7 @@ public class FetchShops {
                     ArrayList<String> Titles = new ArrayList<>(1);
                     for(int c= 1; c<=3; c++) {
                         ArrayList<Long> ArticlesArray = new ArrayList<>(1);
-                        for (int a= 1; a<160; a++){
+                        for (int a= 1; a<80; a++){
                             DataSnapshot cSnapshot;
                             if(a<mSnapshot.child(String.valueOf(c)).getChildrenCount()){
                                 cSnapshot = mSnapshot.child(String.valueOf(c)).child(String.valueOf(a));

@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginBottom="10dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Home">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
+        android:gravity="center"
         android:orientation="vertical">
         <ProgressBar
             android:id="@+id/linlaHeaderProgress"
@@ -24,6 +20,11 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
         </ProgressBar>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -50,7 +51,6 @@
                 app:civ_border_width="2dp" />
 
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -691,8 +691,18 @@
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
         </LinearLayout>
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="LARGE_BANNER"
+            android:layout_marginTop="5dp"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        </com.google.android.gms.ads.AdView>
+
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
 
     <!--
     <androidx.viewpager.widget.ViewPager

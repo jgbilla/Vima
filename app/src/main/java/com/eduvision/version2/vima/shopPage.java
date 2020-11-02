@@ -1,6 +1,8 @@
 package com.eduvision.version2.vima;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,14 @@ public class shopPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.indiv_shop_page);
 
+        ImageButton goBack = findViewById(R.id.go_back);
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
         IndividualShop shop = new IndividualShop();
 
         Bundle i = getIntent().getExtras();

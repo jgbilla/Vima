@@ -1,12 +1,15 @@
 package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +21,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
 
 public class Fetching {
     public static int PopularPageNumber = 1;
@@ -30,22 +37,33 @@ public class Fetching {
     public static String isDataFetched = "No";
     public static String isDataBeingFetched = "No";
     public static ArrayList<IndividualArticle> homeArticlesData = new ArrayList<>(4);
-/*
-    public static void handleLike(int n, ImageButton myBtn, IndividualArticle myArticle){
-        switch(n%2){
-            case 0:
-                myBtn.setImageResource(R.drawable.icon_a);
+
+    public static void handleLike(ImageButton myBtn, IndividualArticle myArticle, Context mContext){
+        myArticle.isLiked = !myArticle.isLiked;
+        boolean temp = myArticle.isLiked;
+
+        if (!(temp)) {
+            myBtn.setImageResource(R.drawable.icon_a);
+            likedItemsPosition.remove(myArticle.positionInArray);
+        } else if (temp) {
+            myBtn.setImageResource(R.drawable.icon_b);
+            if(!Recents.myLikedItems.contains(myArticle)){
+                Recents.myLikedItems.add(myArticle);
                 myArticle.positionInArray = likedItemsPosition.size();
+                if(Recents.myLikedItems != null){
+                    SharedPreferences prefs = mContext.getSharedPreferences("prefs",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    Gson gson = new Gson();
+                    String jsonText = gson.toJson(Recents.myLikedItems);
+                    editor.putString("LikedItems", jsonText);
+                    editor.apply();
+                }
                 likedItemsPosition.add(myArticle.positionInDataBase);
-                break;
-             case 1:
-                myBtn.setImageResource(R.drawable.icon_b);
-                 likedItemsPosition.remove(myArticle.positionInArray);
-                 break;
+            }
         }
     }
 
- */
+
 
     public static boolean isInternetAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -54,14 +72,32 @@ public class Fetching {
         boolean isConnected = (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
         return isConnected;
     }
+    public static boolean waitInternetAvailable(Context context) {
+        boolean[] result = {false};
+        if(isInternetAvailable(context)){
+            result[0] = true;
+        }
+        else{
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run(){
+                    if(isInternetAvailable(context)) {
+                        result[0] = true;
+                    }
+                }
+            }, 200);
+        }
+        return result[0];
+    }
 
     public static void changeText(View convertView, IndividualArticle myArticle, Context mContext){
         TextView myShop = convertView.findViewById(R.id.shop);
         TextView myDescription = convertView.findViewById(R.id.article_name);
         TextView myPrice = convertView.findViewById(R.id.article_price);
-        //myShop.setText(myArticle.getShop_name());
+        myShop.setText(myArticle.getShop_name());
         myDescription.setText(myArticle.getName());
-        myPrice.setText(myArticle.getPrice().toString());
+        myPrice.setText(String.valueOf(myArticle.getPrice()));
         ArticleAdapter.glideIt(convertView.findViewById(R.id.article_picture), myArticle.getP_photo(), mContext);
     }
 
@@ -126,9 +162,8 @@ public class Fetching {
                         homeArticlesData.add(currentArticle);
                     }
                     myData.add(currentArticle);
-                }
+            }
                 isDataFetched = "Yes";
-
             }
 
             @Override

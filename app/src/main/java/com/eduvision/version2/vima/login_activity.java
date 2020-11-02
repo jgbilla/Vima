@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -15,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
+import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.facebook.CallbackManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -64,13 +67,16 @@ public class login_activity extends AppCompatActivity {
         myLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Fetching.isInternetAvailable(getApplicationContext())){
-                    Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
+                if (!Fetching.waitInternetAvailable(getApplicationContext())){
+                    Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
                 }
-                else  {
+                else if(Fetching.isDataFetched.equals("Yes") && FetchShops.isShopsDataFetched.equals("Yes")) {
                     Intent intent = new Intent(getApplicationContext(), MainPage.class);
                     startActivity(intent);
                     finish();
+                }
+                else{
+                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez!", Toast.LENGTH_LONG);
                 }
             }
         });

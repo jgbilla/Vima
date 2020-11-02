@@ -4,6 +4,15 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+
+import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,21 +24,28 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Verify;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends Fragment {
     private static final int REQUEST_LOCATION = 1;
@@ -104,13 +120,75 @@ public class Home extends Fragment {
             }
             return myList1;
     }
+    private AdView mAdView;
 
+    private void glideAll(){
+        ArticleAdapter.glideIt(shop1, FetchShops.shopData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop2, FetchShops.shopData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop3, FetchShops.shopData.get(3).getP_photo(), getContext());
+
+        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
+
+        ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+    }
     public static ArrayList<IndividualArticle> mySortedData = new ArrayList<>(80);
-
+    static boolean firstTime = true;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if(firstTime){
+            Fetching.makeCustomToast(getContext(), "Bienvenue sur VIMA", Toast.LENGTH_LONG);
+        }
+        firstTime = false;
+
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(LoadAdError adError) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
 
         featured = view.findViewById(R.id.featured);
         Progress = Objects.requireNonNull(getView()).findViewById(R.id.linlaHeaderProgress);
@@ -121,39 +199,6 @@ public class Home extends Fragment {
         sPop = view.findViewById(R.id.see_popular);
         sShop = view.findViewById(R.id.see_shops);
 
-        ImageButton goLeft = view.findViewById(R.id.goLeft);
-        ImageButton goRight = view.findViewById(R.id.goRight);
-        TextView shopName = view.findViewById(R.id.shopName);
-
-        int[] featuredCounter = {0};
-        ArticleAdapter.glideIt(featured, Fetching.myData.get(0).getP_photo(), getContext());
-        shopName.setText(Fetching.myData.get(0).getShop_name());
-        goLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (featuredCounter[0] - 1 > 0 && featuredCounter[0] - 1 < Fetching.myData.size()) {
-                    featuredCounter[0]--;
-                    ArticleAdapter.glideIt(featured,
-                            Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
-                            getContext());
-                    shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
-                }
-            }
-        });
-
-        goRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (featuredCounter[0] + 1 < Fetching.myData.size()) {
-                    featuredCounter[0]++;
-                    ArticleAdapter.glideIt(featured,
-                            Fetching.myData.get(featuredCounter[0] + 3).getP_photo(),
-                            getContext());
-                    shopName.setText(Fetching.myData.get(featuredCounter[0] + 3).getShop_name());
-                }
-            }
-        });
-
         sRecents = view.findViewById(R.id.see_recents);
         sPop = view.findViewById(R.id.see_popular);
         sShop = view.findViewById(R.id.see_shops);
@@ -162,74 +207,189 @@ public class Home extends Fragment {
         shop2 = view.findViewById(R.id.ssimage);
         shop3 = view.findViewById(R.id.tsimage);
 
-        featured = view.findViewById(R.id.featured);
-        ArticleAdapter.glideIt(shop1, FetchShops.shopData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(shop2, FetchShops.shopData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(shop3, FetchShops.shopData.get(3).getP_photo(), getContext());
-
         recents1 = view.findViewById(R.id.frimage); //fr = first recent
         recents2 = view.findViewById(R.id.srimage);
         recents3 = view.findViewById(R.id.trimage);
-
-        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
 
         pop1 = view.findViewById(R.id.fpimage); //fp = first popular
         pop2 = view.findViewById(R.id.spimage);
         pop3 = view.findViewById(R.id.tpimage);
 
-        ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(pop3, mySortedData.get(3).getP_photo(), getContext());
+        featured = view.findViewById(R.id.featured);
+        ImageButton goLeft = view.findViewById(R.id.goLeft);
+        ImageButton goRight = view.findViewById(R.id.goRight);
+        TextView shopName = view.findViewById(R.id.shopName);
 
-        shop1.setOnClickListener(new View.OnClickListener() {
+        if(Fetching.waitInternetAvailable(getContext())) {
+            int[] featuredCounter = {0};
+            ArticleAdapter.glideIt(featured, Fetching.myData.get(0).getP_photo(), getContext());
+            shopName.setText(Fetching.myData.get(0).getShop_name());
+            glideAll();
+            goLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (featuredCounter[0] >= 1 && featuredCounter[0] < Fetching.myData.size()) {
+                        featuredCounter[0]--;
+                        ArticleAdapter.glideIt(featured,
+                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
+                                getContext());
+                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
+                    }
+                }
+            });
+
+            goRight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (featuredCounter[0] + 1 < Fetching.myData.size()) {
+                        featuredCounter[0]++;
+                        ArticleAdapter.glideIt(featured,
+                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
+                                getContext());
+                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
+                    }
+                }
+            });
+
+            pop1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", mySortedData.get(0).positionInDataBase);
+                    startActivity(myIntent);
+                }
+            });
+
+            pop2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", mySortedData.get(1).positionInDataBase);
+                    startActivity(myIntent);
+                }
+            });
+
+            pop3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", mySortedData.get(2).positionInDataBase);
+                    startActivity(myIntent);
+                }
+            });
+
+            recents1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", 0);
+                    startActivity(myIntent);
+                }
+            });
+
+            recents2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", 1);
+                    startActivity(myIntent);
+                }
+            });
+
+            recents3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.putExtra("LockerKey", 2);
+                    startActivity(myIntent);
+                }
+            });
+
+            shop1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    myIntent.putExtra("LockerKey", 0);
+                    startActivity(myIntent);
+                }
+            });
+            shop2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    myIntent.putExtra("LockerKey", 1);
+                    startActivity(myIntent);
+                }
+            });
+            shop3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), shopPage.class);
+                    myIntent.putExtra("LockerKey", 2);
+                    startActivity(myIntent);
+                }
+            });
+            sRecents.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "2");
+                    startActivity(myIntent);
+                }
+            });
+            sPop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "3");
+                    startActivity(myIntent);
+                }
+            });
+            sShop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.putExtra("key", "1");
+                    startActivity(myIntent);
+                }
+            });
+        }
+        else{
+            Fetching.makeCustomToast(getContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
+        }
+        SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
+        myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(getActivity(), shopPage.class);
-                myIntent.putExtra("LockerKey", 0);
-                startActivity(myIntent);
-            }
-        });
-        shop2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(getActivity(), shopPage.class);
-                myIntent.putExtra("LockerKey", 1);
-                startActivity(myIntent);
-            }
-        });
-        shop3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(getActivity(), shopPage.class);
-                myIntent.putExtra("LockerKey", 0);
-                myIntent.putExtra("LockerKey", 2);
-                startActivity(myIntent);
-            }
-        });
-        sRecents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(getContext(), Verify.class);
-                myIntent.putExtra("key", "2");
-                startActivity(myIntent);
-            }
-        });
-        sPop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(getContext(), Verify.class);
-                myIntent.putExtra("key", "3");
-                startActivity(myIntent);
-            }
-        });
-        sShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(getContext(), Verify.class);
-                myIntent.putExtra("key", "1");
-                startActivity(myIntent);
+            public void onRefresh() {
+                Fetching.isDataFetched = "No";
+                new DownloadFilesTask().execute();
+
+                if (!Fetching.isInternetAvailable(getApplicationContext())) {
+                    //...
+                    myRefreshLayout.setRefreshing(false);
+                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_LONG);
+
+                } else {
+                    if (Fetching.isDataFetched.equals("No")) {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Fetching.isDataFetched.equals("No")) {
+                                    //...
+                                    myRefreshLayout.setRefreshing(false);
+                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_LONG);
+                                } else {
+                                    glideAll();
+                                    myRefreshLayout.setRefreshing(false);
+                                }
+                            }
+                        }, 1000);
+                    } else {
+                        glideAll();
+                        myRefreshLayout.setRefreshing(false);
+                    }
+                }
             }
         });
     }

@@ -52,6 +52,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:background="#00ffffff"
+                    android:id="@+id/go_back"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="20dp"
                     android:src="@drawable/groupedemasques6"/>
@@ -122,7 +123,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/shop_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="7000dp"
             android:layout_marginTop="10dp">
 
             <com.google.android.material.tabs.TabLayout

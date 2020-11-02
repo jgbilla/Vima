@@ -5,7 +5,19 @@ import java.util.ArrayList;
 
 public class IndividualShop {
 
-    private String name, p_photo, location;
+    private String name;
+    private String p_photo;
+    private String location;
+
+    public String getPhone() {
+        return phoneNumber;
+    }
+
+    public void setPhone(String phone) {
+        this.phoneNumber = phone;
+    }
+
+    private String phoneNumber;
     public int positionInDataBase;
     public ArrayList<ArrayList<Long>> shopMap = new ArrayList<>(1);
     public ArrayList<String> myTitles = new ArrayList<>(1);

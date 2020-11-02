@@ -2,6 +2,7 @@ package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class ArticleAdapter extends BaseAdapter {
 
     public static void glideIt(ImageView image, String myArticle, Context mContext){
         StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(myArticle);
+
         Glide.with(mContext)
                 .load(storageReference)
                 .into(image);

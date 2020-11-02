@@ -1,26 +1,49 @@
 package com.eduvision.version2.vima;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Recents;
+
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
+    public void putLikedItems(){
+        if(Recents.myLikedItems != null){
+            SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(Recents.myLikedItems);
+            editor.putString("LikedItems", jsonText);
+            editor.apply();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        putLikedItems();
+
         new DownloadFilesTask().execute();
 
         BottomNavigationView bottomNavigationView;
@@ -37,22 +60,19 @@ public class MainPage extends AppCompatActivity {
                             case R.id.home:
                                 replaceFragment(new Home());
                                 return true;
-                            case R.id.menu:
-                                replaceFragment(new Menu());
-                                return true;
                             case R.id.favorite:
                                 replaceFragment(new Favorite());
                                 return true;
                             case R.id.bag:
                                 replaceFragment(new Bag());
                                 return true;
+                            default:
+                                replaceFragment(new Home());
                         }
 
                         return false;
                     }
                 });
-        replaceFragment(new Home());
-
 
     }
 
@@ -87,4 +107,23 @@ public class MainPage extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Vima")
+                .setMessage("Voulez-vous vraiment quitter Vima?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
 }

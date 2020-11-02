@@ -8,14 +8,23 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
+import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class Splashscreen extends AppCompatActivity {
 
@@ -23,9 +32,19 @@ public class Splashscreen extends AppCompatActivity {
     FirebaseAuth mAuth;
     private static int SPLASH_TIME_OUT = 1000;
     FirebaseAuth.AuthStateListener mAuthListener;
+    public void getLikedItems(){
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String LikedItems = prefs.getString("LikedItems", null);
+        Type type = new TypeToken<ArrayList<IndividualArticle>>() {}.getType();
+            if (LikedItems != null && !LikedItems.equals("")) {
+                Recents.myLikedItems = gson.fromJson(LikedItems, type);
+            }
+    }
     protected Boolean waitSecond(){
         final Boolean[] result = {false};
-        if(!DownloadFilesTask.dataFetched || !Fetching.isInternetAvailable(getApplicationContext())){
+        if(!DownloadFilesTask.dataFetched || !Fetching.waitInternetAvailable(getApplicationContext())){
             Handler handler = new Handler();
             handler.postDelayed(new Runnable(){
                 @Override
@@ -34,10 +53,12 @@ public class Splashscreen extends AppCompatActivity {
                         result[0] = true;
                     }
                 }
-            }, 400);
+            }, 1000);
         }
         else{
-            result[0] = true;
+            if(DownloadFilesTask.dataFetched) {
+                result[0] = true;
+            }
         }
         return result[0];
     }
@@ -46,10 +67,12 @@ public class Splashscreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new DownloadFilesTask().execute();
-        setContentView(R.layout.activity_splashscreen);
-
-        mAuth = FirebaseAuth.getInstance();
         SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        setContentView(R.layout.activity_splashscreen);
+        getLikedItems();
+        mAuth = FirebaseAuth.getInstance();
         boolean firstStart = prefs.getBoolean("firstStart",true);
 
 
@@ -62,21 +85,21 @@ public class Splashscreen extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    for(int i = 0; i<5; i++){
+                    for(int i = 0; i<10; i++){
                         if(waitSecond()){
                             Intent a = new Intent(Splashscreen.this, login_activity.class);
                             startActivity(a);
                             finish();
                         }
-                    }
-                    if(!DownloadFilesTask.dataFetched) {
-                        Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
+                        if(i>= 9 && !DownloadFilesTask.dataFetched) {
+                            Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
+                            finish();
+                        }
                     }
             }
             },SPLASH_TIME_OUT);
 
             prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstStart", false);
             editor.apply();
         }
@@ -88,15 +111,16 @@ public class Splashscreen extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                for(int i = 0; i<5; i++){
+                                for(int i = 0; i<10; i++){
                                     if(waitSecond()){
                                         Intent a = new Intent(Splashscreen.this, MainPage.class);
                                         startActivity(a);
                                         finish();
                                     }
-                                }
-                                if(!DownloadFilesTask.dataFetched) {
-                                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
+                                    if(i>= 9 && !DownloadFilesTask.dataFetched) {
+                                        Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
+                                        finish();
+                                    }
                                 }
                             }
                         },SPLASH_TIME_OUT);
@@ -106,15 +130,16 @@ public class Splashscreen extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                for(int i = 0; i<5; i++){
+                                for(int i = 0; i<10; i++){
                                     if(waitSecond()){
                                         Intent a = new Intent(Splashscreen.this, login_activity.class);
                                         startActivity(a);
                                         finish();
                                     }
-                                }
-                                if(!DownloadFilesTask.dataFetched) {
-                                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
+                                    if(i>= 9 && !DownloadFilesTask.dataFetched) {
+                                        Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
+                                        finish();
+                                    }
                                 }
                             }
                         },SPLASH_TIME_OUT);
@@ -127,5 +152,4 @@ public class Splashscreen extends AppCompatActivity {
             mAuth.addAuthStateListener(mAuthListener);
         }
     }
-
 }

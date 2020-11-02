@@ -3,6 +3,8 @@ package com.eduvision.version2.vima.Tabs;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Tabs.Adapters.BoutiquesRecyclerAdapter;
+import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,11 +76,13 @@ public class Boutiques extends Fragment {
         //int gridColumnCount =
         getResources().getInteger(R.integer.grid_column_count);
 
-        ListView recyclerView = getView().findViewById(R.id.list);
+        RecyclerView recycle = getView().findViewById(R.id.recyclerView);
+        recycle.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recycle.setLayoutManager(layoutManager);
 
-        recyclerView.setAdapter(new ArticleAdapter(getContext(), 1, "Boutiques"));
-
-
+        BoutiquesRecyclerAdapter mAdapter = new BoutiquesRecyclerAdapter(Fetching.myData, getContext());
+        recycle.setAdapter(mAdapter);
     }
 
 }
