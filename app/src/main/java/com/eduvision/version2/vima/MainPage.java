@@ -1,6 +1,9 @@
 package com.eduvision.version2.vima;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,13 +15,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
     public void putLikedItems(){
@@ -34,7 +35,7 @@ public class MainPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.main_page);
 
         putLikedItems();
 
@@ -43,7 +44,6 @@ public class MainPage extends AppCompatActivity {
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.main_page_bottom_navigation);
 
-        replaceFragment(new Home());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,9 +53,6 @@ public class MainPage extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.home:
                                 replaceFragment(new Home());
-                                return true;
-                            case R.id.menu:
-                                replaceFragment(new Menu());
                                 return true;
                             case R.id.favorite:
                                 replaceFragment(new Favorite());
@@ -75,7 +72,7 @@ public class MainPage extends AppCompatActivity {
 
     public void replaceFragment(Fragment Fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_box, Fragment); // give your fragment container id in first parameter
+        transaction.replace(R.id.main_page, Fragment); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
@@ -109,6 +106,11 @@ public class MainPage extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Closing Vima")
