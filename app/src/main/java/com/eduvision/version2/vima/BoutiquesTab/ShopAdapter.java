@@ -15,7 +15,7 @@ public class ShopAdapter extends BaseAdapter {
         this.mContext = context;
         this.shops = shops;
     }
-@Override
+    @Override
     public int getCount(){
         return  shops.length;
 }

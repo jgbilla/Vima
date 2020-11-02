@@ -13,9 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Tabs.Adapters.RecentsRecyclerAdapter;
+import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 import com.eduvision.version2.vima.articlePage;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -27,7 +32,7 @@ public class Recents extends Fragment {
     private String title;
     private int page;
     private static boolean transfer = false;
-    ListView articlegv;
+    static RecyclerView articlegv;
     MaterialSearchView materialSearchView;
     Button previous, suivant;
     TextView counter;
@@ -45,16 +50,24 @@ public class Recents extends Fragment {
         return recents;
     }
 
+
+    static LinearLayoutManager manager;
+    static RecentsRecyclerAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.recents_tab1, container, false);
         super.onCreate(savedInstanceState);
+        mAdapter = new RecentsRecyclerAdapter(Fetching.myData, getContext());
+        manager = new LinearLayoutManager(getContext());
         articlegv = view.findViewById(R.id.gridview);
-        ArticleAdapter articleAdapter = new ArticleAdapter(getContext(), 1, "Recents");
-        articlegv.setAdapter(articleAdapter);
+        articlegv.setHasFixedSize(true);
+        articlegv.setLayoutManager(manager);
 
+        articlegv.setAdapter(mAdapter);
+
+        /*
         articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -62,6 +75,8 @@ public class Recents extends Fragment {
                 startActivity(myIntent);
             }
         });
+
+         */
 
         previous = view.findViewById(R.id.previous);
         suivant = view.findViewById(R.id.suivant);
@@ -71,12 +86,12 @@ public class Recents extends Fragment {
             public void onClick(View view) {
                 if(Fetching.RecentsPageNumber != 1){
                     Fetching.RecentsPageNumber--;
-                    counter.setText(Integer.toString(Fetching.RecentsPageNumber));
-                    articleAdapter.notifyDataSetChanged();
+                    counter.setText(String.valueOf(Fetching.RecentsPageNumber));
+                    mAdapter.notifyDataSetChanged();
                     articlegv.smoothScrollToPosition(0);
                 }
                 else{
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
                 }
             }
         });
@@ -85,12 +100,12 @@ public class Recents extends Fragment {
             public void onClick(View view) {
                 if(Fetching.RecentsPageNumber <= 5) {
                     Fetching.RecentsPageNumber ++;
-                    counter.setText(Integer.toString(Fetching.RecentsPageNumber));
-                    articleAdapter.notifyDataSetChanged();
+                    counter.setText(String.valueOf(Fetching.RecentsPageNumber));
+                    mAdapter.notifyDataSetChanged();
                     articlegv.smoothScrollToPosition(0);
                 }
                 else {
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);
+                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
                 }
             }
         });
@@ -105,7 +120,7 @@ public class Recents extends Fragment {
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
                     //...
                     myRefreshLayout.setRefreshing(false);
-                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
+                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_LONG);
 
                 } else {
                     if (Fetching.isDataFetched.equals("No")) {
@@ -116,16 +131,16 @@ public class Recents extends Fragment {
                                 if (Fetching.isDataFetched.equals("No")) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
-                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
+                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_LONG);
                                 } else {
                                     myRefreshLayout.setRefreshing(false);
-                                    articleAdapter.notifyDataSetChanged();
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             }
                         }, 1000);
                     } else {
                         myRefreshLayout.setRefreshing(false);
-                        articleAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }
                 }
             }

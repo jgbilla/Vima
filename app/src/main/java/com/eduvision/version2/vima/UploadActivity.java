@@ -99,7 +99,7 @@ public class UploadActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         uploadMultipleImages();
-                        Article myArticle = new Article(
+                        /*Article myArticle = new Article(
                                 description.getText().toString(),
                                 title.getText().toString(),
                                 price.getText().toString(),
@@ -109,10 +109,12 @@ public class UploadActivity extends AppCompatActivity {
                                 myLinks.get(2),
                                 myLinks.get(3)
                         );
+
+                         */
                         myLinks.clear();
                         int count = Integer.parseInt(
                                 String.valueOf(snapshot.child("myArticles").getChildrenCount()));
-                        mDatabase.child("myArticles").setValue(myArticle);
+                        //mDatabase.child("myArticles").setValue(myArticle);
                     }
 
                     @Override

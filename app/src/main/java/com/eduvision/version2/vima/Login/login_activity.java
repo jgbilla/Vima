@@ -1,34 +1,59 @@
-package com.eduvision.version2.vima.Login;
+package com.eduvision.version2.vima;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.eduvision.version2.vima.MainPage;
-import com.eduvision.version2.vima.R;
-import com.eduvision.version2.vima.TabAdapter;
+import com.eduvision.version2.vima.Login.SeConnecter;
+import com.eduvision.version2.vima.Login.Sinscrire;
+import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
-import com.eduvision.version2.vima.UploadActivity;
+import com.facebook.CallbackManager;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class login_activity extends AppCompatActivity {
 
+    SignInButton signup;
+    FirebaseAuth mAuth;
+    private final static int RC_SIGN_IN = 2;
+    GoogleSignInClient mGoogleSignInClient;
+    private final String PREFERENCE_FILE_KEY = "myAppPreference";
+    private static final String KEY_USERNAME = "prefUserNameKey";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    Context context = this;
+    View fragment;
     private TabAdapter adapter;
+
+    CallbackManager mCallbackManager;
+
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    FrameLayout frameLayout;
+    FragmentManager fm;
+    public static Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login_activity);
+        mContext = getApplicationContext();
 
         viewPager = findViewById(R.id.sign_up_view_pager);
         tabLayout = findViewById(R.id.tabLayout);
@@ -37,51 +62,22 @@ public class login_activity extends AppCompatActivity {
         adapter.addFragment(new SeConnecter(), "Se connecter");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-
         ImageView myLogo = (ImageView) findViewById(R.id.logo);
         final int[] i = {0};
         myLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Fetching.isInternetAvailable(getApplicationContext())){
-                    Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
+                if (!Fetching.waitInternetAvailable(getApplicationContext())){
+                    Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_LONG);
                 }
-                else  {
-                    if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable(){
-                            @Override
-                            public void run(){
-                                Log.println(Log.INFO, "Handler Tag", "Data is not fetched");
-                                if(Fetching.isDataFetched.equals("No")|| FetchShops.isShopsDataBeingFetched.equals("No")){
-                                    Log.println(Log.INFO, "Handler Tag", "Data is still not fetched. Logging out.");
-                                }
-                                else{
-                                    Intent intent = new Intent(getApplicationContext(), MainPage.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                }
-                            }
-                        }, 1000);
-                    }
-                    else{
-                        Intent intent = new Intent(getApplicationContext(), MainPage.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                else if(Fetching.isDataFetched.equals("Yes") && FetchShops.isShopsDataFetched.equals("Yes")) {
+                    Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                    startActivity(intent);
+                    finish();
                 }
-            }
-        });
-        Button upload = findViewById(R.id.upload);
-        upload.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(login_activity.this, UploadActivity.class);
-                startActivity(intent);
+                else{
+                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez!", Toast.LENGTH_LONG);
+                }
             }
         });
 

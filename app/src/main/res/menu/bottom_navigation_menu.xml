@@ -6,11 +6,6 @@
         android:icon="@drawable/home"
         android:title="@string/maison"/>
     <item
-        android:id="@+id/menu"
-        android:enabled="true"
-        android:icon="@drawable/menu"
-        android:title="@string/categories"/>
-    <item
         android:id="@+id/favorite"
         android:enabled="true"
         android:icon="@drawable/like"

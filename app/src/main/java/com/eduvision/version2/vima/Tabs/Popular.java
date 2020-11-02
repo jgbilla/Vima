@@ -16,15 +16,19 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Tabs.Adapters.PopularRecyclerAdapter;
+import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 import com.eduvision.version2.vima.articlePage;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Popular extends Fragment {
-    GridView grid;
+    RecyclerView grid;
     Button previous, suivant;
     TextView counter;
 
@@ -47,10 +51,18 @@ public class Popular extends Fragment {
         View view = inflater.inflate(R.layout.popular_tab2, container, false);
         super.onCreate(savedInstanceState);
         grid = view.findViewById(R.id.grid);
-        ArticleAdapter articleAdapter = new ArticleAdapter(getContext(), 1, "Popular");
-        grid.setAdapter(articleAdapter);
-        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents_tab, null, false);
+        grid.setHasFixedSize(true);
+        GridLayoutManager a = new GridLayoutManager(getContext(), 2);
+        grid.setLayoutManager(a);
 
+        PopularRecyclerAdapter mAdapter = new PopularRecyclerAdapter(Fetching.myData, getContext());
+        grid.setAdapter(mAdapter);
+
+        grid.setAdapter(mAdapter);
+
+        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents, null, false);
+
+        /*
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -58,6 +70,8 @@ public class Popular extends Fragment {
                 startActivity(myIntent);
             }
         });
+
+         */
         previous = view.findViewById(R.id.previous);
         suivant = view.findViewById(R.id.suivant);
         counter = view.findViewById(R.id.counter);
@@ -67,7 +81,7 @@ public class Popular extends Fragment {
                 if (Fetching.PopularPageNumber != 1) {
                     Fetching.PopularPageNumber--;
                     counter.setText(Integer.toString(Fetching.PopularPageNumber));
-                    articleAdapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                     grid.smoothScrollToPosition(0);
                 } else {
                     Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);                }
@@ -79,7 +93,7 @@ public class Popular extends Fragment {
                 if(Fetching.PopularPageNumber <= 5) {
                     Fetching.PopularPageNumber = Fetching.PopularPageNumber + 1;
                     counter.setText(Integer.toString(Fetching.PopularPageNumber));
-                    articleAdapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                     grid.smoothScrollToPosition(0);
                 }
                 else {
@@ -111,13 +125,13 @@ public class Popular extends Fragment {
                                     Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
                                 } else {
                                     myRefreshLayout.setRefreshing(false);
-                                    articleAdapter.notifyDataSetChanged();
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             }
                         }, 1000);
                     } else {
                         myRefreshLayout.setRefreshing(false);
-                        articleAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }
                 }
             }

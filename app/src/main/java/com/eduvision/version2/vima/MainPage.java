@@ -13,14 +13,31 @@ import androidx.fragment.app.FragmentTransaction;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
+    public void putLikedItems(){
+        if(Recents.myLikedItems != null){
+            SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(Recents.myLikedItems);
+            editor.putString("LikedItems", jsonText);
+            editor.apply();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_page);
+        setContentView(R.layout.activity_main_page);
+
+        putLikedItems();
+
         new DownloadFilesTask().execute();
 
         BottomNavigationView bottomNavigationView;
@@ -58,7 +75,7 @@ public class MainPage extends AppCompatActivity {
 
     public void replaceFragment(Fragment Fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_page, Fragment); // give your fragment container id in first parameter
+        transaction.replace(R.id.activity_box, Fragment); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
@@ -87,4 +104,23 @@ public class MainPage extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Vima")
+                .setMessage("Voulez-vous vraiment quitter Vima?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
 }

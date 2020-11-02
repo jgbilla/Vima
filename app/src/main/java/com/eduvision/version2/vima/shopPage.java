@@ -1,86 +1,68 @@
 package com.eduvision.version2.vima;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.eduvision.version2.vima.Tabs.FetchShops;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class shopPage extends AppCompatActivity {
 
-    Article_info info;
-    Article_description bDescription;
-    Article_pictures bPictures;
-
-    IndividualArticleConstructor individualArticleConstructor;
-    private long article_id;
-    Context mContext;
-    FirebaseStorage myFireBaseStorage = FirebaseStorage.getInstance();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    TextView price, title, description, shop_name, shop_description, shop_location;
-    ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, sm_pic4, shop_pic;
-    CircleImageView profile_picture;
-    Spinner spin1, spin2;
-
-    public void whatclick(View v){
-        String number = "+22676603608";
-        String url = "https://api.whatsapp.com/send?phone="+number;
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
-    }
-    public void callclick(View v){
-
-        String number = "+22676603608";
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:"+number));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-
-    }
-    public void smsclick(View v){
-        String number = "+22676603608";
-        String message = "J'ai connu votre boutique a travers l'applocation Vima";
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("smsto:"+number));
-        intent.putExtra("sms_body", message);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-
-    }
     ViewPager viewPager;
     TabLayout tabLayout;
-    TabAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.model_indiv_shop_page);
+        setContentView(R.layout.indiv_shop_page);
+
+        ImageButton goBack = findViewById(R.id.go_back);
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                finish();
+            }
+        });
+        IndividualShop shop = new IndividualShop();
+
+        Bundle i = getIntent().getExtras();
+        if(i != null){
+            shop = FetchShops.shopData.get(i.getInt("LockerKey"));
+        }
+        TextView description = findViewById(R.id.shop_page_description);
+        description.setText(shop.getName());
+
+        CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
+        ArrayList<Long> Articles1;
+        ArrayList<Long> Articles2;
+        ArrayList<Long> Articles3;
+
+        Articles1 = shop.shopMap.get(0);
+        Articles2 = shop.shopMap.get(1);
+        Articles3 = shop.shopMap.get(2);
+
+        adapter.addFragment(new ImagesTabs(Articles1), shop.myTitles.get(0));
+        adapter.addFragment(new ImagesTabs(Articles2), shop.myTitles.get(1));
+        adapter.addFragment(new ImagesTabs(Articles3), shop.myTitles.get(2));
 
         viewPager = findViewById(R.id.shop_view_pager);
         tabLayout = findViewById(R.id.shopTabLayout);
-        adapter = new TabAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ImagesTabs(), "Tout");
-        adapter.addFragment(new ImagesTabs(), "Robes");
-        adapter.addFragment(new ImagesTabs(), "Blazers");
-        adapter.addFragment(new ImagesTabs(), "Vestes");
-        adapter.addFragment(new ImagesTabs(), "A propos");
+
         viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -103,4 +85,32 @@ public class shopPage extends AppCompatActivity {
             }
         });
     }
+}
+
+class CustomAdapter extends FragmentPagerAdapter {
+    public CustomAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
+    private final List<Fragment> mFragmentList = new ArrayList<>();
+    private final List<String> mFragmentTitleList = new ArrayList<>();
+
+    @Override
+    public int getCount() {
+            return mFragmentList.size();
+            }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+            }
+    public void addFragment(Fragment fragment, String title) {
+        mFragmentList.add(fragment);
+        mFragmentTitleList.add(title);
+        this.notifyDataSetChanged();
+        }
+    @Override
+    public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+            }
 }
