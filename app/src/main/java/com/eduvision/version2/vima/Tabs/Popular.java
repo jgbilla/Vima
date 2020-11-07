@@ -1,16 +1,13 @@
 package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +19,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Tabs.Adapters.PopularRecyclerAdapter;
-import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
-import com.eduvision.version2.vima.articlePage;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -60,7 +55,7 @@ public class Popular extends Fragment {
 
         grid.setAdapter(mAdapter);
 
-        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents, null, false);
+        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents_tab, null, false);
 
         /*
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {

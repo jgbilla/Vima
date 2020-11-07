@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--Fragment SignUp from login_activity TabLayout-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sign_up"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Login.Sinscrire">
 
-    <!-- TODO: Update blank fragment layout -->
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,7 +23,7 @@
         android:orientation="vertical">
 
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/sinscrire_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,13 +31,16 @@
             android:layout_marginRight="30dp"
             android:backgroundTint="#FFFFFF"
             android:drawableTint="#FFFFFF"
+            app:backgroundTint="#808080"
             android:hint="Nom d'utilisateur"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            android:drawableStart="@drawable/grey_circle"/>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            app:backgroundTint="#808080"
             android:id="@+id/sinscrire_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +54,8 @@
             android:textColorHint="#808080"
             android:textCursorDrawable="@null" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            app:backgroundTint="#808080"
             android:id="@+id/sinscrire_telephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,9 +71,10 @@
             android:textCursorDrawable="@null"
             tools:targetApi="lollipop">
 
-        </EditText>
+        </androidx.appcompat.widget.AppCompatEditText>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            app:backgroundTint="#808080"
             android:id="@+id/sinscrire_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,15 +88,15 @@
             android:textCursorDrawable="@null"
             android:inputType="textPassword">
 
-        </EditText>
+        </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatCheckBox
 
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
             android:buttonTint="@color/White"
             android:outlineAmbientShadowColor="@color/White"
             android:text="Afficher le mot de passe"
@@ -133,21 +142,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/sinscrire_button"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
-            android:background="#FF0000"
-            android:text="S'inscrire">
+            android:background="@drawable/round_edges_button"
+            android:text="S'inscrire"
+            android:textColor="@color/White"
+            android:fontFamily="@font/sf_pro_display">
 
 
         </Button>
 
     </RelativeLayout>
+   </LinearLayout>
 
-
-</LinearLayout>
+</ScrollView>

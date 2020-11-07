@@ -1,25 +1,18 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
-
-import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -30,18 +23,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Verify;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -51,8 +55,15 @@ public class Home extends Fragment {
     private static final int REQUEST_LOCATION = 1;
     TextView sRecents, sPop, sShop;
     ProgressBar Progress;
-
+    ArrayList<String> nameList;
+    ArrayList<StorageReference> photoList;
+    Search_engine search = new Search_engine();
+    Button clear;
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
+    EditText searchView;
+    RecyclerView searchResults;
+    DatabaseReference databaseReference;
+    ImageView profile;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -392,5 +403,73 @@ public class Home extends Fragment {
                 }
             }
         });
+
+        //Setting up the search engine
+        searchResults = getView().findViewById(R.id.search_results);
+        clear = getView().findViewById(R.id.clear);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        searchView = getView().findViewById(R.id.search);
+
+        searchResults.setHasFixedSize(true);
+        searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchResults.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        nameList = new ArrayList<>();
+        photoList = new ArrayList<>();
+
+        clear.setVisibility(View.INVISIBLE);
+
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+                if(!s.toString().isEmpty()){
+                    clear.setVisibility(View.VISIBLE);
+
+                    //calling the search engine activity and the function that handles the search
+                    search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
+                }
+                else {
+                    nameList.clear();
+                    photoList.clear();
+                    searchResults.removeAllViews();
+
+                }
+
+            }
+
+
+        });
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchView.setText("");
+                hideKeyboard(getView());
+            }
+        });
+
+        //Access Profile
+        profile = getView().findViewById(R.id.profile_image);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getContext(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void hideKeyboard(View v){
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
     }
 }

@@ -26,7 +26,7 @@ public class shopPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.indiv_shop_page);
+        setContentView(R.layout.model_indiv_shop_page);
 
         ImageButton goBack = findViewById(R.id.go_back);
 

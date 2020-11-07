@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,7 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.eduvision.version2.vima.Login.SeConnecter;
 import com.eduvision.version2.vima.Login.Sinscrire;
-import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.facebook.CallbackManager;
@@ -52,7 +50,7 @@ public class login_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_activity);
+        setContentView(R.layout.login_activity);
         mContext = getApplicationContext();
 
         viewPager = findViewById(R.id.sign_up_view_pager);

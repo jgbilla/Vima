@@ -8,11 +8,20 @@
         <item name="colorPrimary">@color/Black</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/sf_pro_display</item>
 
     </style>
 
     <style name="MyCustomTabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text_style" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+    </style>
+
+    <style name="Button_Text_style" parent="TextAppearance.AppCompat.Button">
+        <item name="android:fontFamily">@font/sf_pro_display</item>
     </style>
 
 </resources>

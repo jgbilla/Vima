@@ -32,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
-import com.eduvision.version2.vima.Login.login_activity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
@@ -274,7 +273,7 @@ public class ProfilePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                Intent a = new Intent(getApplicationContext(), login_activity.class);
+                Intent a = new Intent(getApplicationContext(), com.eduvision.version2.vima.login_activity.class);
                 startActivity(a);
             }
         });

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--Fragment SignIn-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Login.SeConnecter">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -16,7 +21,8 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            app:backgroundTint="#808080"
             android:id="@+id/se_connecter_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,9 +36,10 @@
             android:textColorHint="#808080"
             android:textCursorDrawable="@null">
 
-        </EditText>
+        </androidx.appcompat.widget.AppCompatEditText>
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
+            app:backgroundTint="#808080"
             android:id="@+id/se_connecter_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +53,7 @@
             android:textCursorDrawable="@null"
             android:inputType="textPassword">
 
-        </EditText>
+        </androidx.appcompat.widget.AppCompatEditText>
 
         <androidx.appcompat.widget.AppCompatCheckBox
 
@@ -74,7 +81,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
 
         <Button
             android:id="@+id/se_connecter_button"
@@ -89,6 +97,7 @@
         </Button>
 
     </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
 

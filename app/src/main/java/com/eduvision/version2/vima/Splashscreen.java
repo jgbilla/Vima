@@ -1,21 +1,18 @@
 package com.eduvision.version2.vima;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
-import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Recents;
@@ -70,7 +67,7 @@ public class Splashscreen extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        setContentView(R.layout.activity_splashscreen);
+        setContentView(R.layout.splashcreen);
         getLikedItems();
         mAuth = FirebaseAuth.getInstance();
         boolean firstStart = prefs.getBoolean("firstStart",true);
@@ -87,7 +84,7 @@ public class Splashscreen extends AppCompatActivity {
                 public void run() {
                     for(int i = 0; i<10; i++){
                         if(waitSecond()){
-                            Intent a = new Intent(Splashscreen.this, login_activity.class);
+                            Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.login_activity.class);
                             startActivity(a);
                             finish();
                         }
@@ -113,7 +110,7 @@ public class Splashscreen extends AppCompatActivity {
                             public void run() {
                                 for(int i = 0; i<10; i++){
                                     if(waitSecond()){
-                                        Intent a = new Intent(Splashscreen.this, MainPage.class);
+                                        Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.login_activity.class);
                                         startActivity(a);
                                         finish();
                                     }
@@ -132,7 +129,7 @@ public class Splashscreen extends AppCompatActivity {
                             public void run() {
                                 for(int i = 0; i<10; i++){
                                     if(waitSecond()){
-                                        Intent a = new Intent(Splashscreen.this, login_activity.class);
+                                        Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.login_activity.class);
                                         startActivity(a);
                                         finish();
                                     }
