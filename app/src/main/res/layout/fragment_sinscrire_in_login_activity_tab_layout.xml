@@ -52,7 +52,8 @@
             android:inputType="textEmailAddress"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            android:drawableStart="@drawable/person_grey_for_login"/>
 
         <androidx.appcompat.widget.AppCompatEditText
             app:backgroundTint="#808080"
@@ -64,12 +65,13 @@
             android:autofillHints="username"
             android:backgroundTint="#FFFFFF"
             android:drawableTint="#FFFFFF"
-            android:hint="Numero de Telephone"
+            android:hint="Numéro de Telephone"
             android:inputType="phone"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
             android:textCursorDrawable="@null"
-            tools:targetApi="lollipop">
+            tools:targetApi="lollipop"
+            android:drawableStart="@drawable/ic_baseline_local_phone_24">
 
         </androidx.appcompat.widget.AppCompatEditText>
 
@@ -86,7 +88,8 @@
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
             android:textCursorDrawable="@null"
-            android:inputType="textPassword">
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/key">
 
         </androidx.appcompat.widget.AppCompatEditText>
 

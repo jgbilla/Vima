@@ -34,7 +34,8 @@
             android:inputType="textEmailAddress"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
-            android:textCursorDrawable="@null">
+            android:textCursorDrawable="@null"
+            android:drawableStart="@drawable/person_grey_for_login">
 
         </androidx.appcompat.widget.AppCompatEditText>
 
@@ -51,7 +52,8 @@
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"
             android:textCursorDrawable="@null"
-            android:inputType="textPassword">
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/key">
 
         </androidx.appcompat.widget.AppCompatEditText>
 
@@ -73,7 +75,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:text="Mot de Passe Oublie?"
-            android:textColor="@color/White" />
+            android:textColor="@color/Blue" />
 
 
     </LinearLayout>
@@ -86,12 +88,13 @@
 
         <Button
             android:id="@+id/se_connecter_button"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
-            android:background="#FF0000"
-            android:text="Se connecter">
+            android:background="@drawable/round_edges_button"
+            android:text="Se connecter"
+            android:textColor="@color/White">
 
 
         </Button>

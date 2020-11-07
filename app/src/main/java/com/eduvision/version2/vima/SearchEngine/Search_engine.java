@@ -47,8 +47,8 @@ public class Search_engine extends AppCompatActivity {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
 
                     String id= snapshot.getKey();
-                    String name = snapshot.child("infos").child("name").getValue(String.class);
-                    String photo = snapshot.child("pictures").child("s_pic1").getValue(String.class);
+                    String name = snapshot.child("name").getValue(String.class);
+                    String photo = snapshot.child("p_photo").getValue(String.class);
 
                     counter++;
 

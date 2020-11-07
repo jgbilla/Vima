@@ -1,7 +1,9 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
@@ -64,6 +67,8 @@ public class Home extends Fragment {
     RecyclerView searchResults;
     DatabaseReference databaseReference;
     ImageView profile;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -152,7 +157,8 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         if(firstTime){
             Fetching.makeCustomToast(getContext(), "Bienvenue sur VIMA", Toast.LENGTH_LONG);
         }
@@ -458,7 +464,14 @@ public class Home extends Fragment {
         });
 
         //Access Profile
+
+
         profile = getView().findViewById(R.id.profile_image);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override

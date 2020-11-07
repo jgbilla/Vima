@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="0.5"
-        android:paddingTop="50dp">
+        android:paddingTop="50dp"
+        android:layout_marginStart="10dp">
 
         <ImageView
             android:layout_width="98dp"

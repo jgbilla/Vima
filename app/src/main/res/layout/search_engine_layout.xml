@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".SearchEngine.Search_engine">
+    tools:context=".SearchEngine.Search_engine"
+ >
 
     <RelativeLayout
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_search"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:background="@drawable/custom_edit_text"
+        android:elevation="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,18 +24,21 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+              >
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:hint="@string/search_string"
-                android:background="@android:color/transparent"
                 android:id="@+id/search"
                 app:menu="@menu/search_menu"
                 android:inputType="text"
                 android:layout_marginEnd="30dp"
                 android:autofillHints="@string/search_string"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:background="@null"
+
+                />
 
                 <Button
                     android:id="@+id/clear"
