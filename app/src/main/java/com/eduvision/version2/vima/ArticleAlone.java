@@ -29,7 +29,7 @@ public class ArticleAlone extends AppCompatActivity {
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
         if(i != null){
-            article = Fetching.myData.get(i.getInt("LockerKey"));
+            article = Spinning.myData.get(i.getInt("LockerKey"));
         }
         ImageView myView = findViewById(R.id.picture);
         ArticleAdapter.glideIt(myView, article.getP_photo(), getApplicationContext());

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.PopularRecyclerAdapter;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -36,12 +37,11 @@ public class Popular extends Fragment {
         return populars;
     }
 
+    public static PopularRecyclerAdapter mAdapter;
     //TODO: Add footer to list
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.popular_tab2, container, false);
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class Popular extends Fragment {
         GridLayoutManager a = new GridLayoutManager(getContext(), 2);
         grid.setLayoutManager(a);
 
-        PopularRecyclerAdapter mAdapter = new PopularRecyclerAdapter(Fetching.myData, getContext());
+        mAdapter = new PopularRecyclerAdapter(Fetching.myData, getContext());
         grid.setAdapter(mAdapter);
 
         grid.setAdapter(mAdapter);
@@ -100,7 +100,7 @@ public class Popular extends Fragment {
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Fetching.isDataFetched = "No";
+                Spinning.isDataFetched = false;
                 new DownloadFilesTask().execute();
 
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
@@ -109,12 +109,12 @@ public class Popular extends Fragment {
                     Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
 
                 } else {
-                    if (Fetching.isDataFetched.equals("No")) {
+                    if (!Spinning.isDataFetched) {
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (Fetching.isDataFetched.equals("No")) {
+                                if (!Spinning.isDataFetched) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
                                     Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);

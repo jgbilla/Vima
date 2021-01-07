@@ -1,24 +1,29 @@
 package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.ImagesTabs;
+import com.eduvision.version2.vima.ProfilePage;
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-/*
-The class Verify contains a set of "useful" methods that you might need to use. Feel free to change some values here and there.
- */
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class Verify extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -44,6 +49,22 @@ public class Verify extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(myCase-1);
         tabLayout.setupWithViewPager(viewPager);
+
+        ImageView profile = findViewById(R.id.profile_image);
+        SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(Verify.this, ProfilePage.class);
+                startActivity(intent);
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

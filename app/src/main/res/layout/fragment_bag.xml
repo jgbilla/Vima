@@ -2,13 +2,19 @@
 
 <!--Fragment Bag. Here lists of shops, most recent and popular articles are displayed in Tabs-->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Bag">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,10 +42,12 @@
 
     </RelativeLayout>
 
-
     <include
         layout="@layout/search_engine_layout"
         android:layout_width="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/searchv"
+        android:visibility="gone"
         android:layout_height="wrap_content">
 
     </include>
@@ -61,8 +69,18 @@
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/Black"
             app:tabTextAppearance="@style/MyCustomTabText"
-            app:tabTextColor="@color/Grey"></com.google.android.material.tabs.TabLayout>
+            app:tabTextColor="@color/Grey">
+        </com.google.android.material.tabs.TabLayout>
     </com.eduvision.version2.vima.DesignElements.NonSwipeableViewPager>
 
-
 </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/abc_vector_test"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="50dp"/>
+</RelativeLayout>

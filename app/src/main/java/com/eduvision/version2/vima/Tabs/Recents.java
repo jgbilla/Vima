@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.RecentsRecyclerAdapter;
 import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 import com.eduvision.version2.vima.articlePage;
@@ -52,7 +53,7 @@ public class Recents extends Fragment {
 
 
     static LinearLayoutManager manager;
-    static RecentsRecyclerAdapter mAdapter;
+    public static RecentsRecyclerAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class Recents extends Fragment {
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Fetching.isDataFetched = "No";
+                Spinning.isDataFetched = false;
                 new DownloadFilesTask().execute();
 
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
@@ -123,12 +124,12 @@ public class Recents extends Fragment {
                     Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_LONG);
 
                 } else {
-                    if (Fetching.isDataFetched.equals("No")) {
+                    if (!Spinning.isDataFetched) {
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (Fetching.isDataFetched.equals("No")) {
+                                if (!Fetching.isDataFetched) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
                                     Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_LONG);

@@ -18,6 +18,7 @@ import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.eduvision.version2.vima.articlePage;
 
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                 public void onClick(View view) {
                     Intent myIntent = new Intent(mContext, articlePage.class);
                     myIntent.putExtra("LockerKey", finalPosition);
-                    myIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     mContext.startActivity(myIntent);
                 }
             });
@@ -93,6 +94,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
                     if (likedArticle.positionInDataBase == myArticle.positionInDataBase) {
                         likedArticle.isLiked = true;
                         notifyDataSetChanged();
+                        Recents.mAdapter.notifyDataSetChanged();
                     }
                 }
             }

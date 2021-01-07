@@ -17,9 +17,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.gson.Gson;
 
@@ -27,6 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.eduvision.version2.vima.Tabs.Fetching.myData;
 import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class articlePage extends AppCompatActivity {
 
@@ -34,7 +37,6 @@ public class articlePage extends AppCompatActivity {
     TextView price, title, description, shop_name, shop_description, shop_location;
     ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, shop_pic;
     CircleImageView profile_picture;
-    Spinner spin1, spin2;
     String phoneNumber;
     CardView like;
 
@@ -77,7 +79,7 @@ public class articlePage extends AppCompatActivity {
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
         if(i != null){
-            article = myData.get(i.getInt("LockerKey"));
+            article = Spinning.myData.get(i.getInt("LockerKey"));
         }
 
         article_id = article.getRank();
@@ -93,8 +95,22 @@ public class articlePage extends AppCompatActivity {
         sm_pic2 = findViewById(R.id.smaller_images2);
         sm_pic3 = findViewById(R.id.smaller_images3);
         shop_pic = findViewById(R.id.shop_picture);
-        spin1 = findViewById(R.id.color_spinner);
-        spin2 = findViewById(R.id.sex_spinner);
+        ImageView profile = findViewById(R.id.profile_image);
+        SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getApplicationContext(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
+
         like = findViewById(R.id.like);
         ImageButton goBack = findViewById(R.id.go_back);
         TextView textLike = findViewById(R.id.textLike);

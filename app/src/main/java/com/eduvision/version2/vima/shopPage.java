@@ -1,8 +1,12 @@
 package com.eduvision.version2.vima;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.google.android.material.tabs.TabLayout;
@@ -40,7 +45,7 @@ public class shopPage extends AppCompatActivity {
 
         Bundle i = getIntent().getExtras();
         if(i != null){
-            shop = FetchShops.shopData.get(i.getInt("LockerKey"));
+            shop = Spinning.shopData.get(i.getInt("LockerKey"));
         }
         TextView description = findViewById(R.id.shop_page_description);
         description.setText(shop.getName());
@@ -57,6 +62,22 @@ public class shopPage extends AppCompatActivity {
         adapter.addFragment(new ImagesTabs(Articles1), shop.myTitles.get(0));
         adapter.addFragment(new ImagesTabs(Articles2), shop.myTitles.get(1));
         adapter.addFragment(new ImagesTabs(Articles3), shop.myTitles.get(2));
+
+        ImageView profile = findViewById(R.id.profile_image);
+        SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getApplicationContext(), ProfilePage.class);
+                startActivity(intent);
+            }
+        });
 
         viewPager = findViewById(R.id.shop_view_pager);
         tabLayout = findViewById(R.id.shopTabLayout);

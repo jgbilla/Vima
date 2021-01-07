@@ -1,7 +1,10 @@
 package com.eduvision.version2.vima.Tabs;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.eduvision.version2.vima.Spinning;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,13 +16,14 @@ import java.util.Objects;
 
 public class FetchShops {
     public static ArrayList<IndividualShop> shopData = new ArrayList<>(80);
-    public static String isShopsDataFetched = "No";
+    public static boolean isShopsDataFetched = false;
     public static String isShopsDataBeingFetched = "No";
     public static ArrayList<IndividualShop> homeShopsData = new ArrayList<>(4);
 
     public static void getShops(){
         isShopsDataBeingFetched = "Yes";
         final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+
         mDatabase.child("Shops").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -63,7 +67,8 @@ public class FetchShops {
                     }
                     shopData.add(currentArticle);
                 }
-                isShopsDataFetched = "Yes";
+                isShopsDataFetched = true;
+
 
             }
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
@@ -59,13 +60,13 @@ public class BoutiquesRecyclerAdapter extends RecyclerView.Adapter<BoutiquesRecy
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         View convertView = holder.myLayout;
-        IndividualShop myShop = FetchShops.shopData.get(position);
+        IndividualShop myShop = Spinning.shopData.get(position);
         TextView shopName = convertView.findViewById(R.id.name);
         shopName.setText(myShop.getName());
         TextView location = convertView.findViewById(R.id.location);
         location.setText(myShop.getLocation());
         ImageView myImage = convertView.findViewById(R.id.article_picture);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(FetchShops.shopData.get(position).getP_photo());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(Spinning.shopData.get(position).getP_photo());
         Glide.with(mContext)
                 .load(storageReference)
                 .into(myImage);

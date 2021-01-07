@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--Login Activity that incorporates a TabLayout for SignUp and SignIn pages -->
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,9 +9,8 @@
     android:layout_height="match_parent"
     tools:context=".Login.login_activity"
     android:orientation="vertical"
-    android:background="#000000"
-    android:weightSum="4">
-
+    android:weightSum="4"
+    android:background="#000000">
 
 
     <LinearLayout
@@ -19,7 +18,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="0.5"
+        android:id="@+id/ll"
         android:paddingTop="50dp"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="10dp">
 
         <ImageView
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3.5"
+        android:layout_below="@id/ll"
         android:orientation="vertical"
         android:paddingTop="50dp">
 
@@ -69,4 +71,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>

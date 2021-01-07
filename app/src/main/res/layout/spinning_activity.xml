@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--Login Activity that incorporates a TabLayout for SignUp and SignIn pages -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="100dp"
+        android:minHeight="100dp"
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="100dp"
+        android:text="Progrès: 0%"
+        android:minHeight="100dp"
+        android:id="@+id/progressText"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/White"
+        android:layout_below="@id/progress"
+        android:layout_centerInParent="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="100dp"
+        android:minHeight="100dp"
+        android:text="Essayer Encore"
+        android:visibility="gone"
+        android:id="@+id/retry"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

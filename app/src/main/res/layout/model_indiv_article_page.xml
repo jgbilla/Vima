@@ -21,7 +21,6 @@
                     android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/big_picture"
-                        android:src="@drawable/imagebg"
                         android:layout_width="match_parent"
                         android:scaleType="centerCrop"
                         android:layout_alignParentLeft="true"
@@ -42,7 +41,26 @@
                             android:id="@+id/color_spinner"
                             android:layout_width="wrap_content"
                             android:layout_alignParentLeft="true"
+                            android:visibility="gone"
                             android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/sex"
+                                android:layout_width="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:text="Mixte"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="60dp"
+                                android:textSize="25sp"
+                                android:layout_height="wrap_content" />
+                            <TextView
+                                android:id="@+id/color"
+                                android:layout_width="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="Blue"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="60dp"
+                                android:textSize="25sp"
+                                android:layout_height="wrap_content" />
 
                         <View
                             android:layout_width="1dp"
@@ -50,11 +68,6 @@
                             android:layout_height="50dp"
                             android:background="#000000" />
 
-                        <Spinner
-                            android:id="@+id/sex_spinner"
-                            android:layout_gravity="right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
                         </RelativeLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -255,6 +268,7 @@
                         android:layout_height="match_parent">
                         <LinearLayout
                             android:layout_width="110dp"
+                            android:layout_marginTop="10dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="20dp"
                             android:layout_centerInParent="true"

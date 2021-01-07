@@ -13,9 +13,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.eduvision.version2.vima.articlePage;
 
@@ -66,7 +68,7 @@ public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecycler
         // - replace the contents of the view with that element
         IndividualArticle myArticle;
         View convertView = holder.myLayout ;
-        myArticle = Fetching.myData.get((Fetching.RecentsPageNumber*16-16) + position);
+        myArticle = Spinning.myData.get((Fetching.RecentsPageNumber*16-16) + position);
         ImageButton myBtn = convertView.findViewById(R.id.like_button);
         if(myArticle.isLiked) {
             myBtn.setImageResource(R.drawable.icon_b);
@@ -80,6 +82,7 @@ public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecycler
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(mContext, articlePage.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 myIntent.putExtra("LockerKey", finalPosition);
                 mContext.startActivity(myIntent);
             }
@@ -92,6 +95,7 @@ public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecycler
                     if (likedArticle.positionInDataBase == myArticle.positionInDataBase) {
                         likedArticle.isLiked = true;
                         notifyDataSetChanged();
+                        Popular.mAdapter.notifyDataSetChanged();
                     }
                 }
             }

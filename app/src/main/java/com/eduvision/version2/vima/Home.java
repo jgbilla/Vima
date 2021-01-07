@@ -1,7 +1,9 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -55,6 +57,7 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Home extends Fragment {
+
     private static final int REQUEST_LOCATION = 1;
     TextView sRecents, sPop, sShop;
     ProgressBar Progress;
@@ -139,13 +142,13 @@ public class Home extends Fragment {
     private AdView mAdView;
 
     private void glideAll(){
-        ArticleAdapter.glideIt(shop1, FetchShops.shopData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(shop2, FetchShops.shopData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(shop3, FetchShops.shopData.get(3).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop1, Spinning.shopData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop2, Spinning.shopData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(shop3, Spinning.shopData.get(3).getP_photo(), getContext());
 
-        ArticleAdapter.glideIt(recents1, Fetching.myData.get(1).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents2, Fetching.myData.get(2).getP_photo(), getContext());
-        ArticleAdapter.glideIt(recents3, Fetching.myData.get(3).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents1, Spinning.myData.get(1).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents2, Spinning.myData.get(2).getP_photo(), getContext());
+        ArticleAdapter.glideIt(recents3, Spinning.myData.get(3).getP_photo(), getContext());
 
         ArticleAdapter.glideIt(pop1, mySortedData.get(1).getP_photo(), getContext());
         ArticleAdapter.glideIt(pop2, mySortedData.get(2).getP_photo(), getContext());
@@ -209,7 +212,7 @@ public class Home extends Fragment {
 
         featured = view.findViewById(R.id.featured);
         Progress = Objects.requireNonNull(getView()).findViewById(R.id.linlaHeaderProgress);
-        mySortedData = sort(Fetching.myData);
+        mySortedData = sort(Spinning.myData);
         Progress.setVisibility(View.GONE);
 
         sRecents = view.findViewById(R.id.see_recents);
@@ -239,8 +242,8 @@ public class Home extends Fragment {
 
         if(Fetching.waitInternetAvailable(getContext())) {
             int[] featuredCounter = {0};
-            ArticleAdapter.glideIt(featured, Fetching.myData.get(0).getP_photo(), getContext());
-            shopName.setText(Fetching.myData.get(0).getShop_name());
+            ArticleAdapter.glideIt(featured, Spinning.myData.get(0).getP_photo(), getContext());
+            shopName.setText(Spinning.myData.get(0).getShop_name());
             glideAll();
             goLeft.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -248,9 +251,9 @@ public class Home extends Fragment {
                     if (featuredCounter[0] >= 1 && featuredCounter[0] < Fetching.myData.size()) {
                         featuredCounter[0]--;
                         ArticleAdapter.glideIt(featured,
-                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
+                                Spinning.myData.get(featuredCounter[0]).getP_photo(),
                                 getContext());
-                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
+                        shopName.setText(Spinning.myData.get(featuredCounter[0]).getShop_name());
                     }
                 }
             });
@@ -261,9 +264,9 @@ public class Home extends Fragment {
                     if (featuredCounter[0] + 1 < Fetching.myData.size()) {
                         featuredCounter[0]++;
                         ArticleAdapter.glideIt(featured,
-                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
+                                Spinning.myData.get(featuredCounter[0]).getP_photo(),
                                 getContext());
-                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
+                        shopName.setText(Spinning.myData.get(featuredCounter[0]).getShop_name());
                     }
                 }
             });
@@ -273,6 +276,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", mySortedData.get(0).positionInDataBase);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -282,6 +286,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", mySortedData.get(1).positionInDataBase);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -291,6 +296,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", mySortedData.get(2).positionInDataBase);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -299,6 +305,7 @@ public class Home extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     myIntent.putExtra("LockerKey", 0);
                     startActivity(myIntent);
                 }
@@ -309,6 +316,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", 1);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -318,6 +326,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", 2);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -327,6 +336,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     myIntent.putExtra("LockerKey", 0);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -335,6 +345,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     myIntent.putExtra("LockerKey", 1);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -343,6 +354,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getActivity(), shopPage.class);
                     myIntent.putExtra("LockerKey", 2);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -351,6 +363,7 @@ public class Home extends Fragment {
                 public void onClick(View view) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
                     myIntent.putExtra("key", "2");
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -359,6 +372,7 @@ public class Home extends Fragment {
                 public void onClick(View v) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
                     myIntent.putExtra("key", "3");
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(myIntent);
                 }
             });
@@ -366,6 +380,7 @@ public class Home extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(getContext(), Verify.class);
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     myIntent.putExtra("key", "1");
                     startActivity(myIntent);
                 }
@@ -378,7 +393,7 @@ public class Home extends Fragment {
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Fetching.isDataFetched = "No";
+                Spinning.isDataFetched = false;
                 new DownloadFilesTask().execute();
 
                 if (!Fetching.isInternetAvailable(getApplicationContext())) {
@@ -387,12 +402,12 @@ public class Home extends Fragment {
                     Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_LONG);
 
                 } else {
-                    if (Fetching.isDataFetched.equals("No")) {
+                    if (!Fetching.isDataFetched) {
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (Fetching.isDataFetched.equals("No")) {
+                                if (!Fetching.isDataFetched) {
                                     //...
                                     myRefreshLayout.setRefreshing(false);
                                     Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_LONG);

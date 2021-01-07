@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import java.net.URL;
 
 public class MainPage extends AppCompatActivity {
+    int currentFragment;
     public void putLikedItems(){
         if(Recents.myLikedItems != null){
             SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
@@ -39,8 +40,8 @@ public class MainPage extends AppCompatActivity {
 
         putLikedItems();
 
-        new DownloadFilesTask().execute();
 
+        currentFragment = 0;
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.main_page_bottom_navigation);
 
@@ -53,12 +54,15 @@ public class MainPage extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.home:
                                 replaceFragment(new Home());
+                                currentFragment = 0;
                                 return true;
                             case R.id.favorite:
                                 replaceFragment(new Favorite());
+                                currentFragment = 1;
                                 return true;
                             case R.id.bag:
                                 replaceFragment(new Bag());
+                                currentFragment = 2;
                                 return true;
                         }
 
@@ -66,6 +70,7 @@ public class MainPage extends AppCompatActivity {
                     }
                 });
         replaceFragment(new Home());
+        currentFragment = 0;
 
 
     }
@@ -111,19 +116,28 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Closing Vima")
-                .setMessage("Voulez-vous vraiment quitter Vima?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        MainPage.this.finish();
-                        System.exit(0);
-                    }
-                })
-                .setNegativeButton("No", null)
-                .show();
+        if(currentFragment == 0){
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Closing Vima")
+                    .setMessage("Voulez-vous vraiment quitter Vima?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            MainPage.this.finish();
+                            finishAffinity();
+                            System.exit(0);
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+        }
+        else{
+            BottomNavigationView bNView;
+            bNView = findViewById(R.id.main_page_bottom_navigation);
+            bNView.setSelectedItemId(R.id.home);
+        }
     }
 
 }

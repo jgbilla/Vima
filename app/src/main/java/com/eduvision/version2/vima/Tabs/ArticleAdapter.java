@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Home;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.articlePage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -65,7 +66,7 @@ public class ArticleAdapter extends BaseAdapter {
 
             switch (myLayout) {
                 case "Recents":
-                    if (Fetching.isDataFetched.equals("Yes")) {
+                    if (Fetching.isDataFetched) {
                         myArticle = Fetching.myData.get(Fetching.RecentsPageNumber * position * 2);
                         myArticle_one = Fetching.myData.get(Fetching.RecentsPageNumber * position * 2 + 1);
                         convertView = myInflater.inflate(R.layout._pop_article_model, parent, false);
@@ -102,7 +103,7 @@ public class ArticleAdapter extends BaseAdapter {
                     break;
                 case "Popular":
                     convertView = myInflater.inflate(R.layout.recent_article_model, parent, false);
-                    if (Fetching.isDataFetched.equals("Yes")) {
+                    if (Spinning.isDataFetched) {
                         myArticle = Home.mySortedData.get(Fetching.PopularPageNumber * position);
 
                         Fetching.changeText(convertView, myArticle, mContext);
@@ -120,13 +121,13 @@ public class ArticleAdapter extends BaseAdapter {
                     break;
                 case "Boutiques":
                     convertView = myInflater.inflate(R.layout.shop_article_model, parent, false);
-                    IndividualShop myShop = FetchShops.shopData.get(position);
+                    IndividualShop myShop = Spinning.shopData.get(position);
                     TextView shopName = convertView.findViewById(R.id.name);
                     shopName.setText(myShop.getName());
                     TextView location = convertView.findViewById(R.id.location);
                     location.setText(myShop.getLocation());
                     ImageView myImage = convertView.findViewById(R.id.article_picture);
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(FetchShops.shopData.get(position).getP_photo());
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(Spinning.shopData.get(position).getP_photo());
                     Glide.with(mContext)
                             .load(storageReference)
                             .into(myImage);
@@ -136,9 +137,9 @@ public class ArticleAdapter extends BaseAdapter {
                     ArrayList<Long> myArticles = (ArrayList<Long>) dif;
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
 
-                    IndividualArticle fArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 )));
-                    IndividualArticle sArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +1)));
-                    IndividualArticle tArticle = Fetching.myData.get(Math.toIntExact(myArticles.get(position * 3 +2)));
+                    IndividualArticle fArticle = Spinning.myData.get(Math.toIntExact(myArticles.get(position * 3 )));
+                    IndividualArticle sArticle = Spinning.myData.get(Math.toIntExact(myArticles.get(position * 3 +1)));
+                    IndividualArticle tArticle = Spinning.myData.get(Math.toIntExact(myArticles.get(position * 3 +2)));
 
                     TextView price1 = convertView.findViewById(R.id.article_price1);
                     price1.setText(fArticle.getName());

@@ -1,11 +1,13 @@
 package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
+import com.eduvision.version2.vima.Splashscreen;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,8 +38,9 @@ public class Fetching {
     public static int PopularPageNumber = 1;
     public static int RecentsPageNumber = 1;
     public static ArrayList<IndividualArticle> myData = new ArrayList<>(80);
-    public static String isDataFetched = "No";
+    public static boolean isDataFetched = false;
     public static String isDataBeingFetched = "No";
+    public static boolean isHomeDataFetched = false;
     public static ArrayList<IndividualArticle> homeArticlesData = new ArrayList<>(4);
 
     public static void handleLike(ImageButton myBtn, IndividualArticle myArticle, Context mContext){
@@ -139,6 +144,7 @@ public class Fetching {
         });
         return currentArticle[0];
     }
+
     public static void getItems(){
         isDataBeingFetched = "Yes";
         final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
@@ -159,11 +165,16 @@ public class Fetching {
                     Objects.requireNonNull(currentArticle).positionInDataBase = i;
 
                     if(i < 5){
+                        if (i == 5){
+                            isHomeDataFetched = true;
+                        }
                         homeArticlesData.add(currentArticle);
                     }
                     myData.add(currentArticle);
             }
-                isDataFetched = "Yes";
+                isDataFetched = true;
+
+
             }
 
             @Override
