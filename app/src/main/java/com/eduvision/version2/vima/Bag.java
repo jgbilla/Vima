@@ -32,6 +32,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,22 @@ public class Bag extends Fragment {
 
     public Bag() {
         // Required empty public constructor
+    }
+
+    public void putLikedItems(){
+        if(Recents.myLikedItems != null){
+            SharedPreferences prefs = getActivity().getSharedPreferences("prefs",getActivity().MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(Recents.myLikedItems);
+            editor.putString("LikedItems", jsonText);
+            editor.apply();
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        putLikedItems();
     }
 
     public static Bag newInstance(String param1, String param2) {

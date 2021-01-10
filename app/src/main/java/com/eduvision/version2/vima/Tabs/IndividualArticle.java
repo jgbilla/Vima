@@ -23,7 +23,7 @@ public class IndividualArticle{
         this.phoneNumber = phone;
     }
 
-    private String phoneNumber;
+    private String phoneNumber = "+22676603608";
     public int positionInDataBase = 0;
     public boolean isLiked = false;
     private Long rank, seller_id, popularity_index, price;

@@ -73,14 +73,14 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:text="Numero de Telephone"/>
+                android:text="Numéro de Telephone"/>
             <EditText
                 android:layout_width="match_parent"
                 android:id="@+id/editNumber"
                 android:layout_marginStart="50dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:hint="Taper votre nouveau numero"/>
+                android:hint="Taper votre nouveau numéro"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_marginStart="50dp"

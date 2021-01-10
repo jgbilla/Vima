@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.Home;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
@@ -66,7 +67,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         // - replace the contents of the view with that element
         View convertView = holder.myLayout ;
             IndividualArticle myArticle;
-            myArticle = Home.mySortedData.get((Fetching.PopularPageNumber*16-16) + position);
+            myArticle = Home.mySortedData.get(position);
 
             ImageButton myBtn = convertView.findViewById(R.id.like_button);
             if(myArticle.isLiked) {
@@ -102,6 +103,6 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
     }
     @Override
     public int getItemCount() {
-        return 16;
+        return Spinning.myData.size();
     }
 }

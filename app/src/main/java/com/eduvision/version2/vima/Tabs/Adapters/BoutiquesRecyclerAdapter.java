@@ -82,6 +82,6 @@ public class BoutiquesRecyclerAdapter extends RecyclerView.Adapter<BoutiquesRecy
     }
     @Override
     public int getItemCount() {
-        return 16;
+        return Spinning.shopData.size();
     }
 }

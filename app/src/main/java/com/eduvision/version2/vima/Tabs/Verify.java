@@ -19,8 +19,14 @@ import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.ImagesTabs;
 import com.eduvision.version2.vima.ProfilePage;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.TabAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -29,6 +35,21 @@ public class Verify extends AppCompatActivity {
     private ViewPager viewPager;
     FragmentManager mf;
     TabAdapter adapter;
+    public void putLikedItems(){
+        if(Recents.myLikedItems != null){
+            SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            Gson gson = new Gson();
+            String jsonText = gson.toJson(Recents.myLikedItems);
+            editor.putString("LikedItems", jsonText);
+            editor.apply();
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();

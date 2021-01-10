@@ -3,6 +3,7 @@ package com.eduvision.version2.vima;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,10 +18,16 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.FetchShops;
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +35,45 @@ public class shopPage extends AppCompatActivity {
 
     ViewPager viewPager;
     TabLayout tabLayout;
+
+    public void whatclick(IndividualShop article){
+        String number = article.getPhone();
+        String message = createMessage(article);
+        String url = null;
+        try {
+            url = "https://api.whatsapp.com/send?phone="+number + "&text=" + URLEncoder.encode(message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+    }
+    public void callclick(IndividualShop article){
+
+        String number = article.getPhone();
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+number));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
+    public String createMessage(IndividualShop article){
+        String result = "J'ai connu votre boutique a travers l'application Vima. J'aimerais recevoir plus d'information sur les articles que vous proposez s'il vous plait.";
+        return result;
+    }
+    public void smsclick(IndividualShop article){
+        String number = article.getPhone();
+        String message = createMessage(article);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("smsto:"+number));
+        intent.putExtra("sms_body", message);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +81,49 @@ public class shopPage extends AppCompatActivity {
 
         ImageButton goBack = findViewById(R.id.go_back);
 
+        IndividualShop shop = new IndividualShop();
+        Bundle i = getIntent().getExtras();
+        if(i != null){
+            shop = Spinning.shopData.get(i.getInt("LockerKey"));
+        }
+        final IndividualShop finalShop = shop;
+
+        ImageButton call, sms, what;
+        call = findViewById(R.id.callclick);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callclick(finalShop);
+            }
+        });
+        sms = findViewById(R.id.smsclick);
+        sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                smsclick(finalShop);
+            }
+        });
+        what = findViewById(R.id.whatclick);
+        what.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whatclick(finalShop);
+            }
+        });
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
                 finish();
             }
         });
-        IndividualShop shop = new IndividualShop();
 
-        Bundle i = getIntent().getExtras();
-        if(i != null){
-            shop = Spinning.shopData.get(i.getInt("LockerKey"));
-        }
+        ImageView bigImage = findViewById(R.id.big_picture);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(shop.getP_photo());
+
+        Glide.with(getApplicationContext())
+                .load(storageReference)
+                .into(bigImage);
+
         TextView description = findViewById(R.id.shop_page_description);
         description.setText(shop.getName());
 

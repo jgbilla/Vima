@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.PopularRecyclerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -55,7 +56,14 @@ public class Popular extends Fragment {
 
         grid.setAdapter(mAdapter);
 
-        View footerView = ((LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_for_recents_tab, null, false);
+        FloatingActionButton goBack = view.findViewById(R.id.goback);
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                grid.smoothScrollToPosition(0);
+            }
+        });
+
 
         /*
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,34 +75,7 @@ public class Popular extends Fragment {
         });
 
          */
-        previous = view.findViewById(R.id.previous);
-        suivant = view.findViewById(R.id.suivant);
-        counter = view.findViewById(R.id.counter);
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Fetching.PopularPageNumber != 1) {
-                    Fetching.PopularPageNumber--;
-                    counter.setText(Integer.toString(Fetching.PopularPageNumber));
-                    mAdapter.notifyDataSetChanged();
-                    grid.smoothScrollToPosition(0);
-                } else {
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);                }
-            }
-        });
-        suivant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Fetching.PopularPageNumber <= 5) {
-                    Fetching.PopularPageNumber = Fetching.PopularPageNumber + 1;
-                    counter.setText(Integer.toString(Fetching.PopularPageNumber));
-                    mAdapter.notifyDataSetChanged();
-                    grid.smoothScrollToPosition(0);
-                }
-                else {
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_SHORT);                }
-            }
-        });
+
 
         SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
         myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

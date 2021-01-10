@@ -32,6 +32,10 @@ import androidx.fragment.app.Fragment;
 
 import com.eduvision.version2.vima.MainPage;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
+import com.eduvision.version2.vima.Tabs.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.Verify;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -87,9 +91,7 @@ public class SeConnecter extends Fragment {
     FirebaseUser user;
     private CheckBox showPassword;
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-    public SeConnecter() {
-
+   public SeConnecter() {
     }
 
     @Override
@@ -190,8 +192,8 @@ ForgottenPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getContext(), "Bienvenue",
-                            Toast.LENGTH_SHORT).show();
+                    Fetching.makeCustomToast(getApplicationContext(), "Bienvenue", Toast.LENGTH_SHORT);
+
                     FirebaseUser user = mAuth.getCurrentUser();
                     assert user != null;
                     id = user.getUid();
@@ -248,12 +250,11 @@ ForgottenPassword.setOnClickListener(new View.OnClickListener() {
                         }
                     });
 
-                    Intent r = new Intent(getContext(), MainPage.class);
-                    startActivity(r);
+                    Intent intent = new Intent(getApplicationContext(), Spinning.class);
+                    startActivity(intent);
 
                 } else {
-                    Toast.makeText(getContext(), "Votre email ou mot de passe est incorrect",
-                            Toast.LENGTH_SHORT).show();
+                    Fetching.makeCustomToast(getContext(), "Votre email ou mot de passe est incorrect", Toast.LENGTH_SHORT);
                 }
             }
         });

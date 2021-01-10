@@ -4,6 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
 
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@null</item>
         <!--<item name="colorPrimary">@color/colorPrimary</item> -->
         <item name="colorPrimary">@color/Black</item>
         <item name="colorPrimaryDark">#000000</item>

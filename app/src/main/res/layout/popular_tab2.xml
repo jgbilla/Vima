@@ -14,40 +14,14 @@
                     android:layout_height="match_parent"
                     android:id="@+id/grid"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:id = "@+id/l"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Suivant"
-                    android:id = "@+id/suivant"
-                    android:textStyle="bold"
-                    android:layout_marginRight="3dp"
-                    android:layout_alignParentRight="true"
-                    android:textSize="15sp"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Retour"
-                    android:id = "@+id/previous"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="3dp"
-                    android:layout_alignParentLeft="true"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:layout_marginRight="3dp"
-                    android:id = "@+id/counter"
-                    android:textStyle="bold"
-                    android:layout_centerInParent="true"
-                    android:textSize="15sp"/>
-        </RelativeLayout>
-
+            android:visibility="invisible"
+            android:id="@+id/goback"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            />
 </RelativeLayout>

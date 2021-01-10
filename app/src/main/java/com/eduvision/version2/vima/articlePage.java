@@ -25,6 +25,9 @@ import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.gson.Gson;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.eduvision.version2.vima.Tabs.Fetching.myData;
@@ -40,16 +43,22 @@ public class articlePage extends AppCompatActivity {
     String phoneNumber;
     CardView like;
 
-    public void whatclick(View v){
-        String number = "+22676603608";
-        String url = "https://api.whatsapp.com/send?phone="+number;
+    public void whatclick(IndividualArticle article){
+        String number = article.getPhone();
+        String message = createMessage(article);
+        String url = null;
+        try {
+            url = "https://api.whatsapp.com/send?phone="+number + "&text=" + URLEncoder.encode(message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
     }
-    public void callclick(View v){
+    public void callclick(IndividualArticle article){
 
-        String number = "+22676603608";
+        String number = article.getPhone();
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:"+number));
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -57,9 +66,14 @@ public class articlePage extends AppCompatActivity {
         }
 
     }
-    public void smsclick(View v){
-        String number = "+22676603608";
-        String message = "J'ai connu votre boutique a travers l'applocation Vima";
+    public String createMessage(IndividualArticle article){
+        String result = "J'ai connu votre boutique a travers l'application Vima. Je suis intéressé par l'Article \"" + article.getName() +
+                "\" qui est marqué au prix de " + article.getPrice() + " francs CFA. J'aimerais recevoir plus d'information sur cet Article s'il vous plait.";
+        return result;
+    }
+    public void smsclick(IndividualArticle article){
+        String number = article.getPhone();
+        String message = createMessage(article);
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:"+number));
         intent.putExtra("sms_body", message);
@@ -95,6 +109,30 @@ public class articlePage extends AppCompatActivity {
         sm_pic2 = findViewById(R.id.smaller_images2);
         sm_pic3 = findViewById(R.id.smaller_images3);
         shop_pic = findViewById(R.id.shop_picture);
+        ImageButton call, sms, what;
+        call = findViewById(R.id.callclick);
+        IndividualArticle finalArticle1 = article;
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callclick(finalArticle1);
+            }
+        });
+        sms = findViewById(R.id.smsclick);
+        sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                smsclick(finalArticle1);
+            }
+        });
+        what = findViewById(R.id.whatclick);
+        what.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whatclick(finalArticle1);
+            }
+        });
+
         ImageView profile = findViewById(R.id.profile_image);
         SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
         String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");

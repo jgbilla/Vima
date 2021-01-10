@@ -75,8 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
+            android:padding="10dp"
             android:background="#FF0000"
             android:text="Se deconnecter"
             android:textColor="@color/Black"/>

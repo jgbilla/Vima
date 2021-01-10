@@ -23,6 +23,7 @@ import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.RecentsRecyclerAdapter;
 import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 import com.eduvision.version2.vima.articlePage;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class Recents extends Fragment {
     private static boolean transfer = false;
     static RecyclerView articlegv;
     MaterialSearchView materialSearchView;
-    Button previous, suivant;
     TextView counter;
 
     public static ArrayList<IndividualArticle> myLikedItems = new ArrayList<>(1);
@@ -78,36 +78,11 @@ public class Recents extends Fragment {
         });
 
          */
-
-        previous = view.findViewById(R.id.previous);
-        suivant = view.findViewById(R.id.suivant);
-        counter = view.findViewById(R.id.counter);
-        previous.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton goBack = view.findViewById(R.id.goback);
+        goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Fetching.RecentsPageNumber != 1){
-                    Fetching.RecentsPageNumber--;
-                    counter.setText(String.valueOf(Fetching.RecentsPageNumber));
-                    mAdapter.notifyDataSetChanged();
                     articlegv.smoothScrollToPosition(0);
-                }
-                else{
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
-                }
-            }
-        });
-        suivant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Fetching.RecentsPageNumber <= 5) {
-                    Fetching.RecentsPageNumber ++;
-                    counter.setText(String.valueOf(Fetching.RecentsPageNumber));
-                    mAdapter.notifyDataSetChanged();
-                    articlegv.smoothScrollToPosition(0);
-                }
-                else {
-                    Fetching.makeCustomToast(getApplicationContext(), "Action Impossible", Toast.LENGTH_LONG);
-                }
             }
         });
 

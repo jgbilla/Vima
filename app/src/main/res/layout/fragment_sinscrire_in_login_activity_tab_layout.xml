@@ -65,7 +65,7 @@
             android:autofillHints="username"
             android:backgroundTint="#FFFFFF"
             android:drawableTint="#FFFFFF"
-            android:hint="Numéro de Telephone"
+            android:hint="Numéro de Téléphone"
             android:inputType="phone"
             android:textColor="#FFFFFF"
             android:textColorHint="#808080"

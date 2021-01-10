@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="Taper votre numéro de téléphone"
+                android:textColor="@color/White" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:backgroundTint="#FFFFFF"
+                android:drawableTint="#FFFFFF"
+                app:backgroundTint="#808080"
+                android:hint="Nom d'utilisateur"
+                android:inputType="text"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#808080"
+                android:textCursorDrawable="@null"
+                android:drawableStart="@drawable/grey_circle"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="10">
+                <androidx.appcompat.widget.AppCompatEditText
+                    app:backgroundTint="#808080"
+                    android:id="@+id/number_tail"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="@color/White"
+                    android:drawableTint="@color/White"
+                    android:text="+226"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#808080"
+                    android:textCursorDrawable="@null">
+
+                </androidx.appcompat.widget.AppCompatEditText>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    app:backgroundTint="#808080"
+                    android:layout_weight="8"
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:drawableTint="#FFFFFF"
+                    android:hint="Numéro de téléphone"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#808080"
+                    android:textCursorDrawable="@null"
+                    android:inputType="phone">
+
+                </androidx.appcompat.widget.AppCompatEditText>
+
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/radio_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/White"
+                    android:outlineAmbientShadowColor="@color/White"
+                    android:outlineSpotShadowColor="#FFFFFF"
+                    android:text="Homme"
+                    android:textColor="#FFFFFF">
+
+                </RadioButton>
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/White"
+                    android:outlineAmbientShadowColor="@color/White"
+                    android:outlineSpotShadowColor="#FFFFFF"
+                    android:text="Femme"
+                    android:textColor="#FFFFFF">
+
+                </RadioButton>
+            </RadioGroup>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:text="Vima enverra un message SMS pour vérifier votre numéro de téléphone.
+Les frais standards sont applicables."
+                android:textColor="@color/White" />
+
+
+        </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/se_connecter_button"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_edges_button"
+            android:text="Envoyer Message"
+            android:textColor="@color/White">
+
+
+        </Button>
+
+    </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
+
+

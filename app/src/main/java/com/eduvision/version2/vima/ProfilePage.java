@@ -32,6 +32,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.eduvision.version2.vima.Tabs.FetchShops;
+import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
+import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
@@ -47,8 +52,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +83,7 @@ public class ProfilePage extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private Uri ImageUri;
     private StorageTask uploadTask;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,10 +125,10 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         });
-//Changing the username
+        //Changing the username
         Button ChangeUsername = customLayout.findViewById(R.id.change_username);
         AlertDialog.Builder newUsername = new AlertDialog.Builder(this);
-        newUsername.setTitle("Insert");
+        newUsername.setTitle("Insérer");
 
         final View customUsername = getLayoutInflater().inflate(R.layout.model_custom_dialog_modify_username, null);
         newUsername.setView(customUsername);
@@ -188,12 +197,12 @@ public class ProfilePage extends AppCompatActivity {
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("telephone", getNumber);
                         mDatabase.updateChildren(map);
-                        Phone = sharedPreferences.getString("telephone", "Entrez votre numero de telephone");
+                        Phone = sharedPreferences.getString("telephone", "Entrez votre numéro de téléphone");
                         editor.putString("telephone", getNumber);
                         editor.apply();
                         progressDialog.dismiss();
 
-                        Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+                        Fetching.makeCustomToast(getApplicationContext(), "Sauvegarde réussie", Toast.LENGTH_SHORT);
 
                         telephone = findViewById(R.id.numero_de_telephone);
                         Phone = sharedPreferences.getString("telephone", "nothing");
@@ -238,7 +247,7 @@ public class ProfilePage extends AppCompatActivity {
                         editor.apply();
                         progressDialog.dismiss();
 
-                        Toast.makeText(getApplicationContext(), "Sauvegarde reussie", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Sauvegarde réussie", Toast.LENGTH_SHORT).show();
 
                         email = findViewById(R.id.adresse_mail);
                         Email = sharedPreferences.getString("email", "Entrez votre email");
@@ -299,7 +308,7 @@ public class ProfilePage extends AppCompatActivity {
                 .into(profile);
 
         telephone = findViewById(R.id.numero_de_telephone);
- Phone = sharedPreferences.getString("telephone", "Entrez votre numero de telephone");
+        Phone = sharedPreferences.getString("telephone", "Entrez votre numéro de téléphone");
         telephone.setText(Phone);
 
         email = findViewById(R.id.adresse_mail);
@@ -532,7 +541,7 @@ public class ProfilePage extends AppCompatActivity {
 
                         progressDialog.dismiss();
                     }else {
-                        Toast.makeText(getApplicationContext(), "Veuillez reessayer", Toast.LENGTH_SHORT).show();
+                        Fetching.makeCustomToast(getApplicationContext(), "Veuillez reessayer", Toast.LENGTH_SHORT);
                         progressDialog.dismiss();
                     }
 
@@ -548,7 +557,7 @@ public class ProfilePage extends AppCompatActivity {
 
             }
         else{
-            Toast.makeText(getApplicationContext(), "Veuillez reselectionner une image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Veuillez resélectionner une image", Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -68,7 +68,7 @@ public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecycler
         // - replace the contents of the view with that element
         IndividualArticle myArticle;
         View convertView = holder.myLayout ;
-        myArticle = Spinning.myData.get((Fetching.RecentsPageNumber*16-16) + position);
+        myArticle = Spinning.myData.get(position);
         ImageButton myBtn = convertView.findViewById(R.id.like_button);
         if(myArticle.isLiked) {
             myBtn.setImageResource(R.drawable.icon_b);
@@ -103,7 +103,7 @@ public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecycler
     }
     @Override
     public int getItemCount() {
-        return 16;
+        return Spinning.myData.size();
     }
 
 }

@@ -15,11 +15,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
     int currentFragment;
@@ -114,6 +119,32 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+    /*
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus){
+        super.onWindowFocusChanged(hasFocus);
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        if (!hasFocus){
+            String jsonText = gson.toJson(Spinning.myData);
+            String jsonTextShops = gson.toJson(Spinning.shopData);
+            editor.putString("Articles", jsonText);
+            editor.putString("Shops", jsonTextShops);
+            editor.apply();
+        }
+        else{
+            String myData = prefs.getString("Articles", null);
+            Type type = new TypeToken<ArrayList<IndividualArticle>>() {}.getType();
+            Spinning.myData = gson.fromJson(myData, type);
+
+            String shopData = prefs.getString("Articles", null);
+            type = new TypeToken<ArrayList<IndividualShop>>() {}.getType();
+            Spinning.shopData = gson.fromJson(shopData, type);
+        }
+    }
+
+     */
     @Override
     public void onBackPressed() {
         if(currentFragment == 0){
@@ -121,7 +152,7 @@ public class MainPage extends AppCompatActivity {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Closing Vima")
                     .setMessage("Voulez-vous vraiment quitter Vima?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -130,7 +161,7 @@ public class MainPage extends AppCompatActivity {
                             System.exit(0);
                         }
                     })
-                    .setNegativeButton("No", null)
+                    .setNegativeButton("Non", null)
                     .show();
         }
         else{

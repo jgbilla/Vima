@@ -52,7 +52,6 @@
             android:launchMode="singleTop"
             android:noHistory="true"/>
         <activity android:name=".Spinning" android:launchMode="singleTask"/>
-        <activity android:name=".UploadActivity" />
         <activity android:name=".articlePage">
 
         </activity>
@@ -80,7 +79,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfilePage" />
-        <activity android:name=".ArticleAlone" />
+        <activity android:name=".ArticleAlone"
+            android:noHistory="true"/>
         <activity android:name=".shopPage" />
     </application>
 

@@ -28,18 +28,9 @@ public class Splashscreen extends AppCompatActivity {
 
     ImageView image;
     FirebaseAuth mAuth;
-    private static int SPLASH_TIME_OUT = 100;
+    private static int SPLASH_TIME_OUT = 1000;
     FirebaseAuth.AuthStateListener mAuthListener;
-    public void getLikedItems(){
-        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String LikedItems = prefs.getString("LikedItems", null);
-        Type type = new TypeToken<ArrayList<IndividualArticle>>() {}.getType();
-            if (LikedItems != null && !LikedItems.equals("")) {
-                Recents.myLikedItems = gson.fromJson(LikedItems, type);
-            }
-    }
+
     protected Boolean waitSecond(){
         final Boolean[] result = {false};
         Log.println(Log.INFO, "Debug", "Wait Second");
@@ -70,15 +61,15 @@ public class Splashscreen extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
+
         setContentView(R.layout.splashcreen);
-        getLikedItems();
+        image = findViewById(R.id.logo);
+        Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.splashscreen_transition);
+        image.startAnimation(myAnim);
         mAuth = FirebaseAuth.getInstance();
         boolean firstStart = prefs.getBoolean("firstStart",true);
 
 
-        image = findViewById(R.id.logo);
-        Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.splashscreen_transition);
-        image.startAnimation(myAnim);
 
         if (firstStart) {
             prefs = getSharedPreferences("prefs",MODE_PRIVATE);

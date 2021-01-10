@@ -16,31 +16,124 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_weight="0.5"
         android:id="@+id/ll"
         android:paddingTop="50dp"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp">
 
-        <ImageView
-            android:layout_width="98dp"
-            android:id="@+id/logo"
-            android:layout_height="126dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/vima_logo">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="98dp"
+                android:id="@+id/logo"
+                android:layout_height="126dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/vima_logo">
 
-        </ImageView>
+            </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:id="@+id/login_text"
+                android:layout_marginLeft="60dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="40dp"
+                android:text="Log in"/>
+    </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour"
+            android:backgroundTint="@color/Red"
+            android:visibility="gone"
+            android:id="@+id/back"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/White"/>
+    </LinearLayout>
+<include
+    layout="@layout/fragment_phone_sign_in"
+    android:layout_width="wrap_content"
+    android:layout_weight="3.5"
+    android:layout_marginTop="30dp"
+    android:layout_below="@id/ll"
+    android:id="@+id/phone_sign_in_layout"
+    android:visibility="gone"
+    android:layout_height="wrap_content">
+
+</include>
+    <include
+        layout="@layout/fragment_get_key_phone_sign_in"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="3.5"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:layout_below="@id/ll"
+        android:id="@+id/get_code_phone_layout"
+        android:layout_height="wrap_content">
+
+    </include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3.5"
+        android:layout_below="@id/ll"
+        android:id="@+id/choose"
+        android:visibility="visible"
+        android:orientation="vertical"
+        android:paddingTop="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Choisissez votre méthode d'inscription"
+            android:textColor="@color/White"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_marginTop="60dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:textColor="@color/Black"
+            android:id="@+id/phone"
+            android:text="Numéro de Téléphone"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/circular"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:text="ou"
+            android:textColor="@color/White"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_marginTop="30dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:textColor="@color/Black"
+            android:text="Email"
+            android:id="@+id/email"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/circular"/>
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3.5"
+        android:visibility="gone"
+        android:id="@+id/actual_sign_in"
         android:layout_below="@id/ll"
         android:orientation="vertical"
         android:paddingTop="50dp">

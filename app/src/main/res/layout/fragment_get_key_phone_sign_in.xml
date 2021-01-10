@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="Taper le code de 6 chiffres envoyé au NUMERO"
+                android:textColor="@color/White" />
+
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    app:backgroundTint="#808080"
+                    android:layout_weight="8"
+                    android:id="@+id/code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="90dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:drawableTint="#FFFFFF"
+                    android:gravity="center"
+                    android:hint="CODE"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#808080"
+                    android:textCursorDrawable="@null"
+                    android:inputType="phone">
+
+                </androidx.appcompat.widget.AppCompatEditText>
+
+
+
+
+        </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/White"
+        android:id="@+id/finish"
+        android:layout_marginTop="40dp"
+        android:text="Finir"
+        android:backgroundTint="@color/Red"
+        android:layout_gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -35,8 +37,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.eduvision.version2.vima.Tabs.Fetching.isDataFetched;
@@ -48,9 +56,61 @@ public class Spinning extends AppCompatActivity {
     static TextView progressText;
     static Context myContext;
 
+    public void getLikedItems(){
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String LikedItems = prefs.getString("LikedItems", null);
+        Type type = new TypeToken<ArrayList<IndividualArticle>>() {}.getType();
+        if (LikedItems != null && !LikedItems.equals("")) {
+            Recents.myLikedItems = gson.fromJson(LikedItems, type);
+        }
+    }
+
+    public void updateNumbUsersConnectedToday() {
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        String lastDate = prefs.getString("date", date);
+        int numbConnectedToday = prefs.getInt("numbConnectedToday", 1);
+
+        if (lastDate.equals(date)) {
+            numbConnectedToday++;
+            editor.putBoolean("connectedToday", true);
+            editor.putInt("numbConnectedToday", numbConnectedToday);
+            editor.apply();
+        }
+        else {
+            mDatabase.child("Stats").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    editor.putBoolean("connectedToday", true);
+                    editor.putInt("numbConnectedToday", 1);
+                    editor.apply();
+                    String counter = String.valueOf(snapshot.child("User Connections on " + lastDate).getValue());
+                    mDatabase.child("Stats").child("User Connections on " + lastDate).setValue(
+                            Integer.parseInt(counter) + 1
+                    );
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateNumbUsersConnectedToday();
+
+        getLikedItems();
         setContentView(R.layout.spinning_activity);
         myContext = getApplicationContext();
         progress = findViewById(R.id.progress);
@@ -61,7 +121,7 @@ public class Spinning extends AppCompatActivity {
 
 
     public void setProgressInt(int progress) {
-        progressText.setText("Progrès: " + progress);
+        progressText.setText("Progrès: " + progress + "%");
     }
 
 
@@ -100,7 +160,15 @@ public class Spinning extends AppCompatActivity {
         int counter = Integer.parseInt(sCounter);
         DataSnapshot mSnapshot;
 
-        for(int i = 1; i<=(16); i++){
+        int counterA = 1;
+        if(snapshot.getChildrenCount() < 80){
+            counterA = 80;
+        }
+        else{
+            counterA = (int) snapshot.getChildrenCount();
+        }
+
+        for(int i = 1; i<=(counterA); i++){
             if(i < counter){
                 currentArticle = snapshot.child(String.valueOf(i)).getValue(IndividualShop.class);
                 mSnapshot = snapshot.child(Integer.toString(i)).child("Articles");
@@ -113,7 +181,7 @@ public class Spinning extends AppCompatActivity {
             ArrayList<String> Titles = new ArrayList<>(1);
             for(int c= 1; c<=3; c++) {
                 ArrayList<Long> ArticlesArray = new ArrayList<>(1);
-                for (int a= 1; a<80; a++){
+                for (int a= 1; a<30; a++){
                     DataSnapshot cSnapshot;
                     if(a<mSnapshot.child(String.valueOf(c)).getChildrenCount()){
                         cSnapshot = mSnapshot.child(String.valueOf(c)).child(String.valueOf(a));
@@ -144,7 +212,14 @@ public class Spinning extends AppCompatActivity {
         IndividualArticle currentArticleN;
         String sCounterN = snapshot.child("counter").getValue().toString();
         int counterN = Integer.parseInt(sCounterN);
-        for(int i = 1; i<=(80); i++){
+        int counterS = 1;
+        if(snapshot.getChildrenCount() < 80){
+            counterS = 80;
+        }
+        else{
+            counterS = (int) snapshot.getChildrenCount();
+        }
+        for(int i = 1; i<=(counterS); i++){
             if(i < counterN){
                 currentArticleN = snapshot.child(Integer.toString(i)).getValue(IndividualArticle.class);
             }

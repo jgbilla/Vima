@@ -10,12 +10,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:background="@color/Black"
+        android:background="@color/White"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:background="@color/Black"
+            android:background="@color/White"
             android:layout_alignParentTop="true"
             android:id="@+id/text"
             android:layout_height="wrap_content">
@@ -26,7 +26,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_margin="10dp"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Black"
             android:text="Articles Likés"/>
         </LinearLayout>
 
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:visibility="invisible"
             android:id="@+id/textNone"
             android:layout_centerInParent="true"
@@ -59,7 +59,7 @@
                 android:textStyle="bold"
                 android:id="@+id/clearButton"
                 android:textColor="@color/Grey"
-                android:text="Effacer"/>
+                android:text="Tout Effacer"/>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

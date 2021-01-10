@@ -134,8 +134,8 @@ public class ArticleAdapter extends BaseAdapter {
 
                     break;
                 case "ShopArticles":
-                    ArrayList<Long> myArticles = (ArrayList<Long>) dif;
                     convertView = myInflater.inflate(R.layout.article_in_shop_model, parent, false);
+                    ArrayList<Long> myArticles = (ArrayList<Long>) dif;
 
                     IndividualArticle fArticle = Spinning.myData.get(Math.toIntExact(myArticles.get(position * 3 )));
                     IndividualArticle sArticle = Spinning.myData.get(Math.toIntExact(myArticles.get(position * 3 +1)));

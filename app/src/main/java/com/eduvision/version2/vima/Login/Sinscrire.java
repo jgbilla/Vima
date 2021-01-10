@@ -34,6 +34,8 @@ import androidx.fragment.app.Fragment;
 
 import com.eduvision.version2.vima.Home;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
+import com.eduvision.version2.vima.Tabs.Fetching;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -95,7 +97,6 @@ public class Sinscrire extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
 
     public Sinscrire() {
-
     }
 
     @Override
@@ -166,17 +167,17 @@ public class Sinscrire extends Fragment {
                 password = Password.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Entrez votre e-mail", Toast.LENGTH_LONG).show();
+                    Fetching.makeCustomToast(getApplicationContext(), "Entrez votre e-mail", Toast.LENGTH_LONG);
                     return;
                 }
 
                 if (TextUtils.isEmpty(telephone)) {
-                    Toast.makeText(getApplicationContext(), "Entrez votre numero de telephone", Toast.LENGTH_LONG).show();
+                    Fetching.makeCustomToast(getApplicationContext(), "Entrez votre numero de telephone", Toast.LENGTH_LONG);
                     return;
                 }
 
                 if (TextUtils.isEmpty(password) || password.length() < 8) {
-                    Toast.makeText(getApplicationContext(), "Votre mot de passe doit exceder 8 caracteres ", Toast.LENGTH_LONG).show();
+                    Fetching.makeCustomToast(getApplicationContext(), "Votre mot de passe doit exceder 8 caracteres ", Toast.LENGTH_LONG);
                     return;
                 } else {
                     int selectedId = radioSexGroup.getCheckedRadioButtonId();
@@ -250,13 +251,12 @@ public class Sinscrire extends Fragment {
                     } else {
                         getLocation();
                     }
-Intent t = new Intent(getContext(), Home.class);
-                    startActivity(t);
+                    Intent intent = new Intent(getApplicationContext(), Spinning.class);
+                    startActivity(intent);
 
                 }
                 else {
-                    Toast.makeText(getContext(), "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                    Fetching.makeCustomToast(getContext(), "Authentication failed.", Toast.LENGTH_SHORT);
                 }
             }
         });

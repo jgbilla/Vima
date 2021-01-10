@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.eduvision.version2.vima.Tabs.Fetching;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +31,7 @@ public class ProfileSettings extends AppCompatActivity {
             tv.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    label.setText("Parametres: Edit Mode");
+                    label.setText("Paramètres: Edit Mode");
                     tv.setVisibility(View.GONE);
                     n.setVisibility(View.VISIBLE);
                     n.setText(tv.getText());
@@ -64,10 +65,10 @@ public class ProfileSettings extends AppCompatActivity {
         editName = findViewById(R.id.editName);
         editNumber = findViewById(R.id.editNumber);
         label = findViewById(R.id.label);
-        label.setText("Parametres: View Mode");
+        label.setText("Paramètres: View Mode");
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Toast.makeText(getApplicationContext(), "Appuyer longuement sur une info pour la modifier.",
-                Toast.LENGTH_SHORT).show();
+        Fetching.makeCustomToast(getApplicationContext(), "Appuyer longuement sur une info pour la modifier.",
+                Toast.LENGTH_SHORT);
         mDatabase.child("Custumers").child("000001").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

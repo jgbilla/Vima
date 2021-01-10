@@ -454,7 +454,8 @@ public class Home extends Fragment {
 
 
                 if(!s.toString().isEmpty()){
-                    clear.setVisibility(View.VISIBLE);
+                    clear.
+                            setVisibility(View.VISIBLE);
 
                     //calling the search engine activity and the function that handles the search
                     search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
