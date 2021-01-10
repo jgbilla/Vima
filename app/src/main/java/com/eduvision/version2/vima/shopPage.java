@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -82,6 +83,7 @@ public class shopPage extends AppCompatActivity {
         ImageButton goBack = findViewById(R.id.go_back);
 
         IndividualShop shop = new IndividualShop();
+        Log.println(Log.INFO, "Taggingg", "We're at ShopPage. Yay or Nayyyyy? Yay!");
         Bundle i = getIntent().getExtras();
         if(i != null){
             shop = Spinning.shopData.get(i.getInt("LockerKey"));

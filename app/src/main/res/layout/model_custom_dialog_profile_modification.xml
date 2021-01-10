@@ -77,9 +77,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="15dp"
-            android:padding="10dp"
             android:background="#FF0000"
-            android:text="Se deconnecter"
-            android:textColor="@color/Black"/>
+            android:padding="10dp"
+            android:text="Se déconnecter"
+            android:textColor="@color/Black" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

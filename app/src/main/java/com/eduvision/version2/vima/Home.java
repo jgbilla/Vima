@@ -167,6 +167,7 @@ public class Home extends Fragment {
         }
         firstTime = false;
 
+        /*
         MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -209,6 +210,8 @@ public class Home extends Fragment {
                 // to the app after tapping on an ad.
             }
         });
+
+         */
 
         featured = view.findViewById(R.id.featured);
         Progress = Objects.requireNonNull(getView()).findViewById(R.id.linlaHeaderProgress);

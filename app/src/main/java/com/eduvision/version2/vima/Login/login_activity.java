@@ -440,6 +440,8 @@ public class login_activity extends AppCompatActivity {
         actualSignIn.setVisibility(View.GONE);
         choose.setVisibility(View.VISIBLE);
         loginText.setVisibility(View.VISIBLE);
+        phoneSignLayoutSecond = findViewById(R.id.get_code_phone_layout);
+        phoneSignLayoutFirst = findViewById(R.id.phone_sign_in_layout);
         if(phoneSignLayoutFirst.getVisibility()==View.VISIBLE || phoneSignLayoutSecond.getVisibility() == View.VISIBLE){
             phoneSignLayoutFirst.setVisibility(View.GONE);
             phoneSignLayoutSecond.setVisibility(View.GONE);

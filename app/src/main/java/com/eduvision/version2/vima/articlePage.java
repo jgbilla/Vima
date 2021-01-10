@@ -265,7 +265,7 @@ public class articlePage extends AppCompatActivity {
         ArticleAdapter.glideIt(sm_pic2, article.getP_photo(), mContext);
         ArticleAdapter.glideIt(sm_pic3, article.getP_photo(), mContext);
 
-        price.setText(String.valueOf(article.getPrice()));
+        price.setText(article.getPrice() + " CFA");
         title.setText(article.getName());
         description.setText(article.getName());
         shop_name.setText(article.getShop_name());
