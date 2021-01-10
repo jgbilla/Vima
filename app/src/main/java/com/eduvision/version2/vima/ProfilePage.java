@@ -83,6 +83,8 @@ public class ProfilePage extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private Uri ImageUri;
     private StorageTask uploadTask;
+    Geocoder geocoder;
+
 
 
     @Override
@@ -90,6 +92,7 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_page_layout);
 
+        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault()); //For location
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -443,6 +446,7 @@ public class ProfilePage extends AppCompatActivity {
 
     private void getLocation(){
 
+
         if (ActivityCompat.checkSelfPermission(
                 ProfilePage.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 ProfilePage.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -466,9 +470,8 @@ public class ProfilePage extends AppCompatActivity {
                                 latitude = String.valueOf(lat);
                                 longitude = String.valueOf(longi);
 
-                                Geocoder geocoder;
+
                                 List<Address> addresses = new ArrayList<>();
-                                geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
 
                                 try {
                                     addresses = geocoder.getFromLocation(lat, longi, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
@@ -479,6 +482,13 @@ public class ProfilePage extends AppCompatActivity {
                                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                                 progressDialog.dismiss();
                                 Log.d(TAG, "We made it:" + address);
+                                user = mAuth.getCurrentUser();
+                                mDatabase = FirebaseDatabase.getInstance().getReference("Users").child("Acheteurs").child(user.getUid());
+                                HashMap<String, Object> map = new HashMap<>();
+                                map.put("Adresse", address);
+                                mDatabase.updateChildren(map);
+                                editor.putString("location", address);
+                                editor.apply();
                             }
                         }
                     });
