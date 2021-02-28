@@ -260,6 +260,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:padding="10dp"
+                    android:id="@+id/shopClick"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -267,7 +268,7 @@
                         android:layout_width="150dp"
                         android:src="@drawable/mask39764a28"
                         android:layout_height="150dp"
-                        android:scaleType="centerCrop" />
+                    android:scaleType="centerCrop" />
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">

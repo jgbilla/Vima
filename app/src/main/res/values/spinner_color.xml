@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_array">
+        <item>Tout</item>
+        <item>Blanc Mono</item>
+        <item>Noir Mono</item>
+        <item>Couleur</item>
+    </string-array>
+</resources>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Filter"
+    android:background="@color/White">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="@string/top_name"
+            android:layout_gravity="center"
+            android:textColor="@color/Black"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_weight="1"
+            android:id="@+id/profile_image"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_baseline_person_24"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp" />
+
+    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:focusable="true"
+                    android:layout_marginBottom="50dp"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="30dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="20dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:text="Taille"
+                            android:textSize="15dp" />
+
+                    </LinearLayout>
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:id="@+id/spinner1"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="15dp"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/size_array"
+                            android:layout_alignParentRight="true"
+                            android:clickable="true"
+                            android:layout_height="30dp"/>
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="50dp"
+                    android:clickable="true"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="30dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:paddingLeft="20dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:text="Prix"
+                                android:textSize="15dp" />
+
+
+
+
+                        </LinearLayout>
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:id="@+id/spinner2"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="15dp"
+                            android:spinnerMode="dropdown"
+                            android:entries="@array/prize_array"
+                            android:clickable="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="30dp"/>
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="50dp"
+                    android:clickable="true"
+                    android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    card_view:cardCornerRadius="10dp"
+                    card_view:cardElevation="30dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:paddingLeft="20dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="25dp"
+                                android:text="Couleur"
+                                android:textSize="15dp" />
+
+
+
+
+                        </LinearLayout>
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:id="@+id/spinner3"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="15dp"
+                            android:spinnerMode="dropdown"
+                            android:clickable="true"
+                            android:entries="@array/color_array"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="30dp"/>
+
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Red"
+                    android:text="Valider"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/valider"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+
+
+
+</LinearLayout>
+
+    <!--
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/my_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.viewpager.widget.ViewPager>
+    -->

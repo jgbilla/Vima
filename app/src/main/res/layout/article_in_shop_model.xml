@@ -38,6 +38,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="35dp"
+                    android:background="#00ffffff"
+                    android:id="@+id/like_button1"
+                    android:src="@drawable/icon_a"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="30dp">
+
+                </ImageButton>
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -96,6 +107,17 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+                        <ImageButton
+                            android:layout_width="35dp"
+                            android:background="#00ffffff"
+                            android:id="@+id/like_button2"
+                            android:src="@drawable/icon_a"
+                            android:layout_marginRight="15dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_height="30dp">
+
+                        </ImageButton>
                         <LinearLayout
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
@@ -156,6 +178,17 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_width="35dp"
+                    android:background="#00ffffff"
+                    android:id="@+id/like_button3"
+                    android:src="@drawable/icon_a"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="30dp">
+
+                </ImageButton>
                 <LinearLayout
                     android:layout_width="110dp"
                     android:layout_height="match_parent"

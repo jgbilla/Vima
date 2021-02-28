@@ -167,6 +167,7 @@ public class Home extends Fragment {
         }
         firstTime = false;
 
+
         /*
         MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
             @Override

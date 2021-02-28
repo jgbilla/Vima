@@ -36,7 +36,7 @@ public class ImagesTabs extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    public static ImageTabsRecyclerAdapter mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class ImagesTabs extends Fragment {
 
         View convertView =  inflater.inflate(R.layout.shop_images_tabs, container, false);
 
-        ImageTabsRecyclerAdapter mAdapter = new ImageTabsRecyclerAdapter(Spinning.myData, myArticles,  getContext());
+        mAdapter = new ImageTabsRecyclerAdapter(Spinning.myData, myArticles,  getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         articlegv = convertView.findViewById(R.id.listview);
         articlegv.setHasFixedSize(true);

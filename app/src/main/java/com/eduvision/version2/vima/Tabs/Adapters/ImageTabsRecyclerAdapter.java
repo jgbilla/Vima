@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +18,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.eduvision.version2.vima.ImagesTabs;
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
+import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.eduvision.version2.vima.articlePage;
 import com.google.firebase.storage.FirebaseStorage;
@@ -79,6 +83,70 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         IndividualArticle fArticle = Spinning.myData.get((position * 3 ));
         IndividualArticle sArticle = Spinning.myData.get((position * 3 +1));
         IndividualArticle tArticle = Spinning.myData.get((position * 3 +2));
+        ImageButton myBtn1 = first.findViewById(R.id.like_button1);
+        ImageButton myBtn2 = second.findViewById(R.id.like_button2);
+        ImageButton myBtn3 = third.findViewById(R.id.like_button3);
+
+        if(fArticle.isLiked) {
+            myBtn1.setImageResource(R.drawable.icon_b);
+        }
+        else{
+            myBtn1.setImageResource(R.drawable.icon_a);
+        }
+        myBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fetching.handleLike(myBtn1, fArticle, mContext);
+                for(IndividualArticle likedArticle : myData){
+                    if (likedArticle.positionInDataBase == fArticle.positionInDataBase) {
+                        likedArticle.isLiked = true;
+                        notifyDataSetChanged();
+                        ImagesTabs.mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
+        if(sArticle.isLiked) {
+            myBtn2.setImageResource(R.drawable.icon_b);
+        }
+        else{
+            myBtn2.setImageResource(R.drawable.icon_a);
+        }
+        myBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fetching.handleLike(myBtn2, sArticle, mContext);
+                for(IndividualArticle likedArticle : myData){
+                    if (likedArticle.positionInDataBase == sArticle.positionInDataBase) {
+                        likedArticle.isLiked = true;
+                        notifyDataSetChanged();
+                        ImagesTabs.mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
+        if(tArticle.isLiked) {
+            myBtn3.setImageResource(R.drawable.icon_b);
+        }
+        else{
+            myBtn3.setImageResource(R.drawable.icon_a);
+        }
+        myBtn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fetching.handleLike(myBtn3, tArticle, mContext);
+                for(IndividualArticle likedArticle : myData){
+                    if (likedArticle.positionInDataBase == tArticle.positionInDataBase) {
+                        likedArticle.isLiked = true;
+                        notifyDataSetChanged();
+                        ImagesTabs.mAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
         first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

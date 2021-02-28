@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ import java.net.URLEncoder;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.eduvision.version2.vima.Tabs.Fetching.getArticle;
 import static com.eduvision.version2.vima.Tabs.Fetching.myData;
 import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -89,6 +91,8 @@ public class articlePage extends AppCompatActivity {
         setContentView(R.layout.model_indiv_article_page);
 
         LinearLayout myll = findViewById(R.id.ll);
+        View myShopClick = findViewById(R.id.shopClick);
+
         myll.setBackgroundResource(R.drawable.border_home);
         Bundle i = getIntent().getExtras();
         IndividualArticle article = new IndividualArticle();
@@ -96,6 +100,26 @@ public class articlePage extends AppCompatActivity {
             article = Spinning.myData.get(i.getInt("LockerKey"));
         }
 
+        IndividualArticle finalArticle2 = article;
+        myShopClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IndividualShop realShop = null;
+                for(IndividualShop myShop : Spinning.shopData){
+                    if(myShop.positionInDataBase == finalArticle2.shopPositionInDatabase){
+                        realShop = myShop;
+                        break;
+                    }
+                }
+                if(realShop == null){
+                    realShop = Spinning.shopData.get(1);
+                }
+
+                Intent myIntent = new Intent(articlePage.this, shopPage.class);
+                myIntent.putExtra("LockerKey", realShop.positionInDataBase);
+                startActivity(myIntent);
+            }
+        });
         article_id = article.getRank();
         profile_picture = findViewById(R.id.profile_image);
         price = findViewById(R.id.article_price);
@@ -207,6 +231,7 @@ public class articlePage extends AppCompatActivity {
                 }
             }
         });
+
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){

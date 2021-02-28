@@ -1,26 +1,40 @@
 package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.eduvision.version2.vima.Filter;
+import com.eduvision.version2.vima.Home;
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.PopularRecyclerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -28,17 +42,20 @@ public class Popular extends Fragment {
     RecyclerView grid;
     Button previous, suivant;
     TextView counter;
+    int resultCodeForPopularFilter = 2;
 
-    public static Popular newInstance(int page, String title) {
+    public static Popular newInstance(int resultCodeForPopularFilter) {
         Popular populars = new Popular();
-        Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
-        populars.setArguments(args);
         return populars;
     }
 
+
     public static PopularRecyclerAdapter mAdapter;
+    View filter;
+    TextView textNone;
+    private void setDataSourceRecycler(ArrayList<IndividualArticle> myData){
+        mAdapter = new PopularRecyclerAdapter(myData, getContext());
+    }
     //TODO: Add footer to list
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -47,71 +64,75 @@ public class Popular extends Fragment {
         View view = inflater.inflate(R.layout.popular_tab2, container, false);
         super.onCreate(savedInstanceState);
         grid = view.findViewById(R.id.grid);
-        grid.setHasFixedSize(true);
-        GridLayoutManager a = new GridLayoutManager(getContext(), 2);
-        grid.setLayoutManager(a);
+        textNone = view.findViewById(R.id.textNone);
+        FloatingActionButton fab = view.findViewById(R.id.filterButton);
+        if(resultCodeForPopularFilter == 0){
+            textNone.setVisibility(View.VISIBLE);
+            grid.setVisibility(View.GONE);
+        }
+        else{
+            grid.setVisibility(View.VISIBLE);
 
-        mAdapter = new PopularRecyclerAdapter(Fetching.myData, getContext());
-        grid.setAdapter(mAdapter);
+            grid.setHasFixedSize(true);
+            GridLayoutManager a = new GridLayoutManager(getContext(), 2);
+            grid.setLayoutManager(a);
 
-        grid.setAdapter(mAdapter);
-
-        FloatingActionButton goBack = view.findViewById(R.id.goback);
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                grid.smoothScrollToPosition(0);
+            if(resultCodeForPopularFilter != 1) {
+                setDataSourceRecycler(Home.mySortedData);
             }
-        });
-
-
-        /*
-        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent myIntent = new Intent(getContext(), articlePage.class);
-                startActivity(myIntent);
+            else{
+                setDataSourceRecycler(Filter.myNewData);
             }
-        });
-
-         */
+            grid.setAdapter(mAdapter);
 
 
-        SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
-        myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Spinning.isDataFetched = false;
-                new DownloadFilesTask().execute();
+            mAdapter.notifyDataSetChanged();
 
-                if (!Fetching.isInternetAvailable(getApplicationContext())) {
-                    //...
-                    myRefreshLayout.setRefreshing(false);
-                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
+            SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
+            myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    Spinning.isDataFetched = false;
+                    new DownloadFilesTask().execute();
 
-                } else {
-                    if (!Spinning.isDataFetched) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!Spinning.isDataFetched) {
-                                    //...
-                                    myRefreshLayout.setRefreshing(false);
-                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
-                                } else {
-                                    myRefreshLayout.setRefreshing(false);
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }, 1000);
-                    } else {
+                    if (!Fetching.isInternetAvailable(getApplicationContext())) {
+                        //...
                         myRefreshLayout.setRefreshing(false);
-                        mAdapter.notifyDataSetChanged();
+                        Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
+
+                    } else {
+                        if (!Spinning.isDataFetched) {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!Spinning.isDataFetched) {
+                                        //...
+                                        myRefreshLayout.setRefreshing(false);
+                                        Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
+                                    } else {
+                                        myRefreshLayout.setRefreshing(false);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }, 1000);
+                        } else {
+                            myRefreshLayout.setRefreshing(false);
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
+            });
+        }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent myIntent = new Intent(getActivity(), Filter.class);
+                    startActivity(myIntent);
+                    mAdapter.notifyDataSetChanged();
             }
         });
+
         return view;
 
     }

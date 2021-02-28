@@ -67,7 +67,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
         // - replace the contents of the view with that element
         View convertView = holder.myLayout ;
             IndividualArticle myArticle;
-            myArticle = Home.mySortedData.get(position);
+            myArticle = myData.get(position);
 
             ImageButton myBtn = convertView.findViewById(R.id.like_button);
             if(myArticle.isLiked) {

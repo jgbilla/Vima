@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="prize_array">
+        <item>Tout</item>
+        <item>Moins de 5000 F</item>
+        <item>Entre 5000 et 10000</item>
+        <item>Entre 10000 et 15000</item>
+        <item>Entre 15000 et 20000</item>
+        <item>Plus de 20000</item>
+    </string-array>
+</resources>

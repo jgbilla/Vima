@@ -3,8 +3,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top"
     android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aucun article trouvé"
+            android:textSize="20dp"
+            android:id="@+id/textNone"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:textColor="@color/Red"/>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/pullToRefresh"
             android:layout_width="match_parent"
@@ -17,11 +26,11 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_alignParentBottom="true"
-            android:visibility="invisible"
-            android:id="@+id/goback"
+            android:id="@+id/filterButton"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="100dp"
-            android:layout_marginRight="10dp"
+            android:src="@drawable/filter"
+            android:layout_marginRight="50dp"
             android:layout_height="wrap_content"
             />
 </RelativeLayout>

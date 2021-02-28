@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,12 +51,18 @@ public class Verify extends AppCompatActivity {
         super.onDestroy();
     }
 
+    int resultCodeForPopularFilter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
         int myCase = 0;
+        resultCodeForPopularFilter = 2;
         if (extras != null){
             myCase = Integer.parseInt(extras.getString("key"));
+            if(extras.getString("resultCode")!=null) {
+                resultCodeForPopularFilter = Integer.parseInt(extras.getString("resultCode"));
+                Log.println(Log.DEBUG, "Tag", String.valueOf(resultCodeForPopularFilter));
+            }
         }
         FragmentManager fm = getSupportFragmentManager();
 
@@ -64,9 +71,11 @@ public class Verify extends AppCompatActivity {
         viewPager = findViewById(R.id.verify_view_pager);
         tabLayout = findViewById(R.id.verify_tabLayout);
         adapter = new TabAdapter(fm);
+        Popular myPopular = new Popular();
+        myPopular.resultCodeForPopularFilter = this.resultCodeForPopularFilter;
         adapter.addFragment(new Boutiques(), "Boutiques");
         adapter.addFragment(new Recents(), "Recents");
-        adapter.addFragment(new Popular(), "Populaires");
+        adapter.addFragment(myPopular, "Populaires");
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(myCase-1);
         tabLayout.setupWithViewPager(viewPager);

@@ -83,7 +83,6 @@ public class shopPage extends AppCompatActivity {
         ImageButton goBack = findViewById(R.id.go_back);
 
         IndividualShop shop = new IndividualShop();
-        Log.println(Log.INFO, "Taggingg", "We're at ShopPage. Yay or Nayyyyy? Yay!");
         Bundle i = getIntent().getExtras();
         if(i != null){
             shop = Spinning.shopData.get(i.getInt("LockerKey"));

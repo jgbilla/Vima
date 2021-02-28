@@ -5,8 +5,15 @@ public class IndividualArticle{
     public int positionInArray = -1;
     private String name;
     private String p_photo;
+    public int colour = 0;
+    /*
+    0 = white mono
+    1 = black mono
+    2 = every color
+     */
+    public int size = 3;
     private String shop_name;
-
+    public int shopPositionInDatabase = 1;
     public boolean getNumberTimesLiked() {
         return isLiked;
     }

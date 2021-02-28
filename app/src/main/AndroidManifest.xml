@@ -79,6 +79,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfilePage" />
+        <activity android:name=".Filter" />
+        <activity android:name=".AboutPage" />
         <activity android:name=".ArticleAlone"
             android:noHistory="true"/>
         <activity android:name=".shopPage" />

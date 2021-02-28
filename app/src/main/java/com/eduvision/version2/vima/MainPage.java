@@ -155,7 +155,6 @@ public class MainPage extends AppCompatActivity {
                     .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             MainPage.this.finish();
                             finishAffinity();
                             System.exit(0);

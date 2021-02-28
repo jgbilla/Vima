@@ -71,7 +71,7 @@ public class ProfilePage extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseUser user;
     FirebaseAuth mAuth;
-    TextView name, telephone, email, adresse;
+    TextView name, telephone, email, adresse, about;
     ImageView profile;
     String username, Phone, Email;
     ImageButton settings, back;
@@ -92,6 +92,14 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_page_layout);
 
+        about = findViewById(R.id.textAbout);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToAbout = new Intent(ProfilePage.this, AboutPage.class);
+                ProfilePage.this.startActivity(goToAbout);
+            }
+        });
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault()); //For location
         back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
