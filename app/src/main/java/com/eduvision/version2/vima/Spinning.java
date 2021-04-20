@@ -58,7 +58,6 @@ public class Spinning extends AppCompatActivity {
 
     public void getLikedItems(){
         SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
         String LikedItems = prefs.getString("LikedItems", null);
         Type type = new TypeToken<ArrayList<IndividualArticle>>() {}.getType();
@@ -213,19 +212,11 @@ public class Spinning extends AppCompatActivity {
         String sCounterN = snapshot.child("counter").getValue().toString();
         int counterN = Integer.parseInt(sCounterN);
         int counterS = 1;
-        if(snapshot.getChildrenCount() < 80){
-            counterS = 80;
-        }
-        else{
-            counterS = (int) snapshot.getChildrenCount();
-        }
-        for(int i = 1; i<=(counterS); i++){
-            if(i < counterN){
+            counterS = counterN;
+
+        for(int i = 1; i<(counterS); i++){
                 currentArticleN = snapshot.child(Integer.toString(i)).getValue(IndividualArticle.class);
-            }
-            else{
-                currentArticleN = snapshot.child(sCounter).getValue(IndividualArticle.class);
-            }
+
             Objects.requireNonNull(currentArticleN).positionInDataBase = i;
 
             if(i < 5){

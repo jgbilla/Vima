@@ -63,6 +63,14 @@
         android:text="Finir"
         android:backgroundTint="@color/Red"
         android:layout_gravity="center"/>
-
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:id="@+id/progress"
+            android:layout_centerInParent="true"/>
     </LinearLayout>
 </ScrollView>

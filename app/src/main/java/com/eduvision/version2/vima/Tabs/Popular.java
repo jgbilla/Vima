@@ -88,41 +88,6 @@ public class Popular extends Fragment {
 
             mAdapter.notifyDataSetChanged();
 
-            SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
-            myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    Spinning.isDataFetched = false;
-                    new DownloadFilesTask().execute();
-
-                    if (!Fetching.isInternetAvailable(getApplicationContext())) {
-                        //...
-                        myRefreshLayout.setRefreshing(false);
-                        Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_SHORT);
-
-                    } else {
-                        if (!Spinning.isDataFetched) {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (!Spinning.isDataFetched) {
-                                        //...
-                                        myRefreshLayout.setRefreshing(false);
-                                        Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_SHORT);
-                                    } else {
-                                        myRefreshLayout.setRefreshing(false);
-                                        mAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }, 1000);
-                        } else {
-                            myRefreshLayout.setRefreshing(false);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            });
         }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

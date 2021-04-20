@@ -42,16 +42,6 @@ public class Recents extends Fragment {
 
     public static ArrayList<Integer> likedItemsPosition = new ArrayList<>(1);
 
-    public static Recents newInstance(int page, String title) {
-        Recents recents = new Recents();
-        Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
-        recents.setArguments(args);
-        return recents;
-    }
-
-
     static LinearLayoutManager manager;
     public static RecentsRecyclerAdapter mAdapter;
     @Override
@@ -68,16 +58,6 @@ public class Recents extends Fragment {
 
         articlegv.setAdapter(mAdapter);
 
-        /*
-        articlegv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent myIntent = new Intent(getContext(), articlePage.class);
-                startActivity(myIntent);
-            }
-        });
-
-         */
         FloatingActionButton goBack = view.findViewById(R.id.goback);
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,41 +66,6 @@ public class Recents extends Fragment {
             }
         });
 
-        SwipeRefreshLayout myRefreshLayout = view.findViewById(R.id.pullToRefresh);
-        myRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Spinning.isDataFetched = false;
-                new DownloadFilesTask().execute();
-
-                if (!Fetching.isInternetAvailable(getApplicationContext())) {
-                    //...
-                    myRefreshLayout.setRefreshing(false);
-                    Fetching.makeCustomToast(getApplicationContext(), "Pas de Connexion Internet", Toast.LENGTH_LONG);
-
-                } else {
-                    if (!Spinning.isDataFetched) {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!Fetching.isDataFetched) {
-                                    //...
-                                    myRefreshLayout.setRefreshing(false);
-                                    Fetching.makeCustomToast(getApplicationContext(), "Réessayez", Toast.LENGTH_LONG);
-                                } else {
-                                    myRefreshLayout.setRefreshing(false);
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }, 1000);
-                    } else {
-                        myRefreshLayout.setRefreshing(false);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
         return view;
     }
 

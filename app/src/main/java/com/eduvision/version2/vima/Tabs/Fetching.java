@@ -155,16 +155,11 @@ public class Fetching {
                 IndividualArticle currentArticle;
                 String sCounter = snapshot.child("counter").getValue().toString();
                 int counter = Integer.parseInt(sCounter);
-                for(int i = 1; i<=(80); i++){
-                    if(i < counter){
+                for(int i = 1; i<=(counter); i++){
                         currentArticle = snapshot.child(Integer.toString(i)).getValue(IndividualArticle.class);
-                    }
-                    else{
-                        currentArticle = snapshot.child(sCounter).getValue(IndividualArticle.class);
-                    }
-                    Objects.requireNonNull(currentArticle).positionInDataBase = i;
+                        Objects.requireNonNull(currentArticle).positionInDataBase = i;
 
-                    if(i < 5){
+                    if(i <= 5){
                         if (i == 5){
                             isHomeDataFetched = true;
                         }

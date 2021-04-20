@@ -3,6 +3,7 @@ package com.eduvision.version2.vima.Tabs;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.Adapters.BoutiquesRecyclerAdapter;
+import com.eduvision.version2.vima.Tabs.Adapters.BoutiquesRecyclerAdapterLandscape;
 import com.eduvision.version2.vima.Tabs.Adapters.RecyclerAdapter;
 
 /**
@@ -78,11 +81,17 @@ public class Boutiques extends Fragment {
 
         RecyclerView recycle = getView().findViewById(R.id.recyclerView);
         recycle.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recycle.setLayoutManager(layoutManager);
 
-        BoutiquesRecyclerAdapter mAdapter = new BoutiquesRecyclerAdapter(Fetching.myData, getContext());
-        recycle.setAdapter(mAdapter);
+        if (getActivity().getResources().getConfiguration().orientation == 1) { //returns 1 if portrait and 2 if landscape
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recycle.setLayoutManager(layoutManager);
+            BoutiquesRecyclerAdapter mAdapter = new BoutiquesRecyclerAdapter(Spinning.myData, getContext());
+            recycle.setAdapter(mAdapter);
+        } else {
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+            recycle.setLayoutManager(layoutManager);
+            BoutiquesRecyclerAdapterLandscape mAdapter = new BoutiquesRecyclerAdapterLandscape(Spinning.myData, getContext());
+            recycle.setAdapter(mAdapter);
+        }
     }
-
 }

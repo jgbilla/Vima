@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
+import com.pusher.pushnotifications.PushNotifications;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,9 +58,12 @@ public class Splashscreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
+        PushNotifications.start(getApplicationContext(), "eec5d6e9-94f3-4b3c-ad59-712e60e138c6");
+        PushNotifications.addDeviceInterest("hello");
 
         setContentView(R.layout.splashcreen);
         image = findViewById(R.id.logo);

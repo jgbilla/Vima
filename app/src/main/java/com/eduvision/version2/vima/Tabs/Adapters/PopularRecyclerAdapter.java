@@ -65,7 +65,7 @@ public class PopularRecyclerAdapter extends RecyclerView.Adapter<PopularRecycler
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        View convertView = holder.myLayout ;
+        View convertView = holder.myLayout;
             IndividualArticle myArticle;
             myArticle = myData.get(position);
 

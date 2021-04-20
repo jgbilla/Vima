@@ -116,6 +116,7 @@ public class Verify extends AppCompatActivity {
 
             }
         });
+        putLikedItems();
     }
 
 

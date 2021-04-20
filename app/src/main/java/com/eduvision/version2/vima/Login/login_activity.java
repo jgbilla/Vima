@@ -383,7 +383,7 @@ public class login_activity extends AppCompatActivity {
                                 public void onVerificationFailed(FirebaseException e) {
 
                                 }
-
+                                View progressView = findViewById(R.id.progress);
                                 @Override
                                 public void onCodeSent(@NonNull String verificationId,
                                                        @NonNull PhoneAuthProvider.ForceResendingToken token) {
@@ -393,14 +393,12 @@ public class login_activity extends AppCompatActivity {
                                     finish.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            if (!Fetching.waitInternetAvailable(getApplicationContext())) {
-                                                Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_SHORT);
-                                            } else {
-                                                String code = codeEditText.getText().toString();
-                                                if (code != null) {
-                                                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-                                                    signInWithPhoneAuthCredential(credential);
-                                                }
+                                            progressView.setVisibility(View.VISIBLE);
+                                            finish.setVisibility(View.GONE);
+                                            String code = codeEditText.getText().toString();
+                                            if (code != null) {
+                                                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+                                                signInWithPhoneAuthCredential(credential);
                                             }
                                         }
                                     });
