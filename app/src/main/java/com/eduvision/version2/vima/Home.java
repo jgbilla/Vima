@@ -1,9 +1,7 @@
 package com.eduvision.version2.vima;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -36,20 +34,13 @@ import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
-import com.eduvision.version2.vima.Tabs.FetchShops;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.eduvision.version2.vima.Tabs.Verify;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -61,8 +52,11 @@ public class Home extends Fragment {
     private static final int REQUEST_LOCATION = 1;
     TextView sRecents, sPop, sShop;
     ProgressBar Progress;
-    ArrayList<String> nameList;
-    ArrayList<StorageReference> photoList;
+    ArrayList<IndividualArticle> articleList;
+    ArrayList<IndividualShop> shopList;
+    ArrayList<String> typeList;
+    ArrayList<Integer> positionList;
+
     Search_engine search = new Search_engine();
     Button clear;
     ImageView featured, recents1, recents2, recents3, pop1, pop2, pop3, shop1, shop2, shop3;
@@ -278,6 +272,7 @@ public class Home extends Fragment {
             pop1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Intent myIntent = new Intent(getActivity(), articlePage.class);
                     myIntent.putExtra("LockerKey", mySortedData.get(0).positionInDataBase);
                     myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -437,10 +432,12 @@ public class Home extends Fragment {
 
         searchResults.setHasFixedSize(true);
         searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
-        searchResults.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        searchResults.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), LinearLayoutManager.VERTICAL));
 
-        nameList = new ArrayList<>();
-        photoList = new ArrayList<>();
+        articleList = new ArrayList<>();
+        shopList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        positionList = new ArrayList<>();
 
         clear.setVisibility(View.INVISIBLE);
 
@@ -462,11 +459,11 @@ public class Home extends Fragment {
                             setVisibility(View.VISIBLE);
 
                     //calling the search engine activity and the function that handles the search
-                    search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
+                    search.setResearch(Spinning.myData,s.toString(),searchResults,getContext(),articleList,shopList,typeList,positionList);
                 }
                 else {
-                    nameList.clear();
-                    photoList.clear();
+                    articleList.clear();
+                   shopList.clear();
                     searchResults.removeAllViews();
 
                 }

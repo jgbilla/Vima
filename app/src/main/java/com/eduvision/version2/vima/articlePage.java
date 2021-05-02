@@ -7,10 +7,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -19,10 +18,8 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
-import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
-import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
 import com.google.gson.Gson;
 
@@ -31,10 +28,8 @@ import java.net.URLEncoder;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.eduvision.version2.vima.Tabs.Fetching.getArticle;
 import static com.eduvision.version2.vima.Tabs.Fetching.myData;
 import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class articlePage extends AppCompatActivity {
 
@@ -191,6 +186,7 @@ public class articlePage extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
+
                 finalArticle.isLiked = !finalArticle.isLiked;
                 boolean temp = finalArticle.isLiked;
 

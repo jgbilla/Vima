@@ -2,9 +2,7 @@ package com.eduvision.version2.vima.Tabs;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,9 +80,11 @@ public class ArticleAdapter extends BaseAdapter {
 
                         Fetching.changeText(convertView, myArticle, mContext);
                         int finalPosition = position;
+
                         convertView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
                                 Intent myIntent = new Intent(mContext, articlePage.class);
                                 myIntent.putExtra("LockerKey", finalPosition);
                                 mContext.startActivity(myIntent);
