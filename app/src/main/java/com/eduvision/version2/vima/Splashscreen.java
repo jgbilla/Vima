@@ -96,7 +96,7 @@ public class Splashscreen extends AppCompatActivity {
                     }
 
              */
-                    Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.Login.login_activity.class);
+                    Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.Login.TermsConditions.class);
                     startActivity(a);
                     finish();
 

@@ -41,7 +41,29 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="left"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/back"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="#00000000"
+            android:src="@drawable/rewind"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour"
+            android:layout_marginLeft="7dp"
+            android:textColor="@color/Black"/>
+    </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,6 +128,39 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:textColor="@color/Black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/Black"
+            android:text="Télécharger les conditions d'utilisation"
+        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:text="Aller sur le lien suivant: \n \n
+            https://drive.google.com/file/d/18OVDD2T4OdoAyztCoe2ZF3AuVzMVVfXT/view?usp=sharing"
+            android:gravity="left"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/Black"/>
+            <ImageButton
+                android:layout_width="40dp"
+                android:scaleType="centerInside"
+                android:layout_height="40dp"
+                android:onClick="copy"
+                android:src="@drawable/copy"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

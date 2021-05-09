@@ -117,14 +117,14 @@
             android:layout_height="100dp"
             android:gravity="center"
             android:textColor="@color/Black"
-            android:text="Email"
+            android:text="Email et Mot de Passe"
             android:id="@+id/email"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/circular"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3.5"
@@ -132,31 +132,8 @@
         android:id="@+id/actual_sign_in"
         android:layout_below="@id/ll"
         android:orientation="vertical"
-        android:paddingTop="50dp">
+        android:paddingTop="50dp"/>
 
-        <androidx.viewpager.widget.ViewPager
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/sign_up_view_pager">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?actionBarSize"
-            app:tabGravity="fill"
-            app:tabTextColor="#808080"
-            app:tabIndicatorColor="#FFFFFF"
-            app:tabSelectedTextColor="#FFFFFF"
-            app:tabIndicatorHeight="2dp"
-            app:tabBackground="@color/Black"
-            app:tabMode="fixed"
-            >
-        </com.google.android.material.tabs.TabLayout>
-        </androidx.viewpager.widget.ViewPager>
-
-
-    </LinearLayout>
 
 
 

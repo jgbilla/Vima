@@ -3,17 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.eduvision.version2.vima">
 
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
 
     <meta-data
         android:name="com.eduvision.version2.vima.ClassWithGridleModule"
@@ -27,11 +24,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Login.TermsConditions"></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true"/>
-        <activity android:name=".Login.Reset_password"></activity>
+            android:value="true" />
+
+        <activity android:name=".Login.Reset_password" />
         <activity android:name=".SearchEngine.Search_engine" />
         <activity
             android:name=".MainPage"
@@ -48,15 +47,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.login_activity"
+        <activity
+            android:name=".Login.login_activity"
             android:launchMode="singleTop"
-            android:noHistory="true"/>
-        <activity android:name=".Spinning" android:launchMode="singleTask"/>
-        <activity android:name=".articlePage">
-
-        </activity>
-        <activity android:name=".Tabs.Verify" android:launchMode="singleTask">
-        </activity>
+            android:noHistory="true" />
+        <activity
+            android:name=".Spinning"
+            android:launchMode="singleTask" />
+        <activity android:name=".articlePage"></activity>
+        <activity
+            android:name=".Tabs.Verify"
+            android:launchMode="singleTask"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -81,8 +82,9 @@
         <activity android:name=".ProfilePage" />
         <activity android:name=".Filter" />
         <activity android:name=".AboutPage" />
-        <activity android:name=".ArticleAlone"
-            android:noHistory="true"/>
+        <activity
+            android:name=".ArticleAlone"
+            android:noHistory="true" />
         <activity android:name=".shopPage" />
     </application>
 
