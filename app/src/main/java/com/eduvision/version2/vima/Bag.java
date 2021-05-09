@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,17 +23,19 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.SearchEngine.Search_engine;
 import com.eduvision.version2.vima.Tabs.Boutiques;
+import com.eduvision.version2.vima.Tabs.Fetching;
+import com.eduvision.version2.vima.Tabs.IndividualArticle;
+import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
-import com.eduvision.version2.vima.Tabs.Verify;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -54,13 +55,17 @@ public class Bag extends Fragment {
     DatabaseReference databaseReference;
     Button clear;
     ImageView profile;
-    ArrayList<String> nameList;
-    ArrayList<StorageReference> photoList;
+    ArrayList<IndividualArticle> articleList;
+    ArrayList<IndividualShop> shopList;
+    ArrayList<String> typeList;
+    ArrayList<Integer> positionList;
+
     Search_engine search = new Search_engine();
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String mParam1;
     private String mParam2;
+    SharedPreferences sharedPreferences;
 
     public Bag() {
         // Required empty public constructor
@@ -114,7 +119,7 @@ public class Bag extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
 //Setting up the tabLayout
         viewPager = getView().findViewById(R.id.bag_view_pager);
         tabLayout = getView().findViewById(R.id.bag_tabLayout);
@@ -124,91 +129,7 @@ public class Bag extends Fragment {
         adapter.addFragment(new Popular(), "Populaires");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-
-        ImageView profile = getView().findViewById(R.id.profile_image);
-        SharedPreferences sharedPreferences = sharedPreferences = getContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
-        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
-        Glide.with(getContext())
-                .load(profilePicture)
-                .placeholder(R.drawable.categorie_enfant)
-                .into(profile);
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(getContext(), ProfilePage.class);
-                startActivity(intent);
-            }
-        });
-
         String url;
-        View searchv = getView().findViewById(R.id.searchv);
-
-        FloatingActionButton fab = getView().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(searchv.getVisibility() == View.VISIBLE){
-                    searchv.setVisibility(View.GONE);
-                }
-                else{
-                    searchv.setVisibility(View.VISIBLE);
-                    //Setting up the search engine
-                    searchResults = getView().findViewById(R.id.search_results);
-                    clear = getView().findViewById(R.id.clear);
-                    databaseReference = FirebaseDatabase.getInstance().getReference();
-                    searchView = getView().findViewById(R.id.search);
-
-                    searchResults.setHasFixedSize(true);
-                    searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
-                    searchResults.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-
-                    nameList = new ArrayList<>();
-                    photoList = new ArrayList<>();
-
-                    clear.setVisibility(View.INVISIBLE);
-
-                    searchView.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                            clear.setVisibility(View.INVISIBLE);
-                        }
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            clear.setVisibility(View.INVISIBLE);
-                        }
-                        @Override
-                        public void afterTextChanged(Editable s) {
-
-
-                            if(!s.toString().isEmpty()){
-                                clear.setVisibility(View.VISIBLE);
-
-                                //calling the search engine activity and the function that handles the search
-                                search.setAdapter(s.toString(),searchResults,getContext(),nameList,photoList);
-                            }
-                            else {
-                                nameList.clear();
-                                photoList.clear();
-                                searchResults.removeAllViews();
-
-                            }
-
-                        }
-
-
-                    });
-                    clear.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            searchView.setText("");
-                            hideKeyboard(getView());
-                        }
-                    });
-
-                }
-            }
-        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -231,10 +152,72 @@ public class Bag extends Fragment {
             }
         });
 
+        //Setting up the search engine
+        searchResults = getView().findViewById(R.id.search_results);
+        clear = getView().findViewById(R.id.clear);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        searchView = getView().findViewById(R.id.search);
+
+        searchResults.setHasFixedSize(true);
+        searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchResults.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        articleList = new ArrayList<>();
+        shopList = new ArrayList<>();
+        typeList = new ArrayList<>();
+        positionList = new ArrayList<>();
+
+
+
+        clear.setVisibility(View.INVISIBLE);
+
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clear.setVisibility(View.INVISIBLE);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+                if(!s.toString().isEmpty()){
+                    clear.setVisibility(View.VISIBLE);
+
+                    //calling the search engine activity and the function that handles the search
+                    search.setResearch(Fetching.myData,s.toString(),searchResults,getContext(),articleList,shopList,typeList,positionList);
+                }
+                else {
+                    articleList.clear();
+                    shopList.clear();
+                    searchResults.removeAllViews();
+
+                }
+
+            }
+
+
+        });
+clear.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        searchView.setText("");
+        hideKeyboard(getView());
+    }
+});
 
 //Access Profile
 profile = getView().findViewById(R.id.profile_image);
 
+profile = getView().findViewById(R.id.profile_image);
+        String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");
+        Glide.with(getApplicationContext())
+                .load(profilePicture)
+                .placeholder(R.drawable.categorie_enfant)
+                .into(profile);
 profile.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {

@@ -2,29 +2,21 @@ package com.eduvision.version2.vima.Tabs.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.R;
 import com.eduvision.version2.vima.Spinning;
-import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.Popular;
-import com.eduvision.version2.vima.Tabs.Recents;
 import com.eduvision.version2.vima.articlePage;
 
 import java.util.ArrayList;
-
-import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
-import static com.eduvision.version2.vima.Tabs.Recents.myLikedItems;
 
 public class RecentsRecyclerAdapter extends RecyclerView.Adapter<RecentsRecyclerAdapter.MyViewHolder> {
     private ArrayList<IndividualArticle> myData;

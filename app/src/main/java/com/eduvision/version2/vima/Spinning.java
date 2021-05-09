@@ -1,37 +1,19 @@
 package com.eduvision.version2.vima;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager.widget.ViewPager;
 
-import com.eduvision.version2.vima.Tabs.Boutiques;
-import com.eduvision.version2.vima.Tabs.DownloadFilesTask;
-import com.eduvision.version2.vima.Tabs.FetchShops;
-import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
-import com.eduvision.version2.vima.Tabs.Popular;
 import com.eduvision.version2.vima.Tabs.Recents;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-
-import static com.eduvision.version2.vima.Tabs.Fetching.isDataFetched;
 
 
 public class Spinning extends AppCompatActivity {
@@ -141,7 +121,8 @@ public class Spinning extends AppCompatActivity {
 
 
 
-    public static ArrayList<IndividualShop> shopData = new ArrayList<>(80);
+    public static ArrayList<IndividualShop>
+            shopData = new ArrayList<>(80);
     public static boolean isShopsDataFetched = false;
     public static ArrayList<IndividualShop> homeShopsData = new ArrayList<>(4);
 
