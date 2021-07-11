@@ -4,6 +4,16 @@ package com.eduvision.version2.vima.Tabs;
 public class IndividualArticle{
     public int positionInArray = -1;
     private String name;
+
+    public String getPositionInShopArray() {
+        return positionInShopArray;
+    }
+
+    public void setPositionInShopArray(String positionInShopArray) {
+        this.positionInShopArray = positionInShopArray;
+    }
+
+    public String positionInShopArray;
     private String p_photo;
     public int colour = 0;
     /*

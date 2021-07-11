@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.ShopModel;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
@@ -58,7 +59,7 @@ public class BoutiquesRecyclerAdapterLandscape extends RecyclerView.Adapter<Bout
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         View convertView = holder.myLayout;
-        IndividualShop myShop = Spinning.shopData.get(position);
+        ShopModel myShop = Spinning.shopData.get(position);
         TextView shopName = convertView.findViewById(R.id.name);
         shopName.setText(myShop.getName());
         TextView location = convertView.findViewById(R.id.location);

@@ -1,20 +1,16 @@
 package com.eduvision.version2.vima;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.Tabs.Adapters.ImageTabsRecyclerAdapter;
-import com.eduvision.version2.vima.Tabs.Adapters.RecentsRecyclerAdapter;
-import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 
@@ -27,9 +23,9 @@ import java.util.ArrayList;
 
  */
 public class ImagesTabs extends Fragment {
-    public ArrayList<Long> myArticles;
+    public ArrayList<Integer> myArticles;
     static RecyclerView articlegv;
-    public ImagesTabs(ArrayList<Long> myArticles) {
+    public ImagesTabs(ArrayList<Integer> myArticles) {
         this.myArticles = myArticles;
     }
     @Override
@@ -44,8 +40,12 @@ public class ImagesTabs extends Fragment {
         setHasOptionsMenu(true);
 
         View convertView =  inflater.inflate(R.layout.shop_images_tabs, container, false);
+        ArrayList<IndividualArticle> myData = new ArrayList<>();
 
-        mAdapter = new ImageTabsRecyclerAdapter(Spinning.myData, myArticles,  getContext());
+        for(int a =0; a< myArticles.size(); a++){
+            myData.add(Spinning.myData.get(myArticles.get(a)));
+        }
+        mAdapter = new ImageTabsRecyclerAdapter(myData, getContext());
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         articlegv = convertView.findViewById(R.id.listview);
         articlegv.setHasFixedSize(true);

@@ -56,7 +56,7 @@ public class Bag extends Fragment {
     Button clear;
     ImageView profile;
     ArrayList<IndividualArticle> articleList;
-    ArrayList<IndividualShop> shopList;
+    ArrayList<ShopModel> shopList;
     ArrayList<String> typeList;
     ArrayList<Integer> positionList;
 

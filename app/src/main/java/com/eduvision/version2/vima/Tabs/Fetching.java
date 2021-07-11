@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -56,7 +57,9 @@ public class Fetching {
                     Gson gson = new Gson();
                     String jsonText = gson.toJson(Recents.myLikedItems);
                     editor.putString("LikedItems", jsonText);
-                    editor.apply();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                        editor.apply();
+                    }
                 }
                 likedItemsPosition.add(myArticle.positionInDataBase);
             }

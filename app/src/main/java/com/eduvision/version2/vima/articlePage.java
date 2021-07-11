@@ -1,17 +1,25 @@
 package com.eduvision.version2.vima;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -21,13 +29,20 @@ import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
 import com.eduvision.version2.vima.Tabs.Recents;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.eduvision.version2.vima.Tabs.Fetching.makeCustomToast;
 import static com.eduvision.version2.vima.Tabs.Fetching.myData;
 import static com.eduvision.version2.vima.Tabs.Recents.likedItemsPosition;
 
@@ -37,21 +52,32 @@ public class articlePage extends AppCompatActivity {
     TextView price, title, description, shop_name, shop_description, shop_location;
     ImageView  big_pic, sm_pic1, sm_pic2, sm_pic3, shop_pic;
     CircleImageView profile_picture;
-    String phoneNumber;
+    String phoneNumber, usernameForReservation;
     CardView like;
 
-    public void whatclick(IndividualArticle article){
+    public void whatclick(IndividualArticle article) {
+
+        ImageView myImage = findViewById(R.id.big_picture);
+        myImage.setDrawingCacheEnabled(true);
+        BitmapDrawable draw = (BitmapDrawable) myImage.getDrawable();
+        Bitmap bitmap = draw.getBitmap();
+        Uri imageUri = null;
+        imageUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Vima", "Faire une commande"));
         String number = article.getPhone();
-        String message = createMessage(article);
-        String url = null;
+        number = number.replace("+", "");
+        number = number.replace(" ", "");
+        String message = createMessage(article, false);
+        Intent i = new Intent("android.intent.action.SEND");
+        i.setType("image");
+        i.putExtra(Intent.EXTRA_TEXT, message);
+        i.putExtra(Intent.EXTRA_STREAM, imageUri); /*Uri.parse(article.getP_photo())*/
+        i.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.ContactPicker"));
+        i.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
         try {
-            url = "https://api.whatsapp.com/send?phone="+number + "&text=" + URLEncoder.encode(message, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            startActivity(i);
+        } catch (android.content.ActivityNotFoundException exception) {
+            makeCustomToast(getApplicationContext(), "WhatsApp n'est pas installé", Toast.LENGTH_LONG);
         }
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
     }
     public void callclick(IndividualArticle article){
 
@@ -59,23 +85,81 @@ public class articlePage extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:"+number));
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+            try {
+                startActivity(intent);
+            }
+            catch (android.content.ActivityNotFoundException exception){
+                makeCustomToast(getApplicationContext(), "Appel non effectué", Toast.LENGTH_LONG);
+            }
         }
 
     }
-    public String createMessage(IndividualArticle article){
-        String result = "J'ai connu votre boutique a travers l'application Vima. Je suis intéressé par l'Article \"" + article.getName() +
-                "\" qui est marqué au prix de " + article.getPrice() + " francs CFA. J'aimerais recevoir plus d'information sur cet Article s'il vous plait.";
+    public void deliveryClick(IndividualArticle article){
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String number = prefs.getString("deliveryNumber", "+22671300236");
+        number = number.replace("+", "");
+        number = number.replace(" ", "");
+        Log.println(Log.DEBUG, "Hi", number);
+
+        ImageView myImage = findViewById(R.id.big_picture);
+        myImage.setDrawingCacheEnabled(true);
+        BitmapDrawable draw = (BitmapDrawable) myImage.getDrawable();
+        Bitmap bitmap = draw.getBitmap();
+        Uri imageUri = null;
+        imageUri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Vima", "Faire une commande"));
+
+        String message = createMessage(article, true);
+        Intent i = new Intent("android.intent.action.SEND");
+        i.setType("image");
+        i.putExtra(Intent.EXTRA_TEXT, message);
+        i.putExtra(Intent.EXTRA_STREAM, imageUri); /*Uri.parse(article.getP_photo())*/
+        i.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.ContactPicker"));
+        i.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
+        try {
+            startActivity(i);
+        } catch (android.content.ActivityNotFoundException exception) {
+            makeCustomToast(getApplicationContext(), "WhatsApp n'est pas installé", Toast.LENGTH_LONG);
+        }
+    }
+    public String createMessage(IndividualArticle article, boolean option) {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        String name = prefs.getString("username", "Inconnu");
+        String telephone = prefs.getString("telephone", "Inconnu");
+        char[] emoji = Character.toChars(0x26A0);
+        String myEmojis = "";
+        for(int a = 0; a<=8; a++){
+            myEmojis += emoji[0];
+        }
+        String result =
+                myEmojis +
+                "\n *NOUVELLE COMMANDE D'ARTICLE* \n" +
+                "_Application Android VIMA_ \n\n" +
+                "(Ne changez pas les informations ci-dessous au risque de compromettre la transaction) \n\n"  +
+                "*Nom d'utilisateur:* " + name + "\n" +
+                "*Numéro de téléphone:* " + telephone + "\n" +
+                "*Nom de l'article:* " + article.getName() + ", Id " + article.positionInShopArray +  "\n" +
+                "*Prix de l'article:* " + article.getPrice() + " francs CFA" + "\n"  +
+                "*Nom de la boutique:* " + article.getShop_name() + "\n" + "\n" ;
+        if (option) {
+            result += "Option *avec* livraison";
+        } else {
+            result += "Option *sans* livraison";
+        }
         return result;
     }
     public void smsclick(IndividualArticle article){
         String number = article.getPhone();
-        String message = createMessage(article);
+        String message = createMessage(article, true);
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:"+number));
         intent.putExtra("sms_body", message);
         if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+            try {
+                startActivity(intent);
+            }
+            catch (android.content.ActivityNotFoundException exception){
+                makeCustomToast(getApplicationContext(), "Application SMS n'est pas installé", Toast.LENGTH_LONG);
+            }
         }
 
     }
@@ -99,9 +183,9 @@ public class articlePage extends AppCompatActivity {
         myShopClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IndividualShop realShop = null;
-                for(IndividualShop myShop : Spinning.shopData){
-                    if(myShop.positionInDataBase == finalArticle2.shopPositionInDatabase){
+                ShopModel realShop = null;
+                for(ShopModel myShop : Spinning.shopData){
+                    if(myShop.numbOfShop == finalArticle2.shopPositionInDatabase){
                         realShop = myShop;
                         break;
                     }
@@ -111,7 +195,7 @@ public class articlePage extends AppCompatActivity {
                 }
 
                 Intent myIntent = new Intent(articlePage.this, shopPage.class);
-                myIntent.putExtra("LockerKey", realShop.positionInDataBase);
+                myIntent.putExtra("LockerKey", realShop.numbOfShop);
                 startActivity(myIntent);
             }
         });
@@ -151,7 +235,13 @@ public class articlePage extends AppCompatActivity {
                 whatclick(finalArticle1);
             }
         });
-
+        ImageView delivery = findViewById(R.id.deliveryclick);
+        delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deliveryClick(finalArticle1);
+            }
+        });
         ImageView profile = findViewById(R.id.profile_image);
         SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
         String profilePicture = sharedPreferences.getString("profile", "https://www.google.com/search?q=placeholder+profile+pictures+free+to+use&tbm=isch&ved=2ahUKEwjA6ZvV2tDrAhUElBoKHd_bDRIQ2-cCegQIABAA&oq=placeholder+profile+pictures+free+to+use&gs_lcp=CgNpbWcQAzoECAAQHlC7YVixcGCvcWgAcAB4AIAB5QWIAbsVkgEHNC0zLjEuMZgBAKABAaoBC2d3cy13aXotaW1nwAEB&sclient=img&ei=ANVSX8DpHoSoat-3t5AB&bih=792&biw=1536#imgrc=_JeJ3jskVgcZaM");

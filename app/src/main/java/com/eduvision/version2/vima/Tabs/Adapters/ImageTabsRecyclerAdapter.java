@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,6 @@ import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.ArticleAdapter;
 import com.eduvision.version2.vima.Tabs.Fetching;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
-import com.eduvision.version2.vima.Tabs.Popular;
-import com.eduvision.version2.vima.Tabs.Recents;
 import com.eduvision.version2.vima.articlePage;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,13 +52,9 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         }
     }
 
-    ArrayList<Long> myArticles;
-
-    public ImageTabsRecyclerAdapter(ArrayList<IndividualArticle> mData, Object dif, Context mContext) {
+    public ImageTabsRecyclerAdapter(ArrayList<IndividualArticle> mData,  Context mContext) {
         this.myData = mData;
-        this.dif = dif;
         this.mContext = mContext;
-        myArticles = (ArrayList<Long>) dif;
     }
 
     @Override
@@ -79,10 +74,42 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         CardView second = convertView.findViewById(R.id.second_image);
         CardView third = convertView.findViewById(R.id.third_image);
 
+        IndividualArticle fArticle = new IndividualArticle();
+        IndividualArticle sArticle = new IndividualArticle();
+        IndividualArticle tArticle = new IndividualArticle();
+        Log.println(Log.DEBUG, "POSITION", String.valueOf(position));
 
-        IndividualArticle fArticle = Spinning.myData.get((position * 3 ));
-        IndividualArticle sArticle = Spinning.myData.get((position * 3 +1));
-        IndividualArticle tArticle = Spinning.myData.get((position * 3 +2));
+        Log.println(Log.DEBUG, "SIZE", String.valueOf(myData.size()));
+        Log.println(Log.DEBUG, "SIZE MODULO", String.valueOf(myData.size()%3));
+        if(position*3 >= myData.size() & myData.size()>=3) {
+            if (myData.size() % 3 == 1) {
+                fArticle = myData.get((position * 3));
+                sArticle = myData.get(1);
+                tArticle = myData.get(2);
+            } else if (myData.size() % 3 == 2 & position > myData.size()) {
+                fArticle = myData.get((position * 3));
+                sArticle = myData.get((position * 3 + 1));
+                tArticle = myData.get(1);
+            } else if (myData.size() % 3 == 0) {
+                fArticle = myData.get((position * 3));
+                sArticle = myData.get((position * 3 + 1));
+                tArticle = myData.get((position * 3 + 2));
+            }
+        }
+        else if(myData.size()<3){
+            fArticle = myData.get(0);
+            sArticle = myData.get(1);
+            tArticle = myData.get(0);
+        }
+        else{
+            fArticle = myData.get((position * 3));
+            sArticle = myData.get((position * 3 + 1));
+            tArticle = myData.get((position * 3 + 2));
+        }
+        Log.println(Log.DEBUG, "P_PHOTO", String.valueOf(fArticle.getP_photo()));
+        Log.println(Log.DEBUG, "P_PHOTO", String.valueOf(sArticle.getP_photo()));
+        Log.println(Log.DEBUG, "P_PHOTO", String.valueOf(tArticle.getP_photo()));
+
         ImageButton myBtn1 = first.findViewById(R.id.like_button1);
         ImageButton myBtn2 = second.findViewById(R.id.like_button2);
         ImageButton myBtn3 = third.findViewById(R.id.like_button3);
@@ -93,12 +120,13 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         else{
             myBtn1.setImageResource(R.drawable.icon_a);
         }
+        IndividualArticle finalFArticle = fArticle;
         myBtn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fetching.handleLike(myBtn1, fArticle, mContext);
+                Fetching.handleLike(myBtn1, finalFArticle, mContext);
                 for(IndividualArticle likedArticle : myData){
-                    if (likedArticle.positionInDataBase == fArticle.positionInDataBase) {
+                    if (likedArticle.positionInDataBase == finalFArticle.positionInDataBase) {
                         likedArticle.isLiked = true;
                         notifyDataSetChanged();
                         ImagesTabs.mAdapter.notifyDataSetChanged();
@@ -113,12 +141,13 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         else{
             myBtn2.setImageResource(R.drawable.icon_a);
         }
+        IndividualArticle finalSArticle = sArticle;
         myBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fetching.handleLike(myBtn2, sArticle, mContext);
+                Fetching.handleLike(myBtn2, finalSArticle, mContext);
                 for(IndividualArticle likedArticle : myData){
-                    if (likedArticle.positionInDataBase == sArticle.positionInDataBase) {
+                    if (likedArticle.positionInDataBase == finalSArticle.positionInDataBase) {
                         likedArticle.isLiked = true;
                         notifyDataSetChanged();
                         ImagesTabs.mAdapter.notifyDataSetChanged();
@@ -133,12 +162,13 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
         else{
             myBtn3.setImageResource(R.drawable.icon_a);
         }
+        IndividualArticle finalTArticle = tArticle;
         myBtn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fetching.handleLike(myBtn3, tArticle, mContext);
+                Fetching.handleLike(myBtn3, finalTArticle, mContext);
                 for(IndividualArticle likedArticle : myData){
-                    if (likedArticle.positionInDataBase == tArticle.positionInDataBase) {
+                    if (likedArticle.positionInDataBase == finalTArticle.positionInDataBase) {
                         likedArticle.isLiked = true;
                         notifyDataSetChanged();
                         ImagesTabs.mAdapter.notifyDataSetChanged();
@@ -212,6 +242,8 @@ public class ImageTabsRecyclerAdapter extends RecyclerView.Adapter<ImageTabsRecy
 
     @Override
     public int getItemCount() {
-        return Spinning.myData.size()/3;
+        return (myData.size()+myData.size()%3)/3;
     }
+
+
 }

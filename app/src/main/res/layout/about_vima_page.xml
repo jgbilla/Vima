@@ -52,6 +52,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/back"
+            android:onClick="back"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="#00000000"

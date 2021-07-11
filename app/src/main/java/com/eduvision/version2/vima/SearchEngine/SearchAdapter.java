@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.ShopModel;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
@@ -39,11 +40,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     Context context;
 
     ArrayList<IndividualArticle> articleList;
-    ArrayList<IndividualShop> shopList;
+    ArrayList<ShopModel> shopList;
     ArrayList<String> typeList;
     ArrayList<Integer> positionList;
 
-    public SearchAdapter(Context context, ArrayList<IndividualArticle> articleList, ArrayList<IndividualShop> shopList, ArrayList<String> typeList,ArrayList<Integer> positionList){
+    public SearchAdapter(Context context, ArrayList<IndividualArticle> articleList, ArrayList<ShopModel> shopList, ArrayList<String> typeList, ArrayList<Integer> positionList){
         this.context = context;
         this.articleList = articleList;
         this.shopList = shopList;

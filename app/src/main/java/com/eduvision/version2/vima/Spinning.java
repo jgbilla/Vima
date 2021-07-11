@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -121,7 +122,7 @@ public class Spinning extends AppCompatActivity {
 
 
 
-    public static ArrayList<IndividualShop>
+    public static ArrayList<ShopModel>
             shopData = new ArrayList<>(80);
     public static boolean isShopsDataFetched = false;
     public static ArrayList<IndividualShop> homeShopsData = new ArrayList<>(4);
@@ -130,80 +131,94 @@ public class Spinning extends AppCompatActivity {
     public static boolean isDataFetched = false;
     public static boolean isHomeDataFetched = false;
     public static ArrayList<IndividualArticle> homeArticlesData = new ArrayList<>(4);
+    public ArrayList<Integer> TotalArticles = new ArrayList<>(1); // Total raw list of articles
 
     public void cleaningUpDate(DataSnapshot shops, DataSnapshot items){
-        DataSnapshot snapshot;
-        snapshot = shops;
         shopData.clear();
-        IndividualShop currentArticle;
-        String sCounter = snapshot.child("counter").getValue().toString();
-        int counter = Integer.parseInt(sCounter);
-        DataSnapshot mSnapshot;
+        ShopModel myCurrentShop = new ShopModel();
+        int stop = (int) shops.getChildrenCount()-1;
 
-        int counterA = 1;
-        if(snapshot.getChildrenCount() < 80){
-            counterA = 80;
+        if(stop < 80 ){
+            stop = 80;
         }
-        else{
-            counterA = (int) snapshot.getChildrenCount();
-        }
+        int realIndex = 1;
 
-        for(int i = 1; i<=(counterA); i++){
-            if(i < counter){
-                currentArticle = snapshot.child(String.valueOf(i)).getValue(IndividualShop.class);
-                mSnapshot = snapshot.child(Integer.toString(i)).child("Articles");
+        for(int index = 1; index<=stop; index++) {
+            realIndex++;
+            if(index >= shops.getChildrenCount()-1 & realIndex < 80){
+                index = (int) shops.getChildrenCount()-1;
             }
-            else{
-                currentArticle = snapshot.child(sCounter).getValue(IndividualShop.class);
-                mSnapshot = snapshot.child(sCounter).child("Articles");
+            else if (shops.getChildrenCount()-1<80 & realIndex>=80){
+                break;
             }
+            Log.println(Log.DEBUG, "Index", String.valueOf(index));
 
-            ArrayList<String> Titles = new ArrayList<>(1);
-            for(int c= 1; c<=3; c++) {
-                ArrayList<Long> ArticlesArray = new ArrayList<>(1);
-                for (int a= 1; a<30; a++){
-                    DataSnapshot cSnapshot;
-                    if(a<mSnapshot.child(String.valueOf(c)).getChildrenCount()){
-                        cSnapshot = mSnapshot.child(String.valueOf(c)).child(String.valueOf(a));
-                    }
-                    else{
-                        cSnapshot = mSnapshot.child(String.valueOf(c)).child("1");
-                    }
-                    ArticlesArray.add(Long.parseLong(String.valueOf(cSnapshot.getValue())));
+            DataSnapshot thisShop = shops.child(String.valueOf(index));
+            myCurrentShop.setName(String.valueOf(thisShop.child("name").getValue()));
+            myCurrentShop.call = String.valueOf(thisShop.child("callNumber").getValue());
+            myCurrentShop.whatsapp = String.valueOf(thisShop.child("whatsappNumber").getValue());
+            myCurrentShop.messages = String.valueOf(thisShop.child("messagesNumber").getValue());
+            myCurrentShop.description = String.valueOf(thisShop.child("description").getValue());
+            myCurrentShop.typeDeCompte = String.valueOf(thisShop.child("typeDeCompte").getValue());
+            myCurrentShop.location = String.valueOf(thisShop.child("location").getValue());
+            myCurrentShop.setP_photo(String.valueOf(thisShop.child("p_photo").getValue()));
+            Log.println(Log.DEBUG, "BegContrat", String.valueOf(thisShop.child("begContrat").getValue()));
+
+            myCurrentShop.beginningContrat = Integer.parseInt(String.valueOf(thisShop.child("begContrat").getValue()));
+            myCurrentShop.endContrat = Integer.parseInt(String.valueOf(thisShop.child("endContrat").getValue()));
+            myCurrentShop.partnershipCount = Integer.parseInt(String.valueOf(thisShop.child("partnershipCount").getValue()));
+            myCurrentShop.numbOfShop = Integer.parseInt(String.valueOf(index));
+
+            DataSnapshot articlesSnapshot = thisShop.child("Articles");
+            ArrayList<String> titlesNames = new ArrayList<>(3);
+            ArrayList<ArrayList<Integer>> Articles = new ArrayList<>(1); //Gives separate arrays for each title
+            for (DataSnapshot snapshotTemp : articlesSnapshot.getChildren()) {
+                titlesNames.add(snapshotTemp.getKey());
+
+                ArrayList<Integer> thisTitlesArticles = new ArrayList();
+                for (int a = 1; a <= snapshotTemp.getChildrenCount(); a++) {
+                    Log.println(Log.DEBUG, snapshotTemp.getKey(), String.valueOf(snapshotTemp.child(String.valueOf(a)).getValue()));
+
+                    thisTitlesArticles.add(Integer.parseInt(String.valueOf(snapshotTemp.child(String.valueOf(a)).getValue())));
+
+                    TotalArticles.add(Integer.parseInt(String.valueOf(snapshotTemp.child(String.valueOf(a)).getValue())));
                 }
-                Titles.add(String.valueOf(mSnapshot.child(String.valueOf(c)).child("name").getValue()));
-                currentArticle.shopMap.add(ArticlesArray);
+                Articles.add(thisTitlesArticles);
             }
-            currentArticle.setTitles(Titles);
+            ShopModel.Articles hello = new ShopModel.Articles();
+            hello.titlesNames = titlesNames;
+            hello.articlesList = Articles;
+            myCurrentShop.myArticles = hello;
 
-            Objects.requireNonNull(currentArticle).positionInDataBase = i;
-            if(i < 3){
-                homeShopsData.add(currentArticle);
-            }
-            shopData.add(currentArticle);
+            shopData.add(myCurrentShop);
         }
-        isShopsDataFetched = true;
 
-
-
-        snapshot = items;
+        setProgressInt(70);
 
         myData.clear();
+        String deliveryNumber = String.valueOf(items.child("deliveryNumber").getValue());
+        Log.println(Log.DEBUG, "NUMBER", deliveryNumber);
+
+        SharedPreferences prefs;
+        SharedPreferences.Editor editor;
+        prefs = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        editor.putString("deliveryNumber", deliveryNumber);
+        editor.apply();
         IndividualArticle currentArticleN;
-        String sCounterN = snapshot.child("counter").getValue().toString();
+        String sCounterN = String.valueOf(items.getChildrenCount()-1);
         int counterN = Integer.parseInt(sCounterN);
         int counterS = 1;
             counterS = counterN;
 
         for(int i = 1; i<(counterS); i++){
-                currentArticleN = snapshot.child(Integer.toString(i)).getValue(IndividualArticle.class);
+                currentArticleN = items.child(Integer.toString(i)).getValue(IndividualArticle.class);
 
             Objects.requireNonNull(currentArticleN).positionInDataBase = i;
 
             if(i < 5){
                 if (i == 5){
                     isHomeDataFetched = true;
-                    setProgressInt(90);
                 }
                 homeArticlesData.add(currentArticleN);
             }
@@ -212,18 +227,22 @@ public class Spinning extends AppCompatActivity {
         isDataFetched = true;
 
     }
+
+    public ArrayList<IndividualArticleTemplate> myArticles; //Raw list of ArticlesModels
     public void getArticles(){
         final DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+
         mDatabase.child("Shops").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                setProgressInt(25);
+                setProgressInt(40);
                     mDatabase.child("Articles").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot Nsnapshot) {
-                            setProgressInt(75);
+
                             cleaningUpDate(snapshot, Nsnapshot);
                             Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                            setProgressInt(90);
                             startActivity(intent);
                         }
 
@@ -261,5 +280,95 @@ public class Spinning extends AppCompatActivity {
 
 
 
+
+}
+class IndividualArticleTemplate {
+    public int positionInArray = -1;
+    private String name;
+    private String p_photo;
+    public int colour = 0;
+    /*
+    0 = white mono
+    1 = black mono
+    2 = every color
+     */
+    public int size = 3;
+    private String shop_name;
+    public int shopPositionInDatabase = 1;
+    public boolean getNumberTimesLiked() {
+        return isLiked;
+    }
+
+    public void setNumberTimesLiked(boolean numberTimesLiked) {
+        this.isLiked = numberTimesLiked;
+    }
+
+    public String getPhone() {
+        return phoneNumber;
+    }
+
+    public void setPhone(String phone) {
+        this.phoneNumber = phone;
+    }
+
+    private String phoneNumber = "+22676603608";
+    public int positionInDataBase = 0;
+    public boolean isLiked = false;
+    private Long rank, seller_id, popularity_index, price;
+
+    public IndividualArticleTemplate() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public String getP_photo() {
+        return p_photo;
+    }
+
+    public void setP_photo(String p_photo) {
+        this.p_photo = p_photo;
+    }
+
+    public void setSeller_id(Long seller_id) {
+        this.seller_id = seller_id;
+    }
+
+    public String getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public Long getRank() {
+        return rank;
+    }
+
+    public void setRank(long rank) {
+        this.rank = rank;
+    }
+
+    public Long getPopularity_index() {
+        return popularity_index;
+    }
+
+    public void setPopularity_index(Long popularity_index) {
+        this.popularity_index = popularity_index;
+    }
 
 }

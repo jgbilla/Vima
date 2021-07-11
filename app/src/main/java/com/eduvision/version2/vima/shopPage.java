@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,11 +35,11 @@ import java.util.List;
 
 public class shopPage extends AppCompatActivity {
 
-    ViewPager viewPager;
+    DynamicHeightViewPager viewPager;
     TabLayout tabLayout;
 
-    public void whatclick(IndividualShop article){
-        String number = article.getPhone();
+    public void whatclick(ShopModel article){
+        String number = article.getWhatsapp();
         String message = createMessage(article);
         String url = null;
         try {
@@ -50,9 +51,9 @@ public class shopPage extends AppCompatActivity {
         i.setData(Uri.parse(url));
         startActivity(i);
     }
-    public void callclick(IndividualShop article){
+    public void callclick(ShopModel article){
 
-        String number = article.getPhone();
+        String number = article.getCall();
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:"+number));
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -60,12 +61,12 @@ public class shopPage extends AppCompatActivity {
         }
 
     }
-    public String createMessage(IndividualShop article){
+    public String createMessage(ShopModel article){
         String result = "J'ai connu votre boutique a travers l'application Vima. J'aimerais recevoir plus d'information sur les articles que vous proposez s'il vous plait.";
         return result;
     }
-    public void smsclick(IndividualShop article){
-        String number = article.getPhone();
+    public void smsclick(ShopModel article){
+        String number = article.getMessages();
         String message = createMessage(article);
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:"+number));
@@ -79,15 +80,14 @@ public class shopPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.model_indiv_shop_page);
-
         ImageButton goBack = findViewById(R.id.go_back);
 
-        IndividualShop shop = new IndividualShop();
+        ShopModel shop = new ShopModel();
         Bundle i = getIntent().getExtras();
         if(i != null){
             shop = Spinning.shopData.get(i.getInt("LockerKey"));
         }
-        final IndividualShop finalShop = shop;
+        final ShopModel finalShop = shop;
 
         ImageButton call, sms, what;
         call = findViewById(R.id.callclick);
@@ -128,18 +128,23 @@ public class shopPage extends AppCompatActivity {
         TextView description = findViewById(R.id.shop_page_description);
         description.setText(shop.getName());
 
-        CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
-        ArrayList<Long> Articles1;
-        ArrayList<Long> Articles2;
-        ArrayList<Long> Articles3;
+        AutoHeightFragmentPagerAdapter adapter = new AutoHeightFragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public void setPrimaryItem(ViewGroup container, int position, Object object) {
+                super.setPrimaryItem(container, position, object);
+            }
+        };
+        ArrayList<Integer> Articles1;
+        ArrayList<Integer> Articles2;
+        ArrayList<Integer> Articles3;
 
-        Articles1 = shop.shopMap.get(0);
-        Articles2 = shop.shopMap.get(1);
-        Articles3 = shop.shopMap.get(2);
+        Articles1 = shop.myArticles.articlesList.get(0);
+        Articles2 = shop.myArticles.articlesList.get(1);
+        Articles3 = shop.myArticles.articlesList.get(2);
 
-        adapter.addFragment(new ImagesTabs(Articles1), shop.myTitles.get(0));
-        adapter.addFragment(new ImagesTabs(Articles2), shop.myTitles.get(1));
-        adapter.addFragment(new ImagesTabs(Articles3), shop.myTitles.get(2));
+        adapter.addFragment(new ImagesTabs(Articles1), shop.myArticles.titlesNames.get(0));
+        adapter.addFragment(new ImagesTabs(Articles2), shop.myArticles.titlesNames.get(1));
+        adapter.addFragment(new ImagesTabs(Articles3), shop.myArticles.titlesNames.get(2));
 
         ImageView profile = findViewById(R.id.profile_image);
         SharedPreferences sharedPreferences = sharedPreferences = getApplicationContext().getSharedPreferences("prefID", Context.MODE_PRIVATE);
@@ -158,6 +163,7 @@ public class shopPage extends AppCompatActivity {
         });
 
         viewPager = findViewById(R.id.shop_view_pager);
+
         tabLayout = findViewById(R.id.shopTabLayout);
 
         viewPager.setAdapter(adapter);
@@ -212,4 +218,48 @@ class CustomAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
             }
+}
+
+abstract class AutoHeightFragmentPagerAdapter extends FragmentPagerAdapter {
+    private int mCurrentPosition = -1;
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+
+        if (position != mCurrentPosition && container instanceof DynamicHeightViewPager) {
+            Fragment fragment = (Fragment) object;
+            DynamicHeightViewPager pager = (DynamicHeightViewPager) container;
+
+            if (fragment != null && fragment.getView() != null) {
+                mCurrentPosition = position;
+                pager.measureCurrentView(fragment.getView());
+            }
+        }
+    }
+    public AutoHeightFragmentPagerAdapter(@NonNull FragmentManager fm) {
+        super(fm);
+    }
+    private final List<Fragment> mFragmentList = new ArrayList<>();
+    private final List<String> mFragmentTitleList = new ArrayList<>();
+
+    @Override
+    public int getCount() {
+        return mFragmentList.size();
+    }
+
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        return mFragmentList.get(position);
+    }
+    public void addFragment(Fragment fragment, String title) {
+        mFragmentList.add(fragment);
+        mFragmentTitleList.add(title);
+        this.notifyDataSetChanged();
+    }
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mFragmentTitleList.get(position);
+    }
 }

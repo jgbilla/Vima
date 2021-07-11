@@ -215,15 +215,10 @@
                             android:paddingLeft="5dp"
                             android:text="Children"
                             android:textColor="@color/Black"
+                            android:id="@+id/text11"
                             android:textSize="10dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -266,15 +261,10 @@
                             android:paddingLeft="5dp"
                             android:text="Children"
                             android:textColor="@color/Black"
+                            android:id="@+id/text12"
                             android:textSize="10dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -313,16 +303,11 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text13"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -354,13 +339,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/see_recents"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
-                    android:text="Voir Tout" />
             </RelativeLayout>
 
             <LinearLayout
@@ -403,6 +381,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text21"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
@@ -452,16 +431,10 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text22"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -500,6 +473,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text23"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
@@ -591,16 +565,11 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text31"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -640,16 +609,11 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
                             android:text="Children"
+                            android:id="@+id/text32"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
 
 
                     </LinearLayout>
@@ -690,15 +654,8 @@
                             android:text="Children"
                             android:textColor="@color/Black"
                             android:textSize="10dp"
+                            android:id="@+id/text33"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:paddingLeft="5dp"
-                            android:text="Coat and Jackets"
-                            android:textSize="7dp" />
-
 
                     </LinearLayout>
                     </RelativeLayout>

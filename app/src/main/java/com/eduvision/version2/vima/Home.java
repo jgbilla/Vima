@@ -53,7 +53,7 @@ public class Home extends Fragment {
     TextView sRecents, sPop, sShop;
     ProgressBar Progress;
     ArrayList<IndividualArticle> articleList;
-    ArrayList<IndividualShop> shopList;
+    ArrayList<ShopModel> shopList;
     ArrayList<String> typeList;
     ArrayList<Integer> positionList;
 
@@ -66,6 +66,7 @@ public class Home extends Fragment {
     ImageView profile;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    TextView text12, text11, text13, text22, text21, text23, text31, text32, text33;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -233,6 +234,27 @@ public class Home extends Fragment {
         pop2 = view.findViewById(R.id.spimage);
         pop3 = view.findViewById(R.id.tpimage);
 
+        text11 = view.findViewById(R.id.text11);
+        text11.setText(Spinning.myData.get(1).getName());
+        text12 = view.findViewById(R.id.text12);
+        text12.setText(Spinning.myData.get(2).getName());
+        text13 = view.findViewById(R.id.text13);
+        text13.setText(Spinning.myData.get(3).getName());
+
+        text21 = view.findViewById(R.id.text21);
+        text21.setText(Spinning.myData.get(1).getName());
+        text22 = view.findViewById(R.id.text22);
+        text22.setText(Spinning.myData.get(2).getName());
+        text23 = view.findViewById(R.id.text23);
+        text23.setText(Spinning.myData.get(3).getName());
+
+        text31 = view.findViewById(R.id.text21);
+        text31.setText(Spinning.myData.get(1).getName());
+        text22 = view.findViewById(R.id.text22);
+        text22.setText(Spinning.myData.get(2).getName());
+        text23 = view.findViewById(R.id.text23);
+        text23.setText(Spinning.myData.get(3).getName());
+
         featured = view.findViewById(R.id.featured);
         ImageButton goLeft = view.findViewById(R.id.goLeft);
         ImageButton goRight = view.findViewById(R.id.goRight);
@@ -249,9 +271,9 @@ public class Home extends Fragment {
                     if (featuredCounter[0] >= 1 && featuredCounter[0] < Fetching.myData.size()) {
                         featuredCounter[0]--;
                         ArticleAdapter.glideIt(featured,
-                                Spinning.myData.get(featuredCounter[0]).getP_photo(),
+                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
                                 getContext());
-                        shopName.setText(Spinning.myData.get(featuredCounter[0]).getShop_name());
+                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
                     }
                 }
             });
@@ -262,9 +284,9 @@ public class Home extends Fragment {
                     if (featuredCounter[0] + 1 < Fetching.myData.size()) {
                         featuredCounter[0]++;
                         ArticleAdapter.glideIt(featured,
-                                Spinning.myData.get(featuredCounter[0]).getP_photo(),
+                                Fetching.myData.get(featuredCounter[0]).getP_photo(),
                                 getContext());
-                        shopName.setText(Spinning.myData.get(featuredCounter[0]).getShop_name());
+                        shopName.setText(Fetching.myData.get(featuredCounter[0]).getShop_name());
                     }
                 }
             });

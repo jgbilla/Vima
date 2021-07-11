@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.ShopModel;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.Tabs.IndividualArticle;
 import com.eduvision.version2.vima.Tabs.IndividualShop;
@@ -28,7 +29,7 @@ public class Search_engine extends AppCompatActivity {
 
 
 
-    public void setResearch(ArrayList<IndividualArticle> data, String searchedString, RecyclerView searchResults, Context context, ArrayList<IndividualArticle> articleList, ArrayList<IndividualShop> shopList, ArrayList<String> type, ArrayList<Integer> position) {
+    public void setResearch(ArrayList<IndividualArticle> data, String searchedString, RecyclerView searchResults, Context context, ArrayList<IndividualArticle> articleList, ArrayList<ShopModel> shopList, ArrayList<String> type, ArrayList<Integer> position) {
         int[] counter = new int[] {0,0};
 
 
@@ -144,7 +145,7 @@ public class Search_engine extends AppCompatActivity {
         }
 
         for (int i = 0; i < Spinning.shopData.size(); i++) {
-            IndividualShop shop = Spinning.shopData.get(i);
+            ShopModel shop = Spinning.shopData.get(i);
             String name = shop.getName();
             String photo = shop.getP_photo();
 

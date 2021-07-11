@@ -132,6 +132,7 @@
         android:id="@+id/actual_sign_in"
         android:layout_below="@id/ll"
         android:orientation="vertical"
+        layout="@layout/fragment_actual_sign_in"
         android:paddingTop="50dp"/>
 
 

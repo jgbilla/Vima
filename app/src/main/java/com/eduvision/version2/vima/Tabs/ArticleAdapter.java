@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import com.bumptech.glide.Glide;
 import com.eduvision.version2.vima.Home;
 import com.eduvision.version2.vima.R;
+import com.eduvision.version2.vima.ShopModel;
 import com.eduvision.version2.vima.Spinning;
 import com.eduvision.version2.vima.articlePage;
 import com.google.firebase.storage.FirebaseStorage;
@@ -121,7 +122,7 @@ public class ArticleAdapter extends BaseAdapter {
                     break;
                 case "Boutiques":
                     convertView = myInflater.inflate(R.layout.shop_article_model, parent, false);
-                    IndividualShop myShop = Spinning.shopData.get(position);
+                    ShopModel myShop = Spinning.shopData.get(position);
                     TextView shopName = convertView.findViewById(R.id.name);
                     shopName.setText(myShop.getName());
                     TextView location = convertView.findViewById(R.id.location);
