@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.eduvision.version2.vima.Login.TermsConditions;
+import com.eduvision.version2.vima.Login.login_activity;
 import com.pusher.pushnotifications.PushNotifications;
 
 import androidx.annotation.NonNull;
@@ -71,6 +74,7 @@ public class Splashscreen extends AppCompatActivity {
         image.startAnimation(myAnim);
         mAuth = FirebaseAuth.getInstance();
         boolean firstStart = prefs.getBoolean("firstStart",true);
+        boolean terms = prefs.getBoolean("terms",false);
 
 
 
@@ -114,7 +118,11 @@ public class Splashscreen extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent a = new Intent(Splashscreen.this, Spinning.class);
+                                Intent a;
+                                editor.putBoolean("loggedIn", true);
+                                editor.apply();
+                                a = new Intent(Splashscreen.this, Spinning.class);
+
                                 startActivity(a);
                                 finish();
                             }
@@ -125,7 +133,11 @@ public class Splashscreen extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent a = new Intent(Splashscreen.this, com.eduvision.version2.vima.Login.login_activity.class);
+                                editor.putBoolean("loggedIn", false);
+                                editor.apply();
+                                Intent a;
+                                a = new Intent(Splashscreen.this, TermsConditions.class);
+
                                 startActivity(a);
                                 finish();
                             }

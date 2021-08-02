@@ -218,10 +218,6 @@ public class Home extends Fragment {
         sPop = view.findViewById(R.id.see_popular);
         sShop = view.findViewById(R.id.see_shops);
 
-        sRecents = view.findViewById(R.id.see_recents);
-        sPop = view.findViewById(R.id.see_popular);
-        sShop = view.findViewById(R.id.see_shops);
-
         shop1 = view.findViewById(R.id.fsimage);
         shop2 = view.findViewById(R.id.ssimage);
         shop3 = view.findViewById(R.id.tsimage);

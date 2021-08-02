@@ -215,6 +215,8 @@ public class login_activity extends AppCompatActivity {
 
                                 }
                             });
+                            editor.putBoolean("loggedIn", true);
+                            editor.apply();
                             Intent intent = new Intent(getApplicationContext(), Spinning.class);
                             startActivity(intent);
                             finish();
@@ -503,6 +505,8 @@ public class login_activity extends AppCompatActivity {
                     Fetching.makeCustomToast(getApplicationContext(), "Connectez-vous à Internet", Toast.LENGTH_SHORT);
                 }
                 else{
+                    editor.putBoolean("loggedIn", true);
+                    editor.apply();
                     Intent intent = new Intent(getApplicationContext(), Spinning.class);
                     startActivity(intent);
                     finish();
